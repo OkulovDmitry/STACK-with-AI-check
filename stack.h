@@ -11,6 +11,21 @@
 #include <fcntl.h>    // Для флагов открытия (типа _O_RDONLY, _O_BINARY)
 #include <sys/stat.h> // для макросов прав доступа
 
+#define STKDEBUG
+
+#ifdef STKDEBUG
+#define STACK_PLACE_OUT(...) , __VA_ARGS__, __func__, __FILE__, __LINE__
+#endif
+#ifdef STKDEBUG
+#define STACK_PLACE_IN , const char* name, const char* function, const char* file, int line
+#endif
+#ifndef STKDEBUG
+#define STACK_PLACE_OUT /*NOT_STKDEBUG*/
+#endif
+#ifndef STKDEBUG
+#define STACK_PLACE_IN /*NOT_STKDEBUG*/
+#endif
+
 typedef enum
 {
     STACK_OK = 0,
@@ -27,13 +42,19 @@ typedef double Elem_t;
 
 typedef struct 
 {
+#ifdef STKDEBUG
+    const char* name;
+    const char* function;
+    const char* file;
+    int line;
+#endif
     Elem_t* data;
     size_t capacity;
     size_t size;
 
 } stack_t;
 
-err_t stack_ctor(stack_t* stk, size_t initial_capacity);
+err_t stack_ctor(stack_t* stk, size_t initial_capacity STACK_PLACE_IN);
 err_t stack_dtor(stack_t* stk);
 
 err_t stack_push(stack_t* stk, Elem_t value);

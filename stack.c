@@ -5,16 +5,41 @@
         err_t _e = stack_verify(stk);                                                   \
         if (_e == STACK_CORRUPTED)                                                      \
         {                                                                               \
+            FILE* errors_file = fopen("errors.txt", "a");                               \
             stack_dump("errors.txt", (stk), #stk, __LINE__, __func__, __FILE__);        \
+            /*abort без затирания*/                                                     \
         }                                                                               \
-        if (_e) return _e;                                                              \
+        if (_e != STACK_OK) {                                                           \
+            FILE* errors_file = fopen("errors.txt", "a");                               \
+            fprintf(errors_file, "WARNING: %i\n", _e);                                  \
+            stack_dump("errors.txt", (stk), #stk, __LINE__, __func__, __FILE__);        \
+            fclose(errors_file);                                                        \
+            return _e;                                                                  \
+        }                                                                               \
     } while (0)
 
-err_t stack_ctor(stack_t* stk, size_t initial_capacity)
+#define ERROR_LOGGING(_e, stk)                                                          \
+    do                                                                                  \
+    {                                                                                   \
+        FILE* errors_file = fopen("errors.txt", "a");                               \
+        fprintf(errors_file, "WARNING: %i\n", _e);                                  \
+        stack_dump("errors.txt", (stk), #stk, __LINE__, __func__, __FILE__);        \
+        fclose(errors_file);                                                        \
+        return _e;                                                                  \
+    } while (0)
+
+err_t stack_ctor(stack_t* stk, size_t initial_capacity STACK_PLACE_IN)
 {
-    if (stk == NULL) return STACK_NULL_PTR;
+#ifdef STKDEBUG
+    stk->name = name;
+    stk->function = function;
+    stk->file = file;
+    stk->line = line;
+#endif
+    if (stk == NULL) ERROR_LOGGING(STACK_NULL_PTR, stk);
+    if (initial_capacity < 0) ERROR_LOGGING(STACK_CORRUPTED, stk);
     Elem_t* temp;
-    if ((temp = calloc(initial_capacity, sizeof(Elem_t))) == NULL) return STACK_OUT_OF_MEMORY;
+    if ((temp = calloc(initial_capacity, sizeof(Elem_t))) == NULL) ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk);
     stk->data = temp;
     stk->capacity = initial_capacity;
     stk->size = 0;
@@ -44,7 +69,7 @@ err_t resize_up(stack_t* stk)
     STACK_CHECK(stk);
 
     Elem_t* temp = realloc(stk->data, 2 * stk->capacity * sizeof(Elem_t) + sizeof(Elem_t));
-    if (temp == NULL) return STACK_OUT_OF_MEMORY;
+    if (temp == NULL) ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk);
     stk->data = temp;
     //printf("I did realloc");
     stk->capacity += stk->capacity + 1;
@@ -56,7 +81,7 @@ err_t resize_up(stack_t* stk)
 err_t stack_pop(stack_t* stk, Elem_t* out_value)
 {
     STACK_CHECK(stk);
-    if (stk->size == 0) return STACK_UNDERFLOW;
+    if (stk->size == 0) ERROR_LOGGING(STACK_UNDERFLOW, stk);
     if (out_value == NULL) return NULL_PTR;
     *out_value = stk->data[stk->size - 1];
     stk->data[stk->size - 1] = 0;
@@ -76,7 +101,7 @@ err_t resize_down(stack_t* stk)
 {
     STACK_CHECK(stk);
     Elem_t* temp = realloc(stk->data, stk->capacity * sizeof(Elem_t) / 2);
-    if (temp == NULL) return STACK_OUT_OF_MEMORY;
+    if (temp == NULL) ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk);
     stk->data = temp;
     stk->capacity /= 2;
     //printf("I resize down\n");
@@ -88,7 +113,7 @@ err_t stack_top(const stack_t* stk, Elem_t* out_value)
 {
     STACK_CHECK(stk);
     if (out_value == NULL) return NULL_PTR;
-    if (stk->size == 0) return STACK_UNDERFLOW;
+    if (stk->size == 0) ERROR_LOGGING(STACK_UNDERFLOW, stk);
     if (out_value == NULL) return NULL_PTR;
     *out_value = stk->data[stk->size - 1];
     printf("I top " ELEM_FMT "\n", *out_value);
@@ -98,7 +123,7 @@ err_t stack_top(const stack_t* stk, Elem_t* out_value)
 
 err_t stack_dtor(stack_t* stk)
 {
-    if (stk == NULL) return STACK_NULL_PTR;
+    if (stk == NULL) ERROR_LOGGING(STACK_NULL_PTR, stk);
     free(stk->data);
     stk->data = NULL;
     stk->size = 0;
@@ -134,7 +159,12 @@ void stack_dump(const char* out, const stack_t* stk, const char* name, int line,
 
     fprintf(file, "====================================================================================================\n");
 
+#ifdef STKDEBUG
+    fprintf(file, "stack_t %s created by %s() at %s: %i\n", stk->name, stk->function, stk->file, stk->line);
+#endif
+#ifndef STKDEBUG
     fprintf(file, "stack_t %s dumped from %s at %s: %i\n", name, function, file_name, line);
+#endif
     fprintf(file, "capacity = %zu\n", stk->capacity);
     fprintf(file, "size = %zu\n", stk->size);
     fprintf(file, "%s [%p]\n", name, stk->data);

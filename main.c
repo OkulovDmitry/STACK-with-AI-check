@@ -15,7 +15,7 @@
 int main()
 {
     stack_t stk1 = {};
-    int err = stack_ctor(&stk1, 5);
+    int err = stack_ctor(&stk1, 5 STACK_PLACE_OUT("stk1"));
     
     for (int i = 0; i < 6; i++)
     {
