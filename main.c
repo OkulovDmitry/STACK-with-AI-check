@@ -22,7 +22,7 @@ int main()
         err = stack_push(&stk1, 10*i+1);
         if (err) my_perror("Error in stack_push", err);
     }
-    stack_dump("stack_info.txt", &stk1, "stk1", 41, "main()", "main.c");
+    stack_dump("stack_info.txt", &stk1, "stk1", 25, "main", "main.c");
 
     for (int i = 0; i < 7; i++)
     {
@@ -32,13 +32,13 @@ int main()
         if (err) my_perror("Error in stack_pop", err);
         //printf("I pop: %f\n", x);
     }
-    stack_dump("stack_info.txt", &stk1, "stk1", 41, "main()", "main.c");
+    stack_dump("stack_info.txt", &stk1, "stk1", 35, "main", "main.c");
 
     for (int i = 0; i < 23; i++)
     {
         err = stack_push(&stk1, 10*i+1);
         if (err) my_perror("Error in stack_push", err);
-        stack_dump("stack_info.txt", &stk1, "stk1", 41, "main()", "main.c");
+        stack_dump("stack_info.txt", &stk1, "stk1", 41, "main", "main.c");
     }
 
     return 0;

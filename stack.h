@@ -19,8 +19,8 @@
     #define STACK_PLACE_OUT(...) , __VA_ARGS__, __func__, __FILE__, __LINE__
     #define STACK_PLACE_IN , const char* name, const char* function, const char* file, int line
 #else 
-    STACK_PLACE_OUT(...) 
-    STACK_PLACE_IN(...)
+    #define STACK_PLACE_OUT(...)
+    #define STACK_PLACE_IN
 #endif
 
 typedef enum
@@ -65,7 +65,7 @@ typedef struct
     uint64_t capacity;
     uint64_t size;
 #ifdef STK_HASH
-    uint64_t hash_data
+    uint64_t hash_data;
     uint64_t hash_stk;
 #endif
 #ifdef STK_CANARY
