@@ -12,7 +12,7 @@
 #include <sys/stat.h> // для макросов прав доступа
 
 #define STKDEBUG
-//#define STK_CANARY
+#define STK_CANARY
 //#define STK_HASH
 
 #ifdef STKDEBUG
@@ -72,7 +72,12 @@ typedef struct
     canary_t right_canary;
 #endif
 } stack_t;
+/*
+ смещ.  размер поле
+_________________________
+|     0|     8|         
 
+*/
 err_t stack_ctor(stack_t* stk, uint64_t initial_capacity STACK_PLACE_IN);
 err_t stack_dtor(stack_t* stk);
 

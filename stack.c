@@ -77,11 +77,47 @@ static err_t resize_up(stack_t* stk);
 static err_t resize_down(stack_t* stk);
 
 //======= Обнуляет часть буфера от индекса from до конца буфера ========
-static void fill_poison(stack_t* stk, size_t from)
+static void fill_poison(stack_t* stk, uint64_t from)
 {
     for (size_t i = from; i < stk->capacity; i++) stk->data[i] = ELEM_POISON;
 }
 //======================================================================
+
+//==================================== Выравнивание для правой канарейки =======================================
+static size_t data_pad(uint64_t cap)
+{
+    return (8 - (cap * sizeof(Elem_t)) % 8) % 8;    /* добивка, чтобы правая канарейка была по ровному адресу */
+}
+//==============================================================================================================
+
+#ifdef STK_CANARY
+//================================== Адрес правой канарейки ========================================
+static canary_t* right_canary_addr(const stack_t* stk)
+{
+    return (canary_t*)((char*)stk->data + stk->capacity * sizeof(Elem_t) + data_pad(stk->capacity));
+}
+//==================================================================================================
+
+//======= Ставит обе канарейки буфера (в ctor и после resize) =======
+static void set_data_canaries(stack_t* stk)
+{
+    *(canary_t*)((char*)stk->data - sizeof(canary_t)) = CANARY_VALUE;
+    *right_canary_addr(stk) = CANARY_VALUE;
+}
+//===================================================================
+#else
+    #define set_data_canaries(stk) ((void)0)
+#endif
+
+//=========== Количество байтов под буфер из cap элементов ============
+static size_t buf_bytes(uint64_t cap)
+{
+#ifdef STK_CANARY
+    return sizeof(canary_t) + cap * sizeof(Elem_t) + data_pad(cap) + sizeof(canary_t);
+#else
+    return cap * sizeof(Elem_t);
+#endif
+}
 
 /* ========================================================================== */
 /* ========================================================================== */
@@ -216,19 +252,27 @@ void my_perror(const char* prefix, err_t err)
 err_t stack_ctor(stack_t* stk, uint64_t initial_capacity STACK_PLACE_IN)
 {
     if (stk == NULL) ERROR_LOGGING(STACK_NULL_PTR, stk);
+    memset(stk, ELEM_POISON, sizeof *stk);
 #ifdef STKDEBUG
     stk->name = name;
     stk->function = function;
     stk->file = file;
     stk->line = line;
 #endif
-    if (initial_capacity < 0) ERROR_LOGGING(STACK_CORRUPTED, stk);
-    Elem_t* temp;
-    if ((temp = calloc(initial_capacity, sizeof(Elem_t))) == NULL) ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk);
-    stk->data = temp;
+    if (initial_capacity <= 0) ERROR_LOGGING(STACK_CORRUPTED, stk);
+    char* temp;
+
+#ifdef STK_CANARY
+    size_t pad = data_pad(initial_capacity);
+    if ((temp = malloc(CANARY_SIZE + initial_capacity*sizeof(Elem_t) + pad + CANARY_SIZE)) == NULL) ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk);
+#else
+    if ((temp = malloc(initial_capacity*sizeof(Elem_t))) == NULL) ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk);
+#endif
+    stk->data = (Elem_t*)(temp + CANARY_SIZE);
     stk->capacity = initial_capacity;
     stk->size = 0;
-    fill_poison(stk, stk->size);
+    set_data_canaries(stk);
+    fill_poison(stk, 0);
     STACK_CHECK(stk);
     return STACK_OK;
 }
@@ -257,11 +301,12 @@ static err_t resize_up(stack_t* stk)
     //printf("I am in resize_up");
     STACK_CHECK(stk);
     uint64_t new_cap = 2 * stk->capacity + 1;
-    Elem_t* temp = realloc(stk->data, new_cap * sizeof(Elem_t));
+    char* temp = realloc((char*)stk->data - CANARY_SIZE, buf_bytes(new_cap));
     if (temp == NULL) ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk);
-    stk->data = temp;
+    stk->data = (Elem_t*)(temp + CANARY_SIZE);
     //printf("I did realloc");
     stk->capacity = new_cap;
+    set_data_canaries(stk);
     fill_poison(stk, stk->size);
     STACK_CHECK(stk);
     return STACK_OK;
@@ -292,10 +337,13 @@ static err_t resize_down(stack_t* stk)
 {
     STACK_CHECK(stk);
     uint64_t new_cap = max(stk->capacity / 2, STACK_MIN_CAPACITY);
-    Elem_t* temp = realloc(stk->data, sizeof(Elem_t) * new_cap);
+
+    char* temp = realloc((char*)stk->data - CANARY_SIZE, buf_bytes(new_cap));
     if (temp == NULL) ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk);
-    stk->data = temp;
+
+    stk->data = (Elem_t*)(temp+CANARY_SIZE);
     stk->capacity = new_cap;
+    set_data_canaries(stk);
     //printf("I resize down\n");
     STACK_CHECK(stk);
     return STACK_OK;
@@ -319,7 +367,7 @@ err_t stack_top(const stack_t* stk, Elem_t* out_value)
 err_t stack_dtor(stack_t* stk)
 {
     if (stk == NULL) ERROR_LOGGING(STACK_NULL_PTR, stk);
-    free(stk->data);
+    free((char*)stk->data - CANARY_SIZE);
     stk->data = NULL;
     stk->size = 0;
     stk->capacity = 0;

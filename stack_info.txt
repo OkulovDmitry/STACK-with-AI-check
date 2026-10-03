@@ -3,7 +3,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 25
 capacity = 11
 size = 6
-stk1 [000001DEB481BD90]
+stk1 [0000022B7BF3BD98]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -21,7 +21,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 35
 capacity = 4
 size = 0
-stk1 [000001DEB481BD90]
+stk1 [0000022B7BF3BD98]
  [0] = 3735928559.000000
  [1] = 3735928559.000000
  [2] = 3735928559.000000
@@ -32,7 +32,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 4
 size = 1
-stk1 [000001DEB481BD90]
+stk1 [0000022B7BF3BD98]
 *[0] = 1.000000
  [1] = 3735928559.000000
  [2] = 3735928559.000000
@@ -43,7 +43,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 4
 size = 2
-stk1 [000001DEB481BD90]
+stk1 [0000022B7BF3BD98]
 *[0] = 1.000000
 *[1] = 11.000000
  [2] = 3735928559.000000
@@ -54,7 +54,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 4
 size = 3
-stk1 [000001DEB481BD90]
+stk1 [0000022B7BF3BD98]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -65,7 +65,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 4
 size = 4
-stk1 [000001DEB481BD90]
+stk1 [0000022B7BF3BD98]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -76,7 +76,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 9
 size = 5
-stk1 [000001DEB481BD90]
+stk1 [0000022B7BF3BD98]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -92,7 +92,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 9
 size = 6
-stk1 [000001DEB481BD90]
+stk1 [0000022B7BF3BD98]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -108,7 +108,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 9
 size = 7
-stk1 [000001DEB481BD90]
+stk1 [0000022B7BF3BD98]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -124,7 +124,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 9
 size = 8
-stk1 [000001DEB481BD90]
+stk1 [0000022B7BF3BD98]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -140,7 +140,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 9
 size = 9
-stk1 [000001DEB481BD90]
+stk1 [0000022B7BF3BD98]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -156,7 +156,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 19
 size = 10
-stk1 [000001DEB481FF20]
+stk1 [0000022B7BF3FF68]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -182,7 +182,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 19
 size = 11
-stk1 [000001DEB481FF20]
+stk1 [0000022B7BF3FF68]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -208,7 +208,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 19
 size = 12
-stk1 [000001DEB481FF20]
+stk1 [0000022B7BF3FF68]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -234,7 +234,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 19
 size = 13
-stk1 [000001DEB481FF20]
+stk1 [0000022B7BF3FF68]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -260,7 +260,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 19
 size = 14
-stk1 [000001DEB481FF20]
+stk1 [0000022B7BF3FF68]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -286,7 +286,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 19
 size = 15
-stk1 [000001DEB481FF20]
+stk1 [0000022B7BF3FF68]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -312,7 +312,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 19
 size = 16
-stk1 [000001DEB481FF20]
+stk1 [0000022B7BF3FF68]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -338,7 +338,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 19
 size = 17
-stk1 [000001DEB481FF20]
+stk1 [0000022B7BF3FF68]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -364,7 +364,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 19
 size = 18
-stk1 [000001DEB481FF20]
+stk1 [0000022B7BF3FF68]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -390,7 +390,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 19
 size = 19
-stk1 [000001DEB481FF20]
+stk1 [0000022B7BF3FF68]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -416,7 +416,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 39
 size = 20
-stk1 [000001DEB481FF20]
+stk1 [0000022B7BF3FF68]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -462,7 +462,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 39
 size = 21
-stk1 [000001DEB481FF20]
+stk1 [0000022B7BF3FF68]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -508,7 +508,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 39
 size = 22
-stk1 [000001DEB481FF20]
+stk1 [0000022B7BF3FF68]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -554,7 +554,7 @@ stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 capacity = 39
 size = 23
-stk1 [000001DEB481FF20]
+stk1 [0000022B7BF3FF68]
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
