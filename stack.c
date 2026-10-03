@@ -94,14 +94,22 @@ static size_t data_pad(uint64_t cap)
 //================================== Адрес правой канарейки ========================================
 static canary_t* right_canary_addr(const stack_t* stk)
 {
+    if (stk == NULL) return NULL;
     return (canary_t*)((char*)stk->data + stk->capacity * sizeof(Elem_t) + data_pad(stk->capacity));
+}
+//==================================================================================================
+//================================== Адрес левой канарейки =========================================
+static canary_t* left_canary_addr(const stack_t* stk)
+{
+    if (stk == NULL) return NULL;
+    return (canary_t*)((char*)stk->data - sizeof(canary_t));
 }
 //==================================================================================================
 
 //======= Ставит обе канарейки буфера (в ctor и после resize) =======
 static void set_data_canaries(stack_t* stk)
 {
-    *(canary_t*)((char*)stk->data - sizeof(canary_t)) = CANARY_VALUE;
+    *left_canary_addr(stk) = CANARY_VALUE;
     *right_canary_addr(stk) = CANARY_VALUE;
 }
 //===================================================================
@@ -131,6 +139,12 @@ static size_t buf_bytes(uint64_t cap)
 /* ========================================================================== */
 /* ========================================================================== */
 
+static bool is_canary_alive(canary_t* canary)
+{
+    if (*canary != CANARY_VALUE) return false;
+    return true;
+}
+
 err_t stack_verify(const stack_t* stk)
 {
     if (stk == NULL)               return STACK_NULL_PTR;
@@ -139,6 +153,12 @@ err_t stack_verify(const stack_t* stk)
 #ifdef STKDEBUG
     for (uint64_t i = stk->size; i < stk->capacity; i++)
         if (stk->data[i] != ELEM_POISON) return STACK_CORRUPTED;
+#endif
+#ifdef STK_CANARY
+    if (is_canary_alive(left_canary_addr(stk)) == false)  return LEFT_STACK_CANARY_DATA_DEAD;
+    if (is_canary_alive(right_canary_addr(stk)) == false) return RIGHT_STACK_CANARY_DATA_DEAD;
+    if (stk->left_canary != CANARY_VALUE)            return LEFT_STACK_CANARY_STK_DEAD;
+    if (stk->right_canary != CANARY_VALUE)           return RIGHT_STACK_CANARY_STK_DEAD;
 #endif
     return STACK_OK;
 }
@@ -170,17 +190,30 @@ void dump_to(FILE* file, const stack_t* stk, const char* name, int line, const c
     fprintf(file, "stack_t %s created by %s() at %s: %i\n", STR(stk->name), STR(stk->function), STR(stk->file), stk->line);
 #endif
     fprintf(file, "stack_t %s dumped from %s() at %s: %i\n", STR(name), STR(function), STR(file_name), line);
+#ifdef STK_CANARY
+    fprintf(file, "left_stk_canary = %llu\n", stk->left_canary);
+#endif
     fprintf(file, "capacity = %llu\n", stk->capacity);
     fprintf(file, "size = %llu\n", stk->size);
     fprintf(file, "%s [%p]\n", STR(name), (void*)stk->data);
+
     if (stk->data != NULL)
     {
+#ifdef STK_CANARY
+        fprintf(file, "left_data_canary = %llu\n", *left_canary_addr(stk));
+#endif
         for (size_t i = 0; i < stk->capacity; i++)
         {
             fprintf(file, "%c[%llu] = " ELEM_FMT "\n", i < stk->size ? '*' : ' ', i, stk->data[i]);
         }
+#ifdef STK_CANARY
+        fprintf(file, "right_data_canary = %llu\n", *right_canary_addr(stk));
+#endif
     }
     else fprintf(file, "data = NULL\n");
+#ifdef STK_CANARY
+    fprintf(file, "right_stk_canary = %llu\n", stk->right_canary);
+#endif
 
     fprintf(file, SEP);
 }
@@ -205,17 +238,19 @@ const char* my_strerror(err_t err)
 {
     switch(err)
     {
-        case STACK_OK: return "OK";
-        case STACK_NULL_PTR: return "null stack pointer pased";
-        case STACK_OUT_OF_MEMORY: return "out of memory";
-        case STACK_UNDERFLOW: return "stack underflow (stack is empty)";
-        case STACK_OVERFLOW: return "stack overflow";
-        case STACK_CORRUPTED: return "stack structure is corrupted";
-        case STACK_NULL_OUT_PTR: return "null pointer pased";
-        case STACK_CANARY_STK_DEAD: return "Attack on structure canary";  /* затёрта канарейка структуры */
-        case STACK_CANARY_DATA_DEAD: return "Attack on bufer canary"; /* затёрта канарейка буфера данных */
-        case STACK_HASH_MISMATCH: return "Hash changed";
-        default: return "unknown error";
+        case STACK_OK:                     return "OK";
+        case STACK_NULL_PTR:               return "null stack pointer pased";
+        case STACK_OUT_OF_MEMORY:          return "out of memory";
+        case STACK_UNDERFLOW:              return "stack underflow (stack is empty)";
+        case STACK_OVERFLOW:               return "stack overflow";
+        case STACK_CORRUPTED:              return "stack structure is corrupted";
+        case STACK_NULL_OUT_PTR:           return "null pointer pased";
+        case LEFT_STACK_CANARY_STK_DEAD:   return "Attack on left structure canary";  /* затёрта канарейка структуры */
+        case RIGHT_STACK_CANARY_STK_DEAD:  return "Attack on right structure canary";
+        case LEFT_STACK_CANARY_DATA_DEAD:  return "Attack on left bufer canary"; /* затёрта канарейка буфера данных */
+        case RIGHT_STACK_CANARY_DATA_DEAD: return "Attack on right bufer canary";
+        case STACK_HASH_MISMATCH:          return "Hash changed";
+        default:                           return "unknown error";
     }
 }
 //==============================================================================================================================
@@ -253,6 +288,10 @@ err_t stack_ctor(stack_t* stk, uint64_t initial_capacity STACK_PLACE_IN)
 {
     if (stk == NULL) ERROR_LOGGING(STACK_NULL_PTR, stk);
     memset(stk, ELEM_POISON, sizeof *stk);
+#ifdef STK_CANARY
+    stk->left_canary  = CANARY_VALUE;        /* канарейки структуры ставим ПОСЛЕ memset */
+    stk->right_canary = CANARY_VALUE;
+#endif
 #ifdef STKDEBUG
     stk->name = name;
     stk->function = function;

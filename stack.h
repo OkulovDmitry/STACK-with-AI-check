@@ -27,17 +27,19 @@ typedef enum
 {
     STACK_OK = 0,
 //WARNING: 1...99 - стек цел, живем дальше
-    STACK_NULL_PTR = 1,
+    STACK_NULL_PTR      = 1,
     STACK_OUT_OF_MEMORY = 2, //malloc or realloc fail
-    STACK_UNDERFLOW = 3,
-    STACK_OVERFLOW = 4,
-    STACK_NULL_OUT_PTR = 5,
+    STACK_UNDERFLOW     = 3,
+    STACK_OVERFLOW      = 4,
+    STACK_NULL_OUT_PTR  = 5,
 //ERROR: 100+ - стек испорчен и работать с ним дальше нельзя
-    STACK_ERROR_BASE = 100,
-    STACK_CORRUPTED = 101, //НАРУШЕН КЭШ ИЛИ КАНАРЕЙКИ
-    STACK_CANARY_STK_DEAD   = 102,  /* затёрта канарейка структуры */
-    STACK_CANARY_DATA_DEAD  = 103,  /* затёрта канарейка буфера данных */
-    STACK_HASH_MISMATCH     = 104   /* хеш структуры или данных не сошёлся */
+    STACK_ERROR_BASE             = 100,
+    STACK_CORRUPTED              = 101, //НАРУШЕН КЭШ ИЛИ КАНАРЕЙКИ
+    LEFT_STACK_CANARY_STK_DEAD   = 102,  /* затёрта канарейка структуры */
+    RIGHT_STACK_CANARY_STK_DEAD  = 103,
+    LEFT_STACK_CANARY_DATA_DEAD  = 104,  /* затёрта канарейка буфера данных */
+    RIGHT_STACK_CANARY_DATA_DEAD = 105,
+    STACK_HASH_MISMATCH          = 106,  /* хеш структуры или данных не сошёлся */
 } err_t;
 
 #define STACK_IS_WARNING(_e) ((_e) != STACK_OK && (_e) < STACK_ERROR_BASE)
