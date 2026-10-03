@@ -1,16 +1,34 @@
 WARNING: 3
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
-stack_t ? dumped from stack_pop() at stack.c: 359
-left_stk_canary = 13464654573299691533
+stack_t stk1 dumped from stack_pop() at stack.c: 367
+expected canaries = 0xBADC0FFEE0DDF00D
+left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 4
 size = 0
-? [0000022002A8BD98]
-left_data_canary = 13464654573299691533
+stk1 [00000209EA4BBD98]
+left_data_canary = 0xBADC0FFEE0DDF00D
  [0] = 3735928559.000000
  [1] = 3735928559.000000
  [2] = 3735928559.000000
  [3] = 3735928559.000000
-right_data_canary = 13464654573299691533
-right_stk_canary = 13464654573299691533
+right_data_canary = 0xBADC0FFEE0DDF00D
+right_stk_canary = 0xBADC0FFEE0DDF00D
+====================================================================================================
+WARNING: 3
+====================================================================================================
+stack_t stk1 created by main() at .\main.c: 18
+stack_t stk1 dumped from stack_pop() at stack.c: 367
+expected canaries = 0xBADC0FFEE0DDF00D
+left_stk_canary = 0xBADC0FFEE0DDF00D
+capacity = 4
+size = 0
+stk1 [0000016E8B10BD98]
+left_data_canary = 0xBADC0FFEE0DDF00D
+ [0] = 3735928559.000000
+ [1] = 3735928559.000000
+ [2] = 3735928559.000000
+ [3] = 3735928559.000000
+right_data_canary = 0xBADC0FFEE0DDF00D
+right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================

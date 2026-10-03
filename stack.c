@@ -139,7 +139,7 @@ static size_t buf_bytes(uint64_t cap)
 /* ========================================================================== */
 /* ========================================================================== */
 
-static bool is_canary_alive(canary_t* canary)
+static bool is_canary_alive(const canary_t* canary)
 {
     if (*canary != CANARY_VALUE) return false;
     return true;
@@ -148,17 +148,23 @@ static bool is_canary_alive(canary_t* canary)
 err_t stack_verify(const stack_t* stk)
 {
     if (stk == NULL)               return STACK_NULL_PTR;
-    if (stk->data == NULL)         return STACK_CORRUPTED;
-    if (stk->size > stk->capacity) return STACK_CORRUPTED;
-#ifdef STKDEBUG
-    for (uint64_t i = stk->size; i < stk->capacity; i++)
-        if (stk->data[i] != ELEM_POISON) return STACK_CORRUPTED;
-#endif
+
 #ifdef STK_CANARY
     if (is_canary_alive(left_canary_addr(stk)) == false)  return LEFT_STACK_CANARY_DATA_DEAD;
     if (is_canary_alive(right_canary_addr(stk)) == false) return RIGHT_STACK_CANARY_DATA_DEAD;
+#endif
+
+    if (stk->data == NULL)         return STACK_CORRUPTED;
+    if (stk->size > stk->capacity) return STACK_CORRUPTED;
+
+#ifdef STK_CANARY
     if (stk->left_canary != CANARY_VALUE)            return LEFT_STACK_CANARY_STK_DEAD;
     if (stk->right_canary != CANARY_VALUE)           return RIGHT_STACK_CANARY_STK_DEAD;
+#endif
+
+#ifdef STKDEBUG
+    for (uint64_t i = stk->size; i < stk->capacity; i++)
+        if (stk->data[i] != ELEM_POISON) return STACK_CORRUPTED;
 #endif
     return STACK_OK;
 }
@@ -187,11 +193,13 @@ void dump_to(FILE* file, const stack_t* stk, const char* name, int line, const c
         return;
     }
 #ifdef STKDEBUG
+    if (name == NULL) name = stk->name;
     fprintf(file, "stack_t %s created by %s() at %s: %i\n", STR(stk->name), STR(stk->function), STR(stk->file), stk->line);
 #endif
     fprintf(file, "stack_t %s dumped from %s() at %s: %i\n", STR(name), STR(function), STR(file_name), line);
 #ifdef STK_CANARY
-    fprintf(file, "left_stk_canary = %llu\n", stk->left_canary);
+    fprintf(file, "expected canaries = 0x%016llX\n", (unsigned long long)CANARY_VALUE);
+    fprintf(file, "left_stk_canary = 0x%016llX\n", (unsigned long long)stk->left_canary);
 #endif
     fprintf(file, "capacity = %llu\n", stk->capacity);
     fprintf(file, "size = %llu\n", stk->size);
@@ -200,19 +208,19 @@ void dump_to(FILE* file, const stack_t* stk, const char* name, int line, const c
     if (stk->data != NULL)
     {
 #ifdef STK_CANARY
-        fprintf(file, "left_data_canary = %llu\n", *left_canary_addr(stk));
+        fprintf(file, "left_data_canary = 0x%016llX\n", (unsigned long long)(*left_canary_addr(stk)));
 #endif
         for (size_t i = 0; i < stk->capacity; i++)
         {
             fprintf(file, "%c[%llu] = " ELEM_FMT "\n", i < stk->size ? '*' : ' ', i, stk->data[i]);
         }
 #ifdef STK_CANARY
-        fprintf(file, "right_data_canary = %llu\n", *right_canary_addr(stk));
+        fprintf(file, "right_data_canary = 0x%016llX\n", (unsigned long long)(*right_canary_addr(stk)));
 #endif
     }
     else fprintf(file, "data = NULL\n");
 #ifdef STK_CANARY
-    fprintf(file, "right_stk_canary = %llu\n", stk->right_canary);
+    fprintf(file, "right_stk_canary = 0x%016llX\n", (unsigned long long)(stk->right_canary));
 #endif
 
     fprintf(file, SEP);
@@ -406,7 +414,7 @@ err_t stack_top(const stack_t* stk, Elem_t* out_value)
 err_t stack_dtor(stack_t* stk)
 {
     if (stk == NULL) ERROR_LOGGING(STACK_NULL_PTR, stk);
-    free((char*)stk->data - CANARY_SIZE);
+    if (stk->data != NULL) free((char*)stk->data - CANARY_SIZE);
     stk->data = NULL;
     stk->size = 0;
     stk->capacity = 0;
