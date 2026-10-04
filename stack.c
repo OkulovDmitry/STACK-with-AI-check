@@ -20,6 +20,8 @@
 #define DUMP_MAX_ELEMS     1000
 #define SEP "====================================================================================================\n"
 
+#define HASH_START 5269
+
 #ifdef STK_CANARY
     #define CANARY_SIZE sizeof(canary_t)
 #else
@@ -145,6 +147,59 @@ static bool is_canary_alive(const canary_t* canary)
     return true;
 }
 
+#ifdef STK_HASH
+//========== djb2: h = h*33 + байт; h - накопленное значение, позволяет склеивать куски =====
+static uint64_t hash_bytes(const void* ptr, size_t n, uint64_t h)
+{
+    const unsigned char* bytes = (const unsigned char*)ptr;
+    for (size_t i = 0; i < n; i++) h = h * 33 + bytes[i];
+    return h;
+}
+//===========================================================================================
+
+//========================= Подсчёт хэша для data ==========================
+static uint64_t calc_hash_data(const stack_t* stk)
+{
+    return hash_bytes(stk->data, stk->capacity * sizeof(Elem_t), HASH_START);
+}
+//===========================================================================
+
+//================== Подсчёт хэша для стека ===================
+static uint64_t calc_hash_stk(const stack_t* stk)
+{
+    uint64_t h = HASH_START;
+    h = hash_bytes(&stk->data,      sizeof(stk->data),      h);
+    h = hash_bytes(&stk->capacity,  sizeof(stk->capacity),  h);
+    h = hash_bytes(&stk->size,      sizeof(stk->size),      h);
+    h = hash_bytes(&stk->hash_data, sizeof(stk->hash_data), h);
+    return h;
+}
+//=============================================================
+
+//= пересчёт хэша для data и всего стека =
+static void rehash(stack_t* stk)
+{
+    stk->hash_data = calc_hash_data(stk);
+    stk->hash_stk =  calc_hash_stk(stk);
+}
+//========================================
+
+static err_t is_data_hash_valid(const stack_t* stk)
+{
+    if (stk->hash_data != calc_hash_data(stk)) return STACK_DATA_HASH_MISMATCH;
+    return STACK_OK;
+}
+
+static err_t is_stk_hash_valid(const stack_t* stk)
+{
+    if (stk->hash_stk != calc_hash_stk(stk))   return STACK_STK_HASH_MISMATCH;
+    return STACK_OK;
+}
+#else
+    #define rehash(stk) ((void)0)
+#endif
+
+//============================= Полная проверка валидности стека ============================
 err_t stack_verify(const stack_t* stk)
 {
     if (stk == NULL)               return STACK_NULL_PTR;
@@ -152,6 +207,11 @@ err_t stack_verify(const stack_t* stk)
 #ifdef STK_CANARY
     if (is_canary_alive(left_canary_addr(stk)) == false)  return LEFT_STACK_CANARY_DATA_DEAD;
     if (is_canary_alive(right_canary_addr(stk)) == false) return RIGHT_STACK_CANARY_DATA_DEAD;
+#endif
+
+#ifdef STK_HASH
+    if (is_data_hash_valid(stk)) return STACK_DATA_HASH_MISMATCH;
+    if (is_stk_hash_valid(stk))  return STACK_STK_HASH_MISMATCH;
 #endif
 
     if (stk->data == NULL)         return STACK_CORRUPTED;
@@ -168,6 +228,7 @@ err_t stack_verify(const stack_t* stk)
 #endif
     return STACK_OK;
 }
+//=============================================================================================
 
 /* ========================================================================== */
 /* ========================================================================== */
@@ -194,21 +255,21 @@ void dump_to(FILE* file, const stack_t* stk, const char* name, int line, const c
     }
 #ifdef STKDEBUG
     if (name == NULL) name = stk->name;
-    fprintf(file, "stack_t %s created by %s() at %s: %i\n", STR(stk->name), STR(stk->function), STR(stk->file), stk->line);
+    fprintf(file, "stack_t %s created by %s() at %s: %i\n",  STR(stk->name), STR(stk->function), STR(stk->file), stk->line);
 #endif
-    fprintf(file, "stack_t %s dumped from %s() at %s: %i\n", STR(name), STR(function), STR(file_name), line);
+    fprintf(file, "stack_t %s dumped from %s() at %s: %i\n", STR(name),      STR(function),      STR(file_name), line);
 #ifdef STK_CANARY
-    fprintf(file, "expected canaries = 0x%016llX\n", (unsigned long long)CANARY_VALUE);
-    fprintf(file, "left_stk_canary = 0x%016llX\n", (unsigned long long)stk->left_canary);
+    fprintf(file, "expected canaries = 0x%016llX\n",     (unsigned long long)CANARY_VALUE);
+    fprintf(file, "left_stk_canary = 0x%016llX\n",       (unsigned long long)stk->left_canary);
 #endif
     fprintf(file, "capacity = %llu\n", stk->capacity);
-    fprintf(file, "size = %llu\n", stk->size);
-    fprintf(file, "%s [%p]\n", STR(name), (void*)stk->data);
+    fprintf(file, "size = %llu\n",     stk->size);
+    fprintf(file, "%s [%p]\n",         STR(name), (void*)stk->data);
 
     if (stk->data != NULL)
     {
 #ifdef STK_CANARY
-        fprintf(file, "left_data_canary = 0x%016llX\n", (unsigned long long)(*left_canary_addr(stk)));
+        fprintf(file, "left_data_canary = 0x%016llX\n",  (unsigned long long)(*left_canary_addr(stk)));
 #endif
         for (size_t i = 0; i < stk->capacity; i++)
         {
@@ -219,8 +280,15 @@ void dump_to(FILE* file, const stack_t* stk, const char* name, int line, const c
 #endif
     }
     else fprintf(file, "data = NULL\n");
+#ifdef STK_HASH
+    fprintf(file, "expected data hash: %llu\n",  stk->hash_data);
+    fprintf(file, "data hash: %llu\n",           calc_hash_data(stk));
+
+    fprintf(file, "expexted stack hash: %llu\n", stk->hash_stk);
+    fprintf(file, "stack hash: %llu\n",          calc_hash_stk(stk));
+#endif
 #ifdef STK_CANARY
-    fprintf(file, "right_stk_canary = 0x%016llX\n", (unsigned long long)(stk->right_canary));
+    fprintf(file, "right_stk_canary = 0x%016llX\n",      (unsigned long long)(stk->right_canary));
 #endif
 
     fprintf(file, SEP);
@@ -257,7 +325,8 @@ const char* my_strerror(err_t err)
         case RIGHT_STACK_CANARY_STK_DEAD:  return "Attack on right structure canary";
         case LEFT_STACK_CANARY_DATA_DEAD:  return "Attack on left bufer canary"; /* затёрта канарейка буфера данных */
         case RIGHT_STACK_CANARY_DATA_DEAD: return "Attack on right bufer canary";
-        case STACK_HASH_MISMATCH:          return "Hash changed";
+        case STACK_DATA_HASH_MISMATCH:     return "Data hash changed";
+        case STACK_STK_HASH_MISMATCH:      return "Stack hash changed";
         default:                           return "unknown error";
     }
 }
@@ -320,6 +389,7 @@ err_t stack_ctor(stack_t* stk, uint64_t initial_capacity STACK_PLACE_IN)
     stk->size = 0;
     set_data_canaries(stk);
     fill_poison(stk, 0);
+    rehash(stk);
     STACK_CHECK(stk);
     return STACK_OK;
 }
@@ -338,6 +408,7 @@ err_t stack_push(stack_t* stk, Elem_t value)
         if (err) return err;
     }
     stk->data[stk->size++] = value;
+    rehash(stk);
     //printf("I push " ELEM_FMT "\n", value);
     STACK_CHECK(stk);
     return STACK_OK;
@@ -355,6 +426,7 @@ static err_t resize_up(stack_t* stk)
     stk->capacity = new_cap;
     set_data_canaries(stk);
     fill_poison(stk, stk->size);
+    rehash(stk);
     STACK_CHECK(stk);
     return STACK_OK;
 }
@@ -369,6 +441,7 @@ err_t stack_pop(stack_t* stk, Elem_t* out_value)
     *out_value = stk->data[stk->size - 1];
     stk->data[stk->size - 1] = ELEM_POISON;
     stk->size--;
+    rehash(stk);
     //printf("I pop " ELEM_FMT "\n", *out_value);
     if (stk->size <= stk->capacity / 4 && stk->capacity > STACK_MIN_CAPACITY)
     {
@@ -391,6 +464,7 @@ static err_t resize_down(stack_t* stk)
     stk->data = (Elem_t*)(temp+CANARY_SIZE);
     stk->capacity = new_cap;
     set_data_canaries(stk);
+    rehash(stk);
     //printf("I resize down\n");
     STACK_CHECK(stk);
     return STACK_OK;

@@ -13,7 +13,7 @@
 
 #define STKDEBUG
 #define STK_CANARY
-//#define STK_HASH
+#define STK_HASH
 
 #ifdef STKDEBUG
     #define STACK_PLACE_OUT(...) , __VA_ARGS__, __func__, __FILE__, __LINE__
@@ -39,7 +39,8 @@ typedef enum
     RIGHT_STACK_CANARY_STK_DEAD  = 103,
     LEFT_STACK_CANARY_DATA_DEAD  = 104,  /* затёрта канарейка буфера данных */
     RIGHT_STACK_CANARY_DATA_DEAD = 105,
-    STACK_HASH_MISMATCH          = 106,  /* хеш структуры или данных не сошёлся */
+    STACK_DATA_HASH_MISMATCH     = 106,  /* хеш структуры или данных не сошёлся */
+    STACK_STK_HASH_MISMATCH      = 107,
 } err_t;
 
 #define STACK_IS_WARNING(_e) ((_e) != STACK_OK && (_e) < STACK_ERROR_BASE)

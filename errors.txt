@@ -1,34 +1,21 @@
 WARNING: 3
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from stack_pop() at stack.c: 367
+stack_t stk1 dumped from stack_pop() at stack.c: 439
 expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 4
 size = 0
-stk1 [00000209EA4BBD98]
+stk1 [0000015B65D0BE58]
 left_data_canary = 0xBADC0FFEE0DDF00D
  [0] = 3735928559.000000
  [1] = 3735928559.000000
  [2] = 3735928559.000000
  [3] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-WARNING: 3
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from stack_pop() at stack.c: 367
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 4
-size = 0
-stk1 [0000016E8B10BD98]
-left_data_canary = 0xBADC0FFEE0DDF00D
- [0] = 3735928559.000000
- [1] = 3735928559.000000
- [2] = 3735928559.000000
- [3] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 2751896885367955305
+data hash: 2751896885367955305
+expexted stack hash: 14450421159731357958
+stack hash: 14450421159731357958
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================

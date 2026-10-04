@@ -5,7 +5,7 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 11
 size = 6
-stk1 [00000209EA4BBD98]
+stk1 [0000015B65D0BE58]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
@@ -19,6 +19,10 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [9] = 3735928559.000000
  [10] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 10481694768721675796
+data hash: 10481694768721675796
+expexted stack hash: 856831999199584332
+stack hash: 856831999199584332
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -28,13 +32,17 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 4
 size = 0
-stk1 [00000209EA4BBD98]
+stk1 [0000015B65D0BE58]
 left_data_canary = 0xBADC0FFEE0DDF00D
  [0] = 3735928559.000000
  [1] = 3735928559.000000
  [2] = 3735928559.000000
  [3] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 2751896885367955305
+data hash: 2751896885367955305
+expexted stack hash: 14450421159731357958
+stack hash: 14450421159731357958
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -44,13 +52,17 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 4
 size = 1
-stk1 [00000209EA4BBD98]
+stk1 [0000015B65D0BE58]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
  [1] = 3735928559.000000
  [2] = 3735928559.000000
  [3] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 6640641857095915107
+data hash: 6640641857095915107
+expexted stack hash: 1477680366612939653
+stack hash: 1477680366612939653
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -60,13 +72,17 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 4
 size = 2
-stk1 [00000209EA4BBD98]
+stk1 [0000015B65D0BE58]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
  [2] = 3735928559.000000
  [3] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 3021388472070563668
+data hash: 3021388472070563668
+expexted stack hash: 6951683126651416169
+stack hash: 6951683126651416169
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -76,13 +92,17 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 4
 size = 3
-stk1 [00000209EA4BBD98]
+stk1 [0000015B65D0BE58]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
  [3] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 5601297808434010164
+data hash: 5601297808434010164
+expexted stack hash: 12425684885030770781
+stack hash: 12425684885030770781
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -92,13 +112,17 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 4
 size = 4
-stk1 [00000209EA4BBD98]
+stk1 [0000015B65D0BE58]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
 *[3] = 31.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 5601297799398779486
+data hash: 5601297799398779486
+expexted stack hash: 17899690158825926738
+stack hash: 17899690158825926738
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -108,7 +132,7 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 9
 size = 5
-stk1 [00000209EA4BBD98]
+stk1 [0000015B65D0BE58]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
@@ -120,6 +144,10 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [7] = 3735928559.000000
  [8] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 11267947810276462774
+data hash: 11267947810276462774
+expexted stack hash: 11285971935170298856
+stack hash: 11285971935170298856
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -129,7 +157,7 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 9
 size = 6
-stk1 [00000209EA4BBD98]
+stk1 [0000015B65D0BE58]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
@@ -141,6 +169,10 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [7] = 3735928559.000000
  [8] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 8458608234945241258
+data hash: 8458608234945241258
+expexted stack hash: 16759974992269592107
+stack hash: 16759974992269592107
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -150,7 +182,7 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 9
 size = 7
-stk1 [00000209EA4BBD98]
+stk1 [0000015B65D0BE58]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
@@ -162,6 +194,10 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [7] = 3735928559.000000
  [8] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 11123780055576241987
+data hash: 11123780055576241987
+expexted stack hash: 3787229756447948374
+stack hash: 3787229756447948374
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -171,7 +207,7 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 9
 size = 8
-stk1 [00000209EA4BBD98]
+stk1 [0000015B65D0BE58]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
@@ -183,6 +219,10 @@ left_data_canary = 0xBADC0FFEE0DDF00D
 *[7] = 71.000000
  [8] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 13999052078673717375
+data hash: 13999052078673717375
+expexted stack hash: 9261235701327699068
+stack hash: 9261235701327699068
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -192,7 +232,7 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 9
 size = 9
-stk1 [00000209EA4BBD98]
+stk1 [0000015B65D0BE58]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
@@ -204,6 +244,10 @@ left_data_canary = 0xBADC0FFEE0DDF00D
 *[7] = 71.000000
 *[8] = 81.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 13999052069638557086
+data hash: 13999052069638557086
+expexted stack hash: 14735240530897009082
+stack hash: 14735240530897009082
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -213,7 +257,7 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 19
 size = 10
-stk1 [00000209EA4BFF28]
+stk1 [0000015B65D101D8]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
@@ -235,6 +279,10 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [17] = 3735928559.000000
  [18] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 6668794550573561745
+data hash: 6668794550573561745
+expexted stack hash: 7100967265042777798
+stack hash: 7100967265042777798
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -244,7 +292,7 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 19
 size = 11
-stk1 [00000209EA4BFF28]
+stk1 [0000015B65D101D8]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
@@ -266,6 +314,10 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [17] = 3735928559.000000
  [18] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 2797777553732009301
+data hash: 2797777553732009301
+expexted stack hash: 12574968261668519227
+stack hash: 12574968261668519227
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -275,7 +327,7 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 19
 size = 12
-stk1 [00000209EA4BFF28]
+stk1 [0000015B65D101D8]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
@@ -297,6 +349,10 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [17] = 3735928559.000000
  [18] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 4042618457965497819
+data hash: 4042618457965497819
+expexted stack hash: 18048977208112573219
+stack hash: 18048977208112573219
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -306,7 +362,7 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 19
 size = 13
-stk1 [00000209EA4BFF28]
+stk1 [0000015B65D101D8]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
@@ -328,6 +384,10 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [17] = 3735928559.000000
  [18] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 13666022215049022020
+data hash: 13666022215049022020
+expexted stack hash: 5076229914152635216
+stack hash: 5076229914152635216
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -337,7 +397,7 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 19
 size = 14
-stk1 [00000209EA4BFF28]
+stk1 [0000015B65D101D8]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
@@ -359,6 +419,10 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [17] = 3735928559.000000
  [18] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 398800269080985615
+data hash: 398800269080985615
+expexted stack hash: 10550231028584452551
+stack hash: 10550231028584452551
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -368,7 +432,7 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 19
 size = 15
-stk1 [00000209EA4BFF28]
+stk1 [0000015B65D101D8]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
@@ -390,6 +454,10 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [17] = 3735928559.000000
  [18] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 14900905913441365819
+data hash: 14900905913441365819
+expexted stack hash: 16024236505887164334
+stack hash: 16024236505887164334
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -399,7 +467,7 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 19
 size = 16
-stk1 [00000209EA4BFF28]
+stk1 [0000015B65D101D8]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
@@ -421,6 +489,10 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [17] = 3735928559.000000
  [18] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 5543966455334991304
+data hash: 5543966455334991304
+expexted stack hash: 3051501756708069718
+stack hash: 3051501756708069718
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -430,7 +502,7 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 19
 size = 17
-stk1 [00000209EA4BFF28]
+stk1 [0000015B65D101D8]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
@@ -452,6 +524,10 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [17] = 3735928559.000000
  [18] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 6271982226481910487
+data hash: 6271982226481910487
+expexted stack hash: 8525505807628859841
+stack hash: 8525505807628859841
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -461,7 +537,7 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 19
 size = 18
-stk1 [00000209EA4BFF28]
+stk1 [0000015B65D101D8]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
@@ -483,6 +559,10 @@ left_data_canary = 0xBADC0FFEE0DDF00D
 *[17] = 171.000000
  [18] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 9001150896682037831
+data hash: 9001150896682037831
+expexted stack hash: 13999503181703940676
+stack hash: 13999503181703940676
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -492,7 +572,7 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 19
 size = 19
-stk1 [00000209EA4BFF28]
+stk1 [0000015B65D101D8]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
@@ -514,6 +594,10 @@ left_data_canary = 0xBADC0FFEE0DDF00D
 *[17] = 171.000000
 *[18] = 181.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 9001150887646982680
+data hash: 9001150887646982680
+expexted stack hash: 1026760492679067633
+stack hash: 1026760492679067633
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -523,7 +607,7 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 39
 size = 20
-stk1 [00000209EA4BFF28]
+stk1 [0000015B65D101D8]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
@@ -565,6 +649,10 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [37] = 3735928559.000000
  [38] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 16032528160176040558
+data hash: 16032528160176040558
+expexted stack hash: 13490098298265406335
+stack hash: 13490098298265406335
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -574,7 +662,7 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 39
 size = 21
-stk1 [00000209EA4BFF28]
+stk1 [0000015B65D101D8]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
@@ -616,6 +704,10 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [37] = 3735928559.000000
  [38] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 10018787809496363554
+data hash: 10018787809496363554
+expexted stack hash: 517354371821098320
+stack hash: 517354371821098320
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -625,7 +717,7 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 39
 size = 22
-stk1 [00000209EA4BFF28]
+stk1 [0000015B65D101D8]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
@@ -667,6 +759,10 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [37] = 3735928559.000000
  [38] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 17333653083890382647
+data hash: 17333653083890382647
+expexted stack hash: 5991358822625791061
+stack hash: 5991358822625791061
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
@@ -676,7 +772,7 @@ expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary = 0xBADC0FFEE0DDF00D
 capacity = 39
 size = 23
-stk1 [00000209EA4BFF28]
+stk1 [0000015B65D101D8]
 left_data_canary = 0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
@@ -718,727 +814,9 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [37] = 3735928559.000000
  [38] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 25
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 11
-size = 6
-stk1 [0000016E8B10BD98]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
-*[3] = 31.000000
-*[4] = 41.000000
-*[5] = 51.000000
- [6] = 3735928559.000000
- [7] = 3735928559.000000
- [8] = 3735928559.000000
- [9] = 3735928559.000000
- [10] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 35
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 4
-size = 0
-stk1 [0000016E8B10BD98]
-left_data_canary = 0xBADC0FFEE0DDF00D
- [0] = 3735928559.000000
- [1] = 3735928559.000000
- [2] = 3735928559.000000
- [3] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 4
-size = 1
-stk1 [0000016E8B10BD98]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
- [1] = 3735928559.000000
- [2] = 3735928559.000000
- [3] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 4
-size = 2
-stk1 [0000016E8B10BD98]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
- [2] = 3735928559.000000
- [3] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 4
-size = 3
-stk1 [0000016E8B10BD98]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
- [3] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 4
-size = 4
-stk1 [0000016E8B10BD98]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
-*[3] = 31.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 9
-size = 5
-stk1 [0000016E8B10BD98]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
-*[3] = 31.000000
-*[4] = 41.000000
- [5] = 3735928559.000000
- [6] = 3735928559.000000
- [7] = 3735928559.000000
- [8] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 9
-size = 6
-stk1 [0000016E8B10BD98]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
-*[3] = 31.000000
-*[4] = 41.000000
-*[5] = 51.000000
- [6] = 3735928559.000000
- [7] = 3735928559.000000
- [8] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 9
-size = 7
-stk1 [0000016E8B10BD98]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
-*[3] = 31.000000
-*[4] = 41.000000
-*[5] = 51.000000
-*[6] = 61.000000
- [7] = 3735928559.000000
- [8] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 9
-size = 8
-stk1 [0000016E8B10BD98]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
-*[3] = 31.000000
-*[4] = 41.000000
-*[5] = 51.000000
-*[6] = 61.000000
-*[7] = 71.000000
- [8] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 9
-size = 9
-stk1 [0000016E8B10BD98]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
-*[3] = 31.000000
-*[4] = 41.000000
-*[5] = 51.000000
-*[6] = 61.000000
-*[7] = 71.000000
-*[8] = 81.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 19
-size = 10
-stk1 [0000016E8B10FF28]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
-*[3] = 31.000000
-*[4] = 41.000000
-*[5] = 51.000000
-*[6] = 61.000000
-*[7] = 71.000000
-*[8] = 81.000000
-*[9] = 91.000000
- [10] = 3735928559.000000
- [11] = 3735928559.000000
- [12] = 3735928559.000000
- [13] = 3735928559.000000
- [14] = 3735928559.000000
- [15] = 3735928559.000000
- [16] = 3735928559.000000
- [17] = 3735928559.000000
- [18] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 19
-size = 11
-stk1 [0000016E8B10FF28]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
-*[3] = 31.000000
-*[4] = 41.000000
-*[5] = 51.000000
-*[6] = 61.000000
-*[7] = 71.000000
-*[8] = 81.000000
-*[9] = 91.000000
-*[10] = 101.000000
- [11] = 3735928559.000000
- [12] = 3735928559.000000
- [13] = 3735928559.000000
- [14] = 3735928559.000000
- [15] = 3735928559.000000
- [16] = 3735928559.000000
- [17] = 3735928559.000000
- [18] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 19
-size = 12
-stk1 [0000016E8B10FF28]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
-*[3] = 31.000000
-*[4] = 41.000000
-*[5] = 51.000000
-*[6] = 61.000000
-*[7] = 71.000000
-*[8] = 81.000000
-*[9] = 91.000000
-*[10] = 101.000000
-*[11] = 111.000000
- [12] = 3735928559.000000
- [13] = 3735928559.000000
- [14] = 3735928559.000000
- [15] = 3735928559.000000
- [16] = 3735928559.000000
- [17] = 3735928559.000000
- [18] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 19
-size = 13
-stk1 [0000016E8B10FF28]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
-*[3] = 31.000000
-*[4] = 41.000000
-*[5] = 51.000000
-*[6] = 61.000000
-*[7] = 71.000000
-*[8] = 81.000000
-*[9] = 91.000000
-*[10] = 101.000000
-*[11] = 111.000000
-*[12] = 121.000000
- [13] = 3735928559.000000
- [14] = 3735928559.000000
- [15] = 3735928559.000000
- [16] = 3735928559.000000
- [17] = 3735928559.000000
- [18] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 19
-size = 14
-stk1 [0000016E8B10FF28]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
-*[3] = 31.000000
-*[4] = 41.000000
-*[5] = 51.000000
-*[6] = 61.000000
-*[7] = 71.000000
-*[8] = 81.000000
-*[9] = 91.000000
-*[10] = 101.000000
-*[11] = 111.000000
-*[12] = 121.000000
-*[13] = 131.000000
- [14] = 3735928559.000000
- [15] = 3735928559.000000
- [16] = 3735928559.000000
- [17] = 3735928559.000000
- [18] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 19
-size = 15
-stk1 [0000016E8B10FF28]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
-*[3] = 31.000000
-*[4] = 41.000000
-*[5] = 51.000000
-*[6] = 61.000000
-*[7] = 71.000000
-*[8] = 81.000000
-*[9] = 91.000000
-*[10] = 101.000000
-*[11] = 111.000000
-*[12] = 121.000000
-*[13] = 131.000000
-*[14] = 141.000000
- [15] = 3735928559.000000
- [16] = 3735928559.000000
- [17] = 3735928559.000000
- [18] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 19
-size = 16
-stk1 [0000016E8B10FF28]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
-*[3] = 31.000000
-*[4] = 41.000000
-*[5] = 51.000000
-*[6] = 61.000000
-*[7] = 71.000000
-*[8] = 81.000000
-*[9] = 91.000000
-*[10] = 101.000000
-*[11] = 111.000000
-*[12] = 121.000000
-*[13] = 131.000000
-*[14] = 141.000000
-*[15] = 151.000000
- [16] = 3735928559.000000
- [17] = 3735928559.000000
- [18] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 19
-size = 17
-stk1 [0000016E8B10FF28]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
-*[3] = 31.000000
-*[4] = 41.000000
-*[5] = 51.000000
-*[6] = 61.000000
-*[7] = 71.000000
-*[8] = 81.000000
-*[9] = 91.000000
-*[10] = 101.000000
-*[11] = 111.000000
-*[12] = 121.000000
-*[13] = 131.000000
-*[14] = 141.000000
-*[15] = 151.000000
-*[16] = 161.000000
- [17] = 3735928559.000000
- [18] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 19
-size = 18
-stk1 [0000016E8B10FF28]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
-*[3] = 31.000000
-*[4] = 41.000000
-*[5] = 51.000000
-*[6] = 61.000000
-*[7] = 71.000000
-*[8] = 81.000000
-*[9] = 91.000000
-*[10] = 101.000000
-*[11] = 111.000000
-*[12] = 121.000000
-*[13] = 131.000000
-*[14] = 141.000000
-*[15] = 151.000000
-*[16] = 161.000000
-*[17] = 171.000000
- [18] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 19
-size = 19
-stk1 [0000016E8B10FF28]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
-*[3] = 31.000000
-*[4] = 41.000000
-*[5] = 51.000000
-*[6] = 61.000000
-*[7] = 71.000000
-*[8] = 81.000000
-*[9] = 91.000000
-*[10] = 101.000000
-*[11] = 111.000000
-*[12] = 121.000000
-*[13] = 131.000000
-*[14] = 141.000000
-*[15] = 151.000000
-*[16] = 161.000000
-*[17] = 171.000000
-*[18] = 181.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 39
-size = 20
-stk1 [0000016E8B10FF28]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
-*[3] = 31.000000
-*[4] = 41.000000
-*[5] = 51.000000
-*[6] = 61.000000
-*[7] = 71.000000
-*[8] = 81.000000
-*[9] = 91.000000
-*[10] = 101.000000
-*[11] = 111.000000
-*[12] = 121.000000
-*[13] = 131.000000
-*[14] = 141.000000
-*[15] = 151.000000
-*[16] = 161.000000
-*[17] = 171.000000
-*[18] = 181.000000
-*[19] = 191.000000
- [20] = 3735928559.000000
- [21] = 3735928559.000000
- [22] = 3735928559.000000
- [23] = 3735928559.000000
- [24] = 3735928559.000000
- [25] = 3735928559.000000
- [26] = 3735928559.000000
- [27] = 3735928559.000000
- [28] = 3735928559.000000
- [29] = 3735928559.000000
- [30] = 3735928559.000000
- [31] = 3735928559.000000
- [32] = 3735928559.000000
- [33] = 3735928559.000000
- [34] = 3735928559.000000
- [35] = 3735928559.000000
- [36] = 3735928559.000000
- [37] = 3735928559.000000
- [38] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 39
-size = 21
-stk1 [0000016E8B10FF28]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
-*[3] = 31.000000
-*[4] = 41.000000
-*[5] = 51.000000
-*[6] = 61.000000
-*[7] = 71.000000
-*[8] = 81.000000
-*[9] = 91.000000
-*[10] = 101.000000
-*[11] = 111.000000
-*[12] = 121.000000
-*[13] = 131.000000
-*[14] = 141.000000
-*[15] = 151.000000
-*[16] = 161.000000
-*[17] = 171.000000
-*[18] = 181.000000
-*[19] = 191.000000
-*[20] = 201.000000
- [21] = 3735928559.000000
- [22] = 3735928559.000000
- [23] = 3735928559.000000
- [24] = 3735928559.000000
- [25] = 3735928559.000000
- [26] = 3735928559.000000
- [27] = 3735928559.000000
- [28] = 3735928559.000000
- [29] = 3735928559.000000
- [30] = 3735928559.000000
- [31] = 3735928559.000000
- [32] = 3735928559.000000
- [33] = 3735928559.000000
- [34] = 3735928559.000000
- [35] = 3735928559.000000
- [36] = 3735928559.000000
- [37] = 3735928559.000000
- [38] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 39
-size = 22
-stk1 [0000016E8B10FF28]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
-*[3] = 31.000000
-*[4] = 41.000000
-*[5] = 51.000000
-*[6] = 61.000000
-*[7] = 71.000000
-*[8] = 81.000000
-*[9] = 91.000000
-*[10] = 101.000000
-*[11] = 111.000000
-*[12] = 121.000000
-*[13] = 131.000000
-*[14] = 141.000000
-*[15] = 151.000000
-*[16] = 161.000000
-*[17] = 171.000000
-*[18] = 181.000000
-*[19] = 191.000000
-*[20] = 201.000000
-*[21] = 211.000000
- [22] = 3735928559.000000
- [23] = 3735928559.000000
- [24] = 3735928559.000000
- [25] = 3735928559.000000
- [26] = 3735928559.000000
- [27] = 3735928559.000000
- [28] = 3735928559.000000
- [29] = 3735928559.000000
- [30] = 3735928559.000000
- [31] = 3735928559.000000
- [32] = 3735928559.000000
- [33] = 3735928559.000000
- [34] = 3735928559.000000
- [35] = 3735928559.000000
- [36] = 3735928559.000000
- [37] = 3735928559.000000
- [38] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-====================================================================================================
-stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from main() at main.c: 41
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
-capacity = 39
-size = 23
-stk1 [0000016E8B10FF28]
-left_data_canary = 0xBADC0FFEE0DDF00D
-*[0] = 1.000000
-*[1] = 11.000000
-*[2] = 21.000000
-*[3] = 31.000000
-*[4] = 41.000000
-*[5] = 51.000000
-*[6] = 61.000000
-*[7] = 71.000000
-*[8] = 81.000000
-*[9] = 91.000000
-*[10] = 101.000000
-*[11] = 111.000000
-*[12] = 121.000000
-*[13] = 131.000000
-*[14] = 141.000000
-*[15] = 151.000000
-*[16] = 161.000000
-*[17] = 171.000000
-*[18] = 181.000000
-*[19] = 191.000000
-*[20] = 201.000000
-*[21] = 211.000000
-*[22] = 221.000000
- [23] = 3735928559.000000
- [24] = 3735928559.000000
- [25] = 3735928559.000000
- [26] = 3735928559.000000
- [27] = 3735928559.000000
- [28] = 3735928559.000000
- [29] = 3735928559.000000
- [30] = 3735928559.000000
- [31] = 3735928559.000000
- [32] = 3735928559.000000
- [33] = 3735928559.000000
- [34] = 3735928559.000000
- [35] = 3735928559.000000
- [36] = 3735928559.000000
- [37] = 3735928559.000000
- [38] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
+expected data hash: 11897996010983348141
+data hash: 11897996010983348141
+expexted stack hash: 11465367033461766656
+stack hash: 11465367033461766656
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
