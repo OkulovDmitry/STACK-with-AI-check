@@ -1,21 +1,23 @@
 WARNING: 3
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
-stack_t stk1 dumped from stack_pop() at stack.c: 439
+stack_t stk1 dumped from stack_pop() at stack.c: 442
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 4
 size = 0
-stk1 [0000015B65D0BE58]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C6BE58]
+left_data_canary =  0xBADC0FFEE0DDF00D
  [0] = 3735928559.000000
  [1] = 3735928559.000000
  [2] = 3735928559.000000
  [3] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 2751896885367955305
-data hash: 2751896885367955305
-expexted stack hash: 14450421159731357958
-stack hash: 14450421159731357958
+
+expected data hash: 0x2630B3A316DC5F69
+data hash:          0x2630B3A316DC5F69
+expexted stack hash: 0xFDB2EF6F7751998C
+stack hash:          0xFDB2EF6F7751998C
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================

@@ -2,11 +2,11 @@
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 25
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 11
 size = 6
-stk1 [0000015B65D0BE58]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C6BE58]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -19,121 +19,133 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [9] = 3735928559.000000
  [10] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 10481694768721675796
-data hash: 10481694768721675796
-expexted stack hash: 856831999199584332
-stack hash: 856831999199584332
+
+expected data hash: 0x917675DB95B9C614
+data hash:          0x917675DB95B9C614
+expexted stack hash: 0x410CCE1DA738D0D2
+stack hash:          0x410CCE1DA738D0D2
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 35
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 4
 size = 0
-stk1 [0000015B65D0BE58]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C6BE58]
+left_data_canary =  0xBADC0FFEE0DDF00D
  [0] = 3735928559.000000
  [1] = 3735928559.000000
  [2] = 3735928559.000000
  [3] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 2751896885367955305
-data hash: 2751896885367955305
-expexted stack hash: 14450421159731357958
-stack hash: 14450421159731357958
+
+expected data hash: 0x2630B3A316DC5F69
+data hash:          0x2630B3A316DC5F69
+expexted stack hash: 0xFDB2EF6F7751998C
+stack hash:          0xFDB2EF6F7751998C
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 4
 size = 1
-stk1 [0000015B65D0BE58]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C6BE58]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
  [1] = 3735928559.000000
  [2] = 3735928559.000000
  [3] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 6640641857095915107
-data hash: 6640641857095915107
-expexted stack hash: 1477680366612939653
-stack hash: 1477680366612939653
+
+expected data hash: 0x5C284C95DCCAD663
+data hash:          0x5C284C95DCCAD663
+expexted stack hash: 0x49AA806AA646B40B
+stack hash:          0x49AA806AA646B40B
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 4
 size = 2
-stk1 [0000015B65D0BE58]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C6BE58]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
  [2] = 3735928559.000000
  [3] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 3021388472070563668
-data hash: 3021388472070563668
-expexted stack hash: 6951683126651416169
-stack hash: 6951683126651416169
+
+expected data hash: 0x29EE20CEAE39E754
+data hash:          0x29EE20CEAE39E754
+expexted stack hash: 0x95A210ECA1E09EEF
+stack hash:          0x95A210ECA1E09EEF
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 4
 size = 3
-stk1 [0000015B65D0BE58]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C6BE58]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
  [3] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 5601297808434010164
-data hash: 5601297808434010164
-expexted stack hash: 12425684885030770781
-stack hash: 12425684885030770781
+
+expected data hash: 0x4DBBCEAE08E21834
+data hash:          0x4DBBCEAE08E21834
+expexted stack hash: 0xE199A08565F148E3
+stack hash:          0xE199A08565F148E3
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 4
 size = 4
-stk1 [0000015B65D0BE58]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C6BE58]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
 *[3] = 31.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 5601297799398779486
-data hash: 5601297799398779486
-expexted stack hash: 17899690158825926738
-stack hash: 17899690158825926738
+
+expected data hash: 0x4DBBCEABEE576A5E
+data hash:          0x4DBBCEABEE576A5E
+expexted stack hash: 0x2D913350A91E20D8
+stack hash:          0x2D913350A91E20D8
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 9
 size = 5
-stk1 [0000015B65D0BE58]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C6BE58]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -144,21 +156,23 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [7] = 3735928559.000000
  [8] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 11267947810276462774
-data hash: 11267947810276462774
-expexted stack hash: 11285971935170298856
-stack hash: 11285971935170298856
+
+expected data hash: 0x9C5FCAD5532B50B6
+data hash:          0x9C5FCAD5532B50B6
+expexted stack hash: 0xD1C88DA1B398B46E
+stack hash:          0xD1C88DA1B398B46E
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 9
 size = 6
-stk1 [0000015B65D0BE58]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C6BE58]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -169,21 +183,23 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [7] = 3735928559.000000
  [8] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 8458608234945241258
-data hash: 8458608234945241258
-expexted stack hash: 16759974992269592107
-stack hash: 16759974992269592107
+
+expected data hash: 0x7563035FC21AE0AA
+data hash:          0x7563035FC21AE0AA
+expexted stack hash: 0x1DC01E68D966F6B1
+stack hash:          0x1DC01E68D966F6B1
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 9
 size = 7
-stk1 [0000015B65D0BE58]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C6BE58]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -194,21 +210,23 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [7] = 3735928559.000000
  [8] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 11123780055576241987
-data hash: 11123780055576241987
-expexted stack hash: 3787229756447948374
-stack hash: 3787229756447948374
+
+expected data hash: 0x9A5F9B0634326743
+data hash:          0x9A5F9B0634326743
+expexted stack hash: 0x69B7AB59A29CAEDC
+stack hash:          0x69B7AB59A29CAEDC
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 9
 size = 8
-stk1 [0000015B65D0BE58]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C6BE58]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -219,21 +237,23 @@ left_data_canary = 0xBADC0FFEE0DDF00D
 *[7] = 71.000000
  [8] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 13999052078673717375
-data hash: 13999052078673717375
-expexted stack hash: 9261235701327699068
-stack hash: 9261235701327699068
+
+expected data hash: 0xC2469FB2058A687F
+data hash:          0xC2469FB2058A687F
+expexted stack hash: 0xB5AF3EC1258BCD02
+stack hash:          0xB5AF3EC1258BCD02
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 9
 size = 9
-stk1 [0000015B65D0BE58]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C6BE58]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -244,21 +264,23 @@ left_data_canary = 0xBADC0FFEE0DDF00D
 *[7] = 71.000000
 *[8] = 81.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 13999052069638557086
-data hash: 13999052069638557086
-expexted stack hash: 14735240530897009082
-stack hash: 14735240530897009082
+
+expected data hash: 0xC2469FAFEB00CD9E
+data hash:          0xC2469FAFEB00CD9E
+expexted stack hash: 0x01A6D124FACC2A40
+stack hash:          0x01A6D124FACC2A40
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 19
 size = 10
-stk1 [0000015B65D101D8]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C701D8]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -279,21 +301,23 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [17] = 3735928559.000000
  [18] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 6668794550573561745
-data hash: 6668794550573561745
-expexted stack hash: 7100967265042777798
-stack hash: 7100967265042777798
+
+expected data hash: 0x5C8C514F9AFF7791
+data hash:          0x5C8C514F9AFF7791
+expexted stack hash: 0x97B46E0EA94B774C
+stack hash:          0x97B46E0EA94B774C
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 19
 size = 11
-stk1 [0000015B65D101D8]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C701D8]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -314,21 +338,23 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [17] = 3735928559.000000
  [18] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 2797777553732009301
-data hash: 2797777553732009301
-expexted stack hash: 12574968261668519227
-stack hash: 12574968261668519227
+
+expected data hash: 0x26D3B3DCA2C1FD55
+data hash:          0x26D3B3DCA2C1FD55
+expexted stack hash: 0xE3ABFCF6114E6DC1
+stack hash:          0xE3ABFCF6114E6DC1
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 19
 size = 12
-stk1 [0000015B65D101D8]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C701D8]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -349,21 +375,23 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [17] = 3735928559.000000
  [18] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 4042618457965497819
-data hash: 4042618457965497819
-expexted stack hash: 18048977208112573219
-stack hash: 18048977208112573219
+
+expected data hash: 0x381A44119D788DDB
+data hash:          0x381A44119D788DDB
+expexted stack hash: 0x2FA393186F6A1BA9
+stack hash:          0x2FA393186F6A1BA9
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 19
 size = 13
-stk1 [0000015B65D101D8]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C701D8]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -384,21 +412,23 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [17] = 3735928559.000000
  [18] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 13666022215049022020
-data hash: 13666022215049022020
-expexted stack hash: 5076229914152635216
-stack hash: 5076229914152635216
+
+expected data hash: 0xBDA776CC84980A44
+data hash:          0xBDA776CC84980A44
+expexted stack hash: 0x7B9B1E2A0605BBD6
+stack hash:          0x7B9B1E2A0605BBD6
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 19
 size = 14
-stk1 [0000015B65D101D8]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C701D8]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -419,21 +449,23 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [17] = 3735928559.000000
  [18] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 398800269080985615
-data hash: 398800269080985615
-expexted stack hash: 10550231028584452551
-stack hash: 10550231028584452551
+
+expected data hash: 0x0588D2BB56E7000F
+data hash:          0x0588D2BB56E7000F
+expexted stack hash: 0xC792AD2CDBD2C24D
+stack hash:          0xC792AD2CDBD2C24D
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 19
 size = 15
-stk1 [0000015B65D101D8]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C701D8]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -454,21 +486,23 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [17] = 3735928559.000000
  [18] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 14900905913441365819
-data hash: 14900905913441365819
-expexted stack hash: 16024236505887164334
-stack hash: 16024236505887164334
+
+expected data hash: 0xCECAA6FADA30AF3B
+data hash:          0xCECAA6FADA30AF3B
+expexted stack hash: 0x138A402780FE7834
+stack hash:          0x138A402780FE7834
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 19
 size = 16
-stk1 [0000015B65D101D8]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C701D8]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -489,21 +523,23 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [17] = 3735928559.000000
  [18] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 5543966455334991304
-data hash: 5543966455334991304
-expexted stack hash: 3051501756708069718
-stack hash: 3051501756708069718
+
+expected data hash: 0x4CF0201E30EC75C8
+data hash:          0x4CF0201E30EC75C8
+expexted stack hash: 0x5F81D6A1E6CED1DC
+stack hash:          0x5F81D6A1E6CED1DC
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 19
 size = 17
-stk1 [0000015B65D101D8]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C701D8]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -524,21 +560,23 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [17] = 3735928559.000000
  [18] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 6271982226481910487
-data hash: 6271982226481910487
-expexted stack hash: 8525505807628859841
-stack hash: 8525505807628859841
+
+expected data hash: 0x570A8E9AC70492D7
+data hash:          0x570A8E9AC70492D7
+expexted stack hash: 0xAB79685070FDAA47
+stack hash:          0xAB79685070FDAA47
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 19
 size = 18
-stk1 [0000015B65D101D8]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C701D8]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -559,21 +597,23 @@ left_data_canary = 0xBADC0FFEE0DDF00D
 *[17] = 171.000000
  [18] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 9001150896682037831
-data hash: 9001150896682037831
-expexted stack hash: 13999503181703940676
-stack hash: 13999503181703940676
+
+expected data hash: 0x7CEA830CE66BF247
+data hash:          0x7CEA830CE66BF247
+expexted stack hash: 0xF770F3EC68283ACA
+stack hash:          0xF770F3EC68283ACA
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 19
 size = 19
-stk1 [0000015B65D101D8]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C701D8]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -594,21 +634,23 @@ left_data_canary = 0xBADC0FFEE0DDF00D
 *[17] = 171.000000
 *[18] = 181.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 9001150887646982680
-data hash: 9001150887646982680
-expexted stack hash: 1026760492679067633
-stack hash: 1026760492679067633
+
+expected data hash: 0x7CEA830ACBE3F218
+data hash:          0x7CEA830ACBE3F218
+expexted stack hash: 0x4368832E2A48A877
+stack hash:          0x4368832E2A48A877
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 39
 size = 20
-stk1 [0000015B65D101D8]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C701D8]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -649,21 +691,23 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [37] = 3735928559.000000
  [38] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 16032528160176040558
-data hash: 16032528160176040558
-expexted stack hash: 13490098298265406335
-stack hash: 13490098298265406335
+
+expected data hash: 0xDE7EFB6AEEBD6A6E
+data hash:          0xDE7EFB6AEEBD6A6E
+expexted stack hash: 0xF05F2EE183F43C05
+stack hash:          0xF05F2EE183F43C05
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 39
 size = 21
-stk1 [0000015B65D101D8]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C701D8]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -704,21 +748,23 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [37] = 3735928559.000000
  [38] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 10018787809496363554
-data hash: 10018787809496363554
-expexted stack hash: 517354371821098320
-stack hash: 517354371821098320
+
+expected data hash: 0x8B09E26E510B7222
+data hash:          0x8B09E26E510B7222
+expexted stack hash: 0x3C56BD032A2285D6
+stack hash:          0x3C56BD032A2285D6
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 39
 size = 22
-stk1 [0000015B65D101D8]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C701D8]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -759,21 +805,23 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [37] = 3735928559.000000
  [38] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 17333653083890382647
-data hash: 17333653083890382647
-expexted stack hash: 5991358822625791061
-stack hash: 5991358822625791061
+
+expected data hash: 0xF08D81A46523F737
+data hash:          0xF08D81A46523F737
+expexted stack hash: 0x884E4F0ECF417CDB
+stack hash:          0x884E4F0ECF417CDB
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
 ====================================================================================================
 stack_t stk1 created by main() at .\main.c: 18
 stack_t stk1 dumped from main() at main.c: 41
 expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 39
 size = 23
-stk1 [0000015B65D101D8]
-left_data_canary = 0xBADC0FFEE0DDF00D
+stk1 [000001FB95C701D8]
+left_data_canary =  0xBADC0FFEE0DDF00D
 *[0] = 1.000000
 *[1] = 11.000000
 *[2] = 21.000000
@@ -814,9 +862,11 @@ left_data_canary = 0xBADC0FFEE0DDF00D
  [37] = 3735928559.000000
  [38] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
-expected data hash: 11897996010983348141
-data hash: 11897996010983348141
-expexted stack hash: 11465367033461766656
-stack hash: 11465367033461766656
+
+expected data hash: 0xA51E2C556DAD57AD
+data hash:          0xA51E2C556DAD57AD
+expexted stack hash: 0xD445E485E7B4AA86
+stack hash:          0xD445E485E7B4AA86
+
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
