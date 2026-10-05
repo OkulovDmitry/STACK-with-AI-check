@@ -174,20 +174,17 @@ static void t_pop_from_empty_stk(void)
     CHECK(stack_dtor(&stk_overflow) == STACK_OK, &stk_overflow);
 }*/
 
-static int isolated_check(my_stack_t stk)
-{
-
-}
-
+#ifdef STK_CANARY
 static void t_left_stk_canary_corrypted(void)
 {
     my_stack_t stk_left_stk_canary = {};
-    CHECK(stack_ctor(&stk_left_stk_canary, 4, STACK_PLACE_OUT("stk_left_stk_canary")) == STACK_OK, &stk_left_stk_canary);
+    CHECK(stack_ctor(&stk_left_stk_canary, 4 STACK_PLACE_OUT("stk_left_stk_canary")) == STACK_OK, &stk_left_stk_canary);
 
-    stk_left_stk_canary.left_canary ^= (canaty_t)1 << 52;
-    CHECK(stack_verify(&stk_left_stk_canary) == LEFT_STACK_CANARY_STK_DEAD, &stk_left_stk_canary);
-    isolated_check();
+    stk_left_stk_canary.left_canary ^= (canary_t)1 << 52;
+    Elem_t val = 0;
+    CHECK(stack_pop(&stk_left_stk_canary, &val) == LEFT_STACK_CANARY_STK_DEAD, &stk_left_stk_canary);
 }
+#endif
 
 typedef enum 
 {
@@ -216,13 +213,16 @@ static const test_t TESTS[] =
     TEST(ctor_and_dtor_base_check, SURVIVE, NULL),
     TEST(pushpoptop_check,         SURVIVE, NULL),
 // Тесты на отлов ошибок WARNING
-    TEST(null_stk_ctor,            SURVIVE, "WARNING: 1"),
-    TEST(null_stk_dtor,            SURVIVE, "WARNING: 1"),
-    TEST(null_stk_push,            SURVIVE, "WARNING: 1"),
-    TEST(null_stk_pop,             SURVIVE, "WARNING: 1"),
-    TEST(null_stk_top,             SURVIVE, "WARNING: 1"),
-    TEST(pop_from_empty_stk,       SURVIVE, "WARNING: 3"),
-    //TEST(push_to_stack_overflow,   SURVIVE, "WARNING: 4")
+    TEST(null_stk_ctor,              SURVIVE, "WARNING: 1"),
+    TEST(null_stk_dtor,              SURVIVE, "WARNING: 1"),
+    TEST(null_stk_push,              SURVIVE, "WARNING: 1"),
+    TEST(null_stk_pop,               SURVIVE, "WARNING: 1"),
+    TEST(null_stk_top,               SURVIVE, "WARNING: 1"),
+    TEST(pop_from_empty_stk,         SURVIVE, "WARNING: 3"),
+    //TEST(push_to_stack_overflow,   SURVIVE, "WARNING: 4"),
+#ifdef STK_CANARY
+    TEST(left_stk_canary_corrypted,  CRASH,   "ERROR: 102")
+#endif
 // Тесты на отлов ошибок CRASH
 };
 
@@ -256,17 +256,32 @@ static int run_isolated(const test_t* t)
         return 1;
     }
 
-    if (WIFEXITED(status))
+    if (t->expect == CRASH)
     {
-        return WEXITSTATUS(status);
+        if (!(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT))
+        {
+            printf("%s: ожидали abort, а процесс завершился иначе\n", t->name);
+            return 1;
+        }
     }
-    if (WIFSIGNALED(status))
-    { 
-        printf("Убит сигналом = %d%s\n", WTERMSIG(status), WCOREDUMP(status) ? " (дамп ядра)" : "");
-        return 1;
+    else
+    {
+        if (!(WIFEXITED(status) && WEXITSTATUS(status) == 0))
+        {
+            printf("%s: ожидали нормальный выход\n", t->name);
+            return 1;
+        }
     }
 
-    return -2; //если приостановлен или продолжен
+    if (t->expect == CRASH && t->log == NULL)
+    {
+        FILE* file_errors = fopen("errors.txt", "r");
+        check_file_ptr(file_errors);
+        check_log_buffer(file_errors, t->log, NULL);
+        fclose(file_errors);
+    }
+
+    return 0; //если приостановлен или продолжен
 }
 
 static int run_one(const char* name)
