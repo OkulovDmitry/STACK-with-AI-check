@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <inttypes.h>
 
 #define STKDEBUG
 #define STK_CANARY
@@ -31,7 +32,7 @@ typedef enum
     STACK_NULL_OUT_PTR  = 5,
 //ERROR: 100+ - стек испорчен и работать с ним дальше нельзя
     STACK_ERROR_BASE             = 100,
-    STACK_CORRUPTED              = 101, //НАРУШЕН КЭШ ИЛИ КАНАРЕЙКИ
+    STACK_CORRUPTED              = 101, //НАРУШЕН КЭШ ИЛИ КАНАРЕЙКИ или что то не так с size или capacity
     LEFT_STACK_CANARY_STK_DEAD   = 102,  /* затёрта канарейка структуры */
     RIGHT_STACK_CANARY_STK_DEAD  = 103,
     LEFT_STACK_CANARY_DATA_DEAD  = 104,  /* затёрта канарейка буфера данных */
@@ -71,25 +72,25 @@ typedef struct
 #ifdef STK_CANARY
     canary_t right_canary;
 #endif
-} stack_t;
+} my_stack_t;
 /*
  смещ.  размер поле
 _________________________
 |     0|     8|         
 
 */
-err_t stack_ctor(stack_t* stk, uint64_t initial_capacity STACK_PLACE_IN);
-err_t stack_dtor(stack_t* stk);
+err_t stack_ctor(my_stack_t* stk, uint64_t initial_capacity STACK_PLACE_IN);
+err_t stack_dtor(my_stack_t* stk);
 
-err_t stack_push(stack_t* stk, Elem_t value);
-err_t stack_pop(stack_t* stk, Elem_t* out_value);
-err_t stack_top(const stack_t* stk, Elem_t* out_value);
+err_t stack_push(my_stack_t* stk, Elem_t value);
+err_t stack_pop(my_stack_t* stk, Elem_t* out_value);
+err_t my_stack_top(const my_stack_t* stk, Elem_t* out_value);
 
-bool stack_is_empty(const stack_t* stk);
-size_t stack_get_size(const stack_t* stk); //подумать насчет как ловить в них ошибки и выводить
+bool stack_is_empty(const my_stack_t* stk);
+size_t stack_get_size(const my_stack_t* stk); //подумать насчет как ловить в них ошибки и выводить
 
-void stack_dump(const char* out, const stack_t* stk, const char* name, int line, const char* functionm, const char* file_name);
-err_t stack_verify(const stack_t* stk);
+void stack_dump(const char* out, const my_stack_t* stk, const char* name, int line, const char* functionm, const char* file_name);
+err_t stack_verify(const my_stack_t* stk);
 
 const char* my_strerror(err_t err);
 void my_perror(const char* prefix, err_t err);

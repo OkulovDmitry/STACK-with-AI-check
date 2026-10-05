@@ -19,6 +19,7 @@
 #define ERRORS_FILE        "errors.txt"
 #define STACK_MIN_CAPACITY 4
 #define DUMP_MAX_ELEMS     1000
+#define MAX_MEMORY_ON_STACK 10000
 #define SEP "====================================================================================================\n"
 
 #define HASH_START 5269 //не таблица а контроль порчи => насрать
@@ -76,11 +77,11 @@
 /* ========================================================================== */
 
 /* Прототипы внутренних функций: видны только в этом файле */
-static err_t resize_up(stack_t* stk);
-static err_t resize_down(stack_t* stk);
+static err_t resize_up(my_stack_t* stk);
+static err_t resize_down(my_stack_t* stk);
 
 //======= Обнуляет часть буфера от индекса from до конца буфера ========
-static void fill_poison(stack_t* stk, uint64_t from)
+static void fill_poison(my_stack_t* stk, uint64_t from)
 {
     for (size_t i = from; i < stk->capacity; i++) stk->data[i] = ELEM_POISON;
 }
@@ -95,14 +96,14 @@ static size_t data_pad(uint64_t cap)
 //==============================================================================================================
 
 //================================== Адрес правой канарейки ========================================
-static canary_t* right_canary_addr(const stack_t* stk)
+static canary_t* right_canary_addr(const my_stack_t* stk)
 {
     if (stk == NULL) return NULL;
     return (canary_t*)((char*)stk->data + stk->capacity * sizeof(Elem_t) + data_pad(stk->capacity));
 }
 //==================================================================================================
 //================================== Адрес левой канарейки =========================================
-static canary_t* left_canary_addr(const stack_t* stk)
+static canary_t* left_canary_addr(const my_stack_t* stk)
 {
     if (stk == NULL) return NULL;
     return (canary_t*)((char*)stk->data - sizeof(canary_t));
@@ -110,7 +111,7 @@ static canary_t* left_canary_addr(const stack_t* stk)
 //==================================================================================================
 
 //======= Ставит обе канарейки буфера (в ctor и после resize) =======
-static void set_data_canaries(stack_t* stk)
+static void set_data_canaries(my_stack_t* stk)
 {
     *left_canary_addr(stk) = CANARY_VALUE;
     *right_canary_addr(stk) = CANARY_VALUE;
@@ -161,14 +162,14 @@ static uint64_t hash_bytes(const void* ptr, size_t n, uint64_t h)
 //===========================================================================================
 
 //========================= Подсчёт хэша для data ==========================
-static uint64_t calc_hash_data(const stack_t* stk)
+static uint64_t calc_hash_data(const my_stack_t* stk)
 {
     return hash_bytes(stk->data, stk->capacity * sizeof(Elem_t), HASH_START);
 }
 //===========================================================================
 
 //================== Подсчёт хэша для стека ===================
-static uint64_t calc_hash_stk(const stack_t* stk)
+static uint64_t calc_hash_stk(const my_stack_t* stk)
 {
     uint64_t h = HASH_START;
     h = hash_bytes(&stk->data,      sizeof(stk->data),      h);
@@ -180,22 +181,22 @@ static uint64_t calc_hash_stk(const stack_t* stk)
 //=============================================================
 
 //= пересчёт хэша для data и всего стека =
-static void rehash(stack_t* stk)
+static void rehash(my_stack_t* stk)
 {
     stk->hash_data = calc_hash_data(stk);
     stk->hash_stk =  calc_hash_stk(stk);
 }
 //========================================
 
-static bool is_data_hash_valid(const stack_t* stk) {return stk->hash_data == calc_hash_data(stk);}
-static bool is_stk_hash_valid(const stack_t* stk) {return stk->hash_stk == calc_hash_stk(stk);}
+static bool is_data_hash_valid(const my_stack_t* stk) {return stk->hash_data == calc_hash_data(stk);}
+static bool is_stk_hash_valid(const my_stack_t* stk) {return stk->hash_stk == calc_hash_stk(stk);}
 
 #else
     #define rehash(stk) ((void)0)
 #endif
 
 //============================= Полная проверка валидности стека ============================
-err_t stack_verify(const stack_t* stk)
+err_t stack_verify(const my_stack_t* stk)
 {
     if (stk == NULL)               return STACK_NULL_PTR;
 
@@ -211,6 +212,10 @@ err_t stack_verify(const stack_t* stk)
 #endif
 
     if (stk->size > stk->capacity) return STACK_CORRUPTED;
+
+#ifdef STKDEBUG 
+    if (sizeof(stk->data) > MAX_MEMORY_ON_STACK) return STACK_OVERFLOW;
+#endif
 
 #ifdef STK_CANARY
     if (is_canary_alive(left_canary_addr(stk)) == false)  return LEFT_STACK_CANARY_DATA_DEAD;
@@ -242,7 +247,7 @@ err_t stack_verify(const stack_t* stk)
 /* ========================================================================== */
 
 //========================= Печатает подробное состояние стека в произвольный поток ================================
-void dump_to(FILE* file, const stack_t* stk, const char* name, int line, const char* function, const char* file_name)
+void dump_to(FILE* file, const my_stack_t* stk, const char* name, int line, const char* function, const char* file_name)
 {
     fprintf(file, SEP);
 
@@ -254,15 +259,15 @@ void dump_to(FILE* file, const stack_t* stk, const char* name, int line, const c
     }
 #ifdef STKDEBUG
     if (name == NULL) name = stk->name;
-    fprintf(file, "stack_t %s created by %s() at %s: %i\n",  STR(stk->name), STR(stk->function), STR(stk->file), stk->line);
+    fprintf(file, "my_stack_t %s created by %s() at %s: %i\n",  STR(stk->name), STR(stk->function), STR(stk->file), stk->line);
 #endif
-    fprintf(file, "stack_t %s dumped from %s() at %s: %i\n", STR(name),      STR(function),      STR(file_name), line);
+    fprintf(file, "my_stack_t %s dumped from %s() at %s: %i\n", STR(name),      STR(function),      STR(file_name), line);
 #ifdef STK_CANARY
     fprintf(file, "expected canaries = 0x%016llX\n",     (unsigned long long)CANARY_VALUE);
     fprintf(file, "left_stk_canary =   0x%016llX\n",       (unsigned long long)stk->left_canary);
 #endif
-    fprintf(file, "capacity = %llu\n", stk->capacity);
-    fprintf(file, "size = %llu\n",     stk->size);
+    fprintf(file, "capacity = %" PRIu64 "\n", stk->capacity);
+    fprintf(file, "size = %"     PRIu64 "\n", stk->size);
     fprintf(file, "%s [%p]\n",         STR(name), (void*)stk->data);
 
     if (stk->data != NULL)
@@ -272,8 +277,8 @@ void dump_to(FILE* file, const stack_t* stk, const char* name, int line, const c
 #endif
         for (size_t i = 0; i < (min(stk->capacity, DUMP_MAX_ELEMS)); i++)
         {
-            if (stk->data[i] == ELEM_POISON) fprintf(file, "%c[%llu] = " ELEM_FMT "\n", i < stk->size ? '*' : ' ', i, stk->data[i]);
-            else                             fprintf(file, "%c[%llu] = " ELEM_FMT "\n", i < stk->size ? '*' : ' ', i, stk->data[i]);
+            if (stk->data[i] == ELEM_POISON) fprintf(file, "%c[%" PRIu64 "] = " ELEM_FMT "\n", i < stk->size ? '*' : ' ', i, stk->data[i]);
+            else                             fprintf(file, "%c[%" PRIu64 "] = " ELEM_FMT "\n", i < stk->size ? '*' : ' ', i, stk->data[i]);
         }
 #ifdef STK_CANARY
         fprintf(file, "right_data_canary = 0x%016llX\n", (unsigned long long)(*right_canary_addr(stk)));
@@ -282,13 +287,13 @@ void dump_to(FILE* file, const stack_t* stk, const char* name, int line, const c
     else fprintf(file, "data not printed: structure is not trusted\n");
 
 #ifdef STK_HASH
-    fprintf(file, "\nexpected data hash: 0x%016llX\n",  stk->hash_data);
-    fprintf(file, "data hash:          0x%016llX\n",  calc_hash_data(stk));
+    fprintf(file, "\nexpected data hash: 0x%016" PRIu64 "\n",  stk->hash_data);
+    fprintf(file, "data hash:          0x%016" PRIu64 "\n",  calc_hash_data(stk));
 
     if (stk->data != NULL && is_stk_hash_valid(stk))
     {
-        fprintf(file, "expexted stack hash: 0x%016llX\n", stk->hash_stk);
-        fprintf(file, "stack hash:          0x%016llX\n\n", calc_hash_stk(stk));
+        fprintf(file, "expexted stack hash: 0x%016" PRIu64 "\n", stk->hash_stk);
+        fprintf(file, "stack hash:          0x%016" PRIu64 "\n\n", calc_hash_stk(stk));
     }
 #endif
 #ifdef STK_CANARY
@@ -300,7 +305,7 @@ void dump_to(FILE* file, const stack_t* stk, const char* name, int line, const c
 //====================================================================================================================
 
 //=============================== Обёртка над dump_to - дописывает dump в файл с именем out ================================
-void stack_dump(const char* out, const stack_t* stk, const char* name, int line, const char* function, const char* file_name)
+void stack_dump(const char* out, const my_stack_t* stk, const char* name, int line, const char* function, const char* file_name)
 {
     FILE* file = fopen(out, "a");
     if (file == NULL) {
@@ -365,7 +370,7 @@ void my_perror(const char* prefix, err_t err)
 
 
 //======================================== Инициализация стека ============================================
-err_t stack_ctor(stack_t* stk, uint64_t initial_capacity STACK_PLACE_IN)
+err_t stack_ctor(my_stack_t* stk, uint64_t initial_capacity STACK_PLACE_IN)
 {
     if (stk == NULL) ERROR_LOGGING(STACK_NULL_PTR, stk);
     memset(stk, 0, sizeof *stk);
@@ -401,7 +406,7 @@ err_t stack_ctor(stack_t* stk, uint64_t initial_capacity STACK_PLACE_IN)
 
 
 //============== Push и resize_up - кладут один элемент в стек и увеличивают если он переполнен =============
-err_t stack_push(stack_t* stk, Elem_t value)
+err_t stack_push(my_stack_t* stk, Elem_t value)
 {
     STACK_CHECK(stk);
 
@@ -418,7 +423,7 @@ err_t stack_push(stack_t* stk, Elem_t value)
     return STACK_OK;
 }
 
-static err_t resize_up(stack_t* stk)
+static err_t resize_up(my_stack_t* stk)
 {
     //printf("I am in resize_up");
     STACK_CHECK(stk);
@@ -437,7 +442,7 @@ static err_t resize_up(stack_t* stk)
 //==============================================================================================================
 
 //============== Pop и resize_down - удаляют один элемент из стека и уменьшают если он слишком велик для хранения текущего количества элементов =============
-err_t stack_pop(stack_t* stk, Elem_t* out_value)
+err_t stack_pop(my_stack_t* stk, Elem_t* out_value)
 {
     STACK_CHECK(stk);
     if (stk->size == 0) ERROR_LOGGING(STACK_UNDERFLOW, stk);
@@ -457,7 +462,7 @@ err_t stack_pop(stack_t* stk, Elem_t* out_value)
     return STACK_OK;
 }
 
-static err_t resize_down(stack_t* stk)
+static err_t resize_down(my_stack_t* stk)
 {
     STACK_CHECK(stk);
     uint64_t new_cap = max(stk->capacity / 2, STACK_MIN_CAPACITY);
@@ -476,7 +481,7 @@ static err_t resize_down(stack_t* stk)
 //==========================================================================================================================================================
 
 //========== Читает верхний элемент не удаляя его ============
-err_t stack_top(const stack_t* stk, Elem_t* out_value)
+err_t my_stack_top(const my_stack_t* stk, Elem_t* out_value)
 {
     STACK_CHECK(stk);
     if (out_value == NULL) return STACK_NULL_OUT_PTR;
@@ -489,7 +494,7 @@ err_t stack_top(const stack_t* stk, Elem_t* out_value)
 //============================================================
 
 //===== Освобождает память стека и сбрасывает поля в нули =====
-err_t stack_dtor(stack_t* stk)
+err_t stack_dtor(my_stack_t* stk)
 {
     if (stk == NULL) ERROR_LOGGING(STACK_NULL_PTR, stk);
     if (stk->data != NULL) free((char*)stk->data - CANARY_SIZE);
@@ -501,13 +506,13 @@ err_t stack_dtor(stack_t* stk)
 //=============================================================
 
 /* stack_is_empty - true, если стек пуст; NULL считается пустым стеком */
-bool stack_is_empty(const stack_t* stk)
+bool stack_is_empty(const my_stack_t* stk)
 {
     return stk == NULL || stk->size == 0;
 }
 
 /* stack_get_size - текущее число элементов; для NULL возвращает 0 */
-size_t stack_get_size(const stack_t* stk)
+size_t stack_get_size(const my_stack_t* stk)
 {
     return stk == NULL ? 0 : stk->size;
 }
