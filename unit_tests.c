@@ -33,6 +33,27 @@ static uint64_t number_of_checks = 0, incorrect_checks = 0;
         }                                                                        \
     } while (0)
 
+static void check_file_ptr(FILE* file_errors)
+{
+    if (file_errors == NULL)
+    { 
+        FILE* tests_errors = fopen("tests_errors.txt", "a");
+        if (tests_errors)
+        {
+            fprintf(tests_errors, "FAIL: file_errors does not open\n");
+            fclose(tests_errors);
+        }
+        abort();
+    }
+}
+
+static void check_log_buffer(FILE* file_errors, const char* expected_log, stack_t* stk)
+{
+    char buffer[200] = {0}; // Безопасный массив вместо дикого указателя!
+    fgets(buffer, 200, file_errors);
+    CHECK(!strcmp(buffer, expected_log), stk);
+}
+
 static void t_ctor_and_dtor_base_check(void)
 {
     stack_t cd_base_stk = {};
@@ -62,18 +83,69 @@ static void t_pushpoptop_check(void)
 static void t_null_stk_ctor(void)
 {
     CHECK(stack_ctor(NULL, 5 STACK_PLACE_OUT("null_stk")) == STACK_NULL_PTR, NULL);
+
     FILE* file_errors = fopen("errors.txt", "r");
-    if (file_errors == NULL)
-    { 
-        FILE* tests_errors = fopen("tests_errors.txt", "a");
-        fprintf(tests_errors, "FAIL: file_errors does not open\n");
-        fclose(tests_errors);
-        abort();
-    }
-    char* check_buffer;
-    fgets(check_buffer, 200, file_errors);
-    CHECK(!strcmp(check_buffer, "WARNING: 1\n"), NULL);
+    check_file_ptr(file_errors);
+    check_log_buffer(file_errors, "WARNING: 1\n", NULL);
     fclose(file_errors);
+}
+
+static void t_null_stk_dtor(void)
+{
+    CHECK(stack_dtor(NULL) == STACK_NULL_PTR, NULL);
+
+    FILE* file_errors = fopen("errors.txt", "r");
+    check_file_ptr(file_errors);
+    check_log_buffer(file_errors, "WARNING: 1\n", NULL);
+    fclose(file_errors);
+}
+
+static void t_null_stk_push(void)
+{
+    CHECK(stack_push(NULL, 52) == STACK_NULL_PTR, NULL);
+
+    FILE* file_errors = fopen("errors.txt", "r");
+    check_file_ptr(file_errors);
+    check_log_buffer(file_errors, "WARNING: 1\n", NULL);
+    fclose(file_errors);
+}
+
+static void t_null_stk_pop(void)
+{
+    Elem_t val = 0;
+    CHECK(stack_pop(NULL, &val) == STACK_NULL_PTR, NULL);
+
+    FILE* file_errors = fopen("errors.txt", "r");
+    check_file_ptr(file_errors);
+    check_log_buffer(file_errors, "WARNING: 1\n", NULL);
+    fclose(file_errors);
+}
+
+static void t_null_stk_top(void)
+{
+    Elem_t val = 0;
+    CHECK(stack_top(NULL, &val) == STACK_NULL_PTR, NULL);
+
+    FILE* file_errors = fopen("errors.txt", "r");
+    check_file_ptr(file_errors);
+    check_log_buffer(file_errors, "WARNING: 1\n", NULL);
+    fclose(file_errors);
+}
+
+static void t_pop_from_empty_stk(void)
+{
+    stack_t stk_underflow = {};
+    CHECK(stack_ctor(&stk_underflow, 4 STACK_PLACE_OUT("stk_underflow")) == STACK_OK, &stk_underflow);
+
+    Elem_t val = 0;
+    CHECK(stack_pop(&stk_underflow, &val) == STACK_OK, &stk_underflow);
+
+    FILE* file_errors = fopen("errors.txt", "r");
+    check_file_ptr(file_errors);
+    check_log_buffer(file_errors, "WARNING: 3\n", NULL);
+    fclose(file_errors);
+
+    CHECK(stack_dtor(&stk_underflow) == STACK_OK, &stk_underflow);
 }
 
 typedef enum 
@@ -102,8 +174,13 @@ static const test_t TESTS[] =
 // Тесты на базовое исполнение функций
     TEST(ctor_and_dtor_base_check, SURVIVE, NULL),
     TEST(pushpoptop_check,         SURVIVE, NULL),
-    TEST(null_stk_ctor,            SURVIVE, "WARNING: 1\n")
 // Тесты на отлов ошибок
+    TEST(null_stk_ctor,            SURVIVE, "WARNING: 1"),
+    TEST(null_stk_dtor,            SURVIVE, "WARNING: 1"),
+    TEST(null_stk_push,            SURVIVE, "WARNING: 1"),
+    TEST(null_stk_pop,             SURVIVE, "WARNING: 1"),
+    TEST(null_stk_top,             SURVIVE, "WARNING: 1"),
+    TEST(pop_from_empty_stk,       SURVIVE, "WARNING: 3")
 
 };
 
