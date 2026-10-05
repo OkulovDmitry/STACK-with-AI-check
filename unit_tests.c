@@ -43,6 +43,39 @@ static void t_ctor_and_dtor_base_check(void)
     CHECK(cd_base_stk.data == NULL && cd_base_stk.capacity == 0 && cd_base_stk.size == 0,   &cd_base_stk);
 }
 
+static void t_pushpoptop_check(void)
+{
+    stack_t pushpoptop_base_stk = {};
+    uint64_t size = 5;
+    CHECK(stack_ctor(&pushpoptop_base_stk, size STACK_PLACE_OUT("pushpoptop_base_stk")) == STACK_OK,        &pushpoptop_base_stk);
+    for (int i = 0; i < size; i++)
+    {
+        Elem_t check_value;
+        CHECK(stack_push(&pushpoptop_base_stk, i * 10 + 2)  == STACK_OK,    &pushpoptop_base_stk);
+        CHECK(stack_top(&pushpoptop_base_stk, &check_value) == STACK_OK,    &pushpoptop_base_stk);
+        CHECK(check_value                                   == i * 10 + 2,  &pushpoptop_base_stk);
+        CHECK(pushpoptop_base_stk.size                      == i + 1,       &pushpoptop_base_stk);
+    }
+    CHECK(stack_dtor(&pushpoptop_base_stk)                  == STACK_OK,    &pushpoptop_base_stk);
+}
+
+static void t_null_stk_ctor(void)
+{
+    CHECK(stack_ctor(NULL, 5 STACK_PLACE_OUT("null_stk")) == STACK_NULL_PTR, NULL);
+    FILE* file_errors = fopen("errors.txt", "r");
+    if (file_errors == NULL)
+    { 
+        FILE* tests_errors = fopen("tests_errors.txt", "a");
+        fprintf(tests_errors, "FAIL: file_errors does not open\n");
+        fclose(tests_errors);
+        abort();
+    }
+    char* check_buffer;
+    fgets(check_buffer, 200, file_errors);
+    CHECK(!strcmp(check_buffer, "WARNING: 1\n"), NULL);
+    fclose(file_errors);
+}
+
 typedef enum 
 {
     SURVIVE, 
@@ -59,14 +92,19 @@ typedef struct
     const char* name;
     void(*func)(void);
     expect_t expect;
+    const char* log; //то что должно записаться в errors.txt
 } test_t;
 
-#define TEST(n, exp) {#n, t_##n, exp}
+#define TEST(n, exp, log) {#n, t_##n, exp, log}
 
 static const test_t TESTS[] = 
 {
 // Тесты на базовое исполнение функций
-    TEST(ctor_and_dtor_base_check, SURVIVE)
+    TEST(ctor_and_dtor_base_check, SURVIVE, NULL),
+    TEST(pushpoptop_check,         SURVIVE, NULL),
+    TEST(null_stk_ctor,            SURVIVE, "WARNING: 1\n")
+// Тесты на отлов ошибок
+
 };
 
 #define NUMBER_OF_TESTS (sizeof(TESTS) / sizeof(TESTS[0]))
@@ -89,9 +127,11 @@ static void list_tests(void)
 {
     for (uint64_t i = 0; i < NUMBER_OF_TESTS; i++)
     {
-        printf("TEST %llu: %s: %s\n", i,
+        printf("TEST %llu: %s: %s", i,
                                       TESTS[i].name, 
-                                      TESTS[i].expect == SURVIVE ? "should survive" : "MAST crash");
+                                      TESTS[i].expect == SURVIVE ? "should survive " : "MAST crash ");
+        if (TESTS[i].log != NULL) printf("with log: %s", TESTS[i].log);
+        printf("\n");
     }   
 }
 
