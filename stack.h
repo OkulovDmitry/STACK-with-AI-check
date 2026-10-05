@@ -6,14 +6,11 @@
 #include <string.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include <time.h>
-#include <io.h> // Для _open, _read, _close
-#include <fcntl.h>    // Для флагов открытия (типа _O_RDONLY, _O_BINARY)
-#include <sys/stat.h> // для макросов прав доступа
 
 #define STKDEBUG
 #define STK_CANARY
 #define STK_HASH
+#define STK_ABORT_ON_CORRUPT
 
 #ifdef STKDEBUG
     #define STACK_PLACE_OUT(...) , __VA_ARGS__, __func__, __FILE__, __LINE__
