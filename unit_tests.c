@@ -217,7 +217,9 @@ static void t_left_data_canary_corrypted(void)
     my_stack_t stk_left_data_canary = {};
     CHECK(stack_ctor(&stk_left_data_canary, 4 STACK_PLACE_OUT("stk_left_data_canary")) == STACK_OK, &stk_left_data_canary);
 
-    stk_left_data_canary.right_canary ^= (canary_t)1 << 52;
+    unsigned char* ptr = (unsigned char*)stk_left_data_canary.data - 1;
+    *ptr = 3;
+
     Elem_t val = 0;
     stack_pop(&stk_left_data_canary, &val);
 }
@@ -229,9 +231,11 @@ static void t_left_data_canary_corrypted(void)
 static void t_right_data_canary_corrypted(void)
 {
     my_stack_t stk_right_data_canary = {};
-    CHECK(stack_ctor(&stk_right_data_canary, 4 STACK_PLACE_OUT("stk_left_data_canary")) == STACK_OK, &stk_right_data_canary);
+    CHECK(stack_ctor(&stk_right_data_canary, 4 STACK_PLACE_OUT("stk_right_data_canary")) == STACK_OK, &stk_right_data_canary);
 
-    stk_right_data_canary.right_canary ^= (canary_t)1 << 52;
+    canary_t* right_data_canary = right_canary_addr(&stk_right_data_canary);
+    *right_data_canary = 676952;
+
     Elem_t val = 0;
     stack_pop(&stk_right_data_canary, &val);
 }
@@ -274,7 +278,10 @@ static const test_t TESTS[] =
     TEST(pop_from_empty_stk,         SURVIVE, "WARNING: 3"),
     //TEST(push_to_stack_overflow,   SURVIVE, "WARNING: 4"),
 #ifdef STK_CANARY
-    TEST(left_stk_canary_corrypted,  CRASH,   "ERROR: 102\n")
+    TEST(left_stk_canary_corrypted,    CRASH,   "ERROR: 102\n"),
+    TEST(right_stk_canary_corrypted,   CRASH,   "ERROR: 103\n"),
+    TEST(left_data_canary_corrypted,   CRASH,   "ERROR: 104\n"),
+    TEST(right_data_canary_corrypted,  CRASH,   "ERROR: 105\n")
 #endif
 // Тесты на отлов ошибок CRASH
 };
