@@ -381,35 +381,46 @@ void my_perror(const char* prefix, err_t err)
 //======================================== Инициализация стека ============================================
 err_t stack_ctor(my_stack_t* stk, uint64_t initial_capacity STACK_PLACE_IN)
 {
-    if (stk == NULL) ERROR_LOGGING(STACK_NULL_PTR, stk);
+    if (stk == NULL)                           ERROR_LOGGING(STACK_NULL_PTR, stk);
     if (initial_capacity > STACK_MAX_CAPACITY) ERROR_LOGGING(STACK_OVERFLOW, stk);
+
     memset(stk, 0, sizeof *stk);
+
 #ifdef STK_CANARY
     stk->left_canary  = CANARY_VALUE;        /* канарейки структуры ставим ПОСЛЕ memset */
     stk->right_canary = CANARY_VALUE;
 #endif
 #ifdef STKDEBUG
-    stk->name = name;
-    stk->function = function;
-    stk->file = file;
-    stk->line = line;
+    stk->name         = name;
+    stk->function     = function;
+    stk->file         = file;
+    stk->line         = line;
 #endif
-    if (initial_capacity <= 0) ERROR_LOGGING(STACK_CORRUPTED, stk);
+    if (initial_capacity <= 0)                 ERROR_LOGGING(STACK_CORRUPTED, stk);
     char* temp;
 
 #ifdef STK_CANARY
-    size_t pad = data_pad(initial_capacity);
-    if ((temp = malloc(CANARY_SIZE + initial_capacity*sizeof(Elem_t) + pad + CANARY_SIZE)) == NULL) ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk);
+    size_t pad        = data_pad(initial_capacity);
+
+    if ((temp = malloc(CANARY_SIZE + 
+                       initial_capacity*sizeof(Elem_t) + 
+                       pad + 
+                       CANARY_SIZE)) == NULL)  ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk);
 #else
-    if ((temp = malloc(initial_capacity*sizeof(Elem_t))) == NULL) ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk);
+    if ((temp = malloc(initial_capacity*sizeof(Elem_t))) == NULL) 
+                                               ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk);
 #endif
-    stk->data = (Elem_t*)(temp + CANARY_SIZE);
-    stk->capacity = initial_capacity;
-    stk->size = 0;
+    stk->data         = (Elem_t*)(temp + CANARY_SIZE);
+    stk->capacity     = initial_capacity;
+    stk->size         = 0;
+
     set_data_canaries(stk);
+
     fill_poison(stk, 0);
+
     rehash(stk);
     STACK_CHECK(stk);
+
     return STACK_OK;
 }
 //===========================================================================================================
@@ -422,31 +433,37 @@ err_t stack_push(my_stack_t* stk, Elem_t value)
 
     if (stk->size == stk->capacity)
     {
-        //printf("I want resize up stack\n");
         err_t err = resize_up(stk);
-        if (err) return err;
+        if   (err)  return err;
     }
+
     stk->data[stk->size++] = value;
+
     rehash(stk);
-    //printf("I push " ELEM_FMT "\n", value);
+    
     STACK_CHECK(stk);
     return STACK_OK;
 }
 
 static err_t resize_up(my_stack_t* stk)
 {
-    //printf("I am in resize_up");
     STACK_CHECK(stk);
+
     uint64_t new_cap = 2 * stk->capacity + 1;
-    if (new_cap > STACK_MAX_CAPACITY) ERROR_LOGGING(STACK_OVERFLOW, stk);
-    char* temp = realloc((char*)stk->data - CANARY_SIZE, buf_bytes(new_cap));
-    if (temp == NULL) ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk);
-    stk->data = (Elem_t*)(temp + CANARY_SIZE);
-    //printf("I did realloc");
-    stk->capacity = new_cap;
+    if      (new_cap > STACK_MAX_CAPACITY) ERROR_LOGGING(STACK_OVERFLOW, stk);
+
+    char* temp       = realloc((char*)stk->data - CANARY_SIZE, buf_bytes(new_cap));
+    if   (temp == NULL)                    ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk);
+
+    stk->data        = (Elem_t*)(temp + CANARY_SIZE);
+    stk->capacity    = new_cap;
+
     set_data_canaries(stk);
+
     fill_poison(stk, stk->size);
+
     rehash(stk);
+    
     STACK_CHECK(stk);
     return STACK_OK;
 }
@@ -456,19 +473,22 @@ static err_t resize_up(my_stack_t* stk)
 err_t stack_pop(my_stack_t* stk, Elem_t* out_value)
 {
     STACK_CHECK(stk);
-    if (stk->size == 0) ERROR_LOGGING(STACK_UNDERFLOW, stk);
+
+    if (stk->size == 0)    ERROR_LOGGING(STACK_UNDERFLOW, stk);
     if (out_value == NULL) return STACK_NULL_OUT_PTR;
-    *out_value = stk->data[stk->size - 1];
+
+    *out_value               = stk->data[stk->size - 1];
     stk->data[stk->size - 1] = ELEM_POISON;
     stk->size--;
+
     rehash(stk);
-    //printf("I pop " ELEM_FMT "\n", *out_value);
+
     if (stk->size <= stk->capacity / 4 && stk->capacity > STACK_MIN_CAPACITY)
     {
-        //printf("I want resize down stack");
         err_t err = resize_down(stk);
-        if (err) return err;
+        if   (err)  return err;
     }
+
     STACK_CHECK(stk);
     return STACK_OK;
 }
@@ -476,16 +496,19 @@ err_t stack_pop(my_stack_t* stk, Elem_t* out_value)
 static err_t resize_down(my_stack_t* stk)
 {
     STACK_CHECK(stk);
+
     uint64_t new_cap = max(stk->capacity / 2, STACK_MIN_CAPACITY);
 
-    char* temp = realloc((char*)stk->data - CANARY_SIZE, buf_bytes(new_cap));
-    if (temp == NULL) ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk);
+    char* temp          = realloc((char*)stk->data - CANARY_SIZE, buf_bytes(new_cap));
+    if   (temp == NULL) ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk);
 
-    stk->data = (Elem_t*)(temp+CANARY_SIZE);
+    stk->data     = (Elem_t*)(temp+CANARY_SIZE);
     stk->capacity = new_cap;
+
     set_data_canaries(stk);
+
     rehash(stk);
-    //printf("I resize down\n");
+
     STACK_CHECK(stk);
     return STACK_OK;
 }
@@ -495,10 +518,12 @@ static err_t resize_down(my_stack_t* stk)
 err_t stack_top(const my_stack_t* stk, Elem_t* out_value)
 {
     STACK_CHECK(stk);
-    if (out_value == NULL) return STACK_NULL_OUT_PTR;
-    if (stk->size == 0) ERROR_LOGGING(STACK_UNDERFLOW, stk);
+
+    if (out_value == NULL) return        STACK_NULL_OUT_PTR;
+    if (stk->size == 0)    ERROR_LOGGING(STACK_UNDERFLOW, stk);
+
     *out_value = stk->data[stk->size - 1];
-    //printf("I top " ELEM_FMT "\n", *out_value);
+
     STACK_CHECK(stk);
     return STACK_OK;
 }
@@ -509,32 +534,41 @@ err_t stack_copy(my_stack_t* stk_dest, my_stack_t* stk_src STACK_PLACE_IN)
 {
     STACK_CHECK(stk_src);
     if (stk_dest == NULL) ERROR_LOGGING(STACK_NULL_PTR, stk_dest);
+
 #ifdef STKDEBUG
     stack_ctor(stk_dest, stk_src->capacity, name, function, file, line);
     STACK_CHECK(stk_dest);
 #else
     stack_ctor(stk_dest, stk_src->capacity);
 #endif
-    char* temp;
 
+    char* temp;
 #ifdef STK_CANARY
     size_t pad = data_pad(stk_src->capacity);
-    if ((temp = malloc(CANARY_SIZE + stk_src->capacity*sizeof(Elem_t) + pad + CANARY_SIZE)) == NULL) ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk_dest);
+    if ((temp  = malloc(CANARY_SIZE + 
+                       stk_src->capacity*sizeof(Elem_t) + 
+                       pad + 
+                       CANARY_SIZE)) == NULL)                       ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk_dest);
 #else
-    if ((temp = malloc(stk_src->capacity*sizeof(Elem_t))) == NULL) ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk_dest);
+    if ((temp  = malloc(stk_src->capacity*sizeof(Elem_t))) == NULL) ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk_dest);
 #endif
-    stk_dest->data = (Elem_t*)(temp + CANARY_SIZE);
-    stk_dest->capacity = stk_src->capacity;
-    stk_dest->size     = stk_src->size;
+
+    stk_dest->data                 = (Elem_t*)(temp + CANARY_SIZE);
+    stk_dest->capacity             = stk_src->capacity;
+    stk_dest->size                 = stk_src->size;
+
 #ifdef STK_CANARY
-    *(left_canary_addr(stk_dest)) = *(left_canary_addr(stk_src));
+    *(left_canary_addr(stk_dest))  = *(left_canary_addr(stk_src));
     *(right_canary_addr(stk_dest)) = *(right_canary_addr(stk_src));
 #endif
+
     for (uint64_t i = 0; i < stk_dest->capacity; i++)
     {
         stk_dest->data[i] = stk_src->data[i];
     }
+
     rehash(stk_dest);
+
     STACK_CHECK(stk_dest);
     return STACK_OK;
 }
@@ -543,11 +577,13 @@ err_t stack_copy(my_stack_t* stk_dest, my_stack_t* stk_src STACK_PLACE_IN)
 //===== Освобождает память стека и сбрасывает поля в нули =====
 err_t stack_dtor(my_stack_t* stk)
 {
-    if (stk == NULL) ERROR_LOGGING(STACK_NULL_PTR, stk);
+    if (stk == NULL)       ERROR_LOGGING(STACK_NULL_PTR, stk);
     if (stk->data != NULL) free((char*)stk->data - CANARY_SIZE);
-    stk->data = NULL;
-    stk->size = 0;
+
+    stk->data     = NULL;
+    stk->size     = 0;
     stk->capacity = 0;
+
     return STACK_OK;
 }
 //=============================================================

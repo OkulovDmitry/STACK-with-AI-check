@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <inttypes.h>
 
+//===================================== Режимы компиляции =====================================
 #define STKDEBUG
 #define STK_CANARY
 #define STK_HASH
@@ -20,7 +21,9 @@
     #define STACK_PLACE_OUT(...)
     #define STACK_PLACE_IN
 #endif
+//=============================================================================================
 
+// ======================================= Коды стековых ошибок ========================================
 typedef enum
 {
     STACK_OK = 0,
@@ -40,21 +43,29 @@ typedef enum
     STACK_DATA_HASH_MISMATCH     = 106,  /* хеш структуры или данных не сошёлся */
     STACK_STK_HASH_MISMATCH      = 107,
 } err_t;
+//========================================================================================================
 
+//===================== Макросы определения типа ошибки ==================
 #define STACK_IS_WARNING(_e) ((_e) != STACK_OK && (_e) < STACK_ERROR_BASE)
-#define STACK_IS_ERROR(_e) ((_e) >= STACK_ERROR_BASE)
+#define   STACK_IS_ERROR(_e) ((_e) >= STACK_ERROR_BASE)
+//========================================================================
 
+//========= Определение типа значений в стеке =========
 typedef double Elem_t;
 #define ELEM_FMT "%f" //format string
 #define ELEM_POISON ((Elem_t)0xDEADBEEF)
+//=====================================================
 
+//================ Тип для канарейки =================
 typedef uint64_t canary_t;
 #define CANARY_VALUE ((canary_t)0xBADC0FFEE0DDF00DULL)
+//====================================================
 
+//======= Структура стека =======
 typedef struct 
 {
 #ifdef STK_CANARY
-    canary_t left_canary;
+    canary_t    left_canary;
 #endif
 #ifdef STKDEBUG
     const char* name;
@@ -62,32 +73,39 @@ typedef struct
     const char* file;
     int line;
 #endif
-    Elem_t* data;
-    uint64_t capacity;
-    uint64_t size;
+    Elem_t*     data;
+    uint64_t    capacity;
+    uint64_t    size;
 #ifdef STK_HASH
-    uint64_t hash_data;
-    uint64_t hash_stk;
+    uint64_t    hash_data;
+    uint64_t    hash_stk;
 #endif
 #ifdef STK_CANARY
-    canary_t right_canary;
+    canary_t    right_canary;
 #endif
 } my_stack_t;
+//===============================
 
 
 
 err_t stack_ctor(my_stack_t* stk, uint64_t initial_capacity STACK_PLACE_IN);
 err_t stack_dtor(my_stack_t* stk);
 
-err_t stack_push(my_stack_t* stk, Elem_t value);
-err_t stack_pop(my_stack_t* stk, Elem_t* out_value);
-err_t stack_top(const my_stack_t* stk, Elem_t* out_value);
+err_t stack_push(my_stack_t* stk,       Elem_t  value);
+err_t stack_pop( my_stack_t* stk,       Elem_t* out_value);
+err_t stack_top( const my_stack_t* stk, Elem_t* out_value);
+
 err_t stack_copy(my_stack_t* stk_dest, my_stack_t* stk_src STACK_PLACE_IN);
 
-bool stack_is_empty(const my_stack_t* stk);
+bool stack_is_empty(  const my_stack_t* stk);
 size_t stack_get_size(const my_stack_t* stk); //подумать насчет как ловить в них ошибки и выводить
 
-void stack_dump(const char* out, const my_stack_t* stk, const char* name, int line, const char* functionm, const char* file_name);
+void stack_dump(const char* out, 
+                const my_stack_t* stk, 
+                const char* name, 
+                int line, 
+                const char* functionm, 
+                const char* file_name);
 err_t stack_verify(const my_stack_t* stk);
 
 const char* my_strerror(err_t err);
