@@ -1,27 +1,5 @@
-FAIL
+FAIL: Test find error in this stack:
 ====================================================================================================
-stack_t stk_underflow created by t_pop_from_empty_stk() at .\unit_tests.c: 138
-stack_t stk_underflow dumped from t_pop_from_empty_stk() at .\unit_tests.c: 141
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary =   0xBADC0FFEE0DDF00D
-capacity = 4
-size = 0
-stk_underflow [00000284995E82D8]
-left_data_canary =  0xBADC0FFEE0DDF00D
- [0] = 3735928559.000000
- [1] = 3735928559.000000
- [2] = 3735928559.000000
- [3] = 3735928559.000000
-right_data_canary = 0xBADC0FFEE0DDF00D
-
-expected data hash: 0x2630B3A316DC5F69
-data hash:          0x2630B3A316DC5F69
-expexted stack hash: 0x7A0EC61A77ACAE96
-stack hash:          0x7A0EC61A77ACAE96
-
-right_stk_canary = 0xBADC0FFEE0DDF00D
-====================================================================================================
-FAIL
-====================================================================================================
+my_stack_t ? dumped from check_log_buffer() at unit_tests.c: 61
 stk = NULL
 ====================================================================================================

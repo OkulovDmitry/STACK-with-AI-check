@@ -20,6 +20,7 @@
 #define STACK_MIN_CAPACITY 4
 #define DUMP_MAX_ELEMS     1000
 #define MAX_MEMORY_ON_STACK 10000
+#define STACK_MAX_CAPACITY ((uint64_t)(SIZE_MAX / 4 / sizeof(Elem_t)))
 #define SEP "====================================================================================================\n"
 
 #define HASH_START 5269 //не таблица а контроль порчи => насрать
@@ -246,6 +247,15 @@ err_t stack_verify(const my_stack_t* stk)
 /* ========================================================================== */
 /* ========================================================================== */
 
+static bool stack_data_trusted(const my_stack_t* stk)
+{
+    if (stk->data == NULL) return false;
+#ifdef STK_HASH
+    if (!is_stk_hash_valid(stk)) return false;
+#endif
+    return stk->size <= stk->capacity && stk->capacity <= STACK_MAX_CAPACITY;
+}
+
 //========================= Печатает подробное состояние стека в произвольный поток ================================
 void dump_to(FILE* file, const my_stack_t* stk, const char* name, int line, const char* function, const char* file_name)
 {
@@ -253,6 +263,7 @@ void dump_to(FILE* file, const my_stack_t* stk, const char* name, int line, cons
 
     if (stk == NULL)
     {
+        fprintf(file, "my_stack_t %s dumped from %s() at %s: %i\n", STR(name),      STR(function),      STR(file_name), line);
         fprintf(file, "stk = NULL\n");
         fprintf(file, SEP);
         return;
@@ -270,7 +281,8 @@ void dump_to(FILE* file, const my_stack_t* stk, const char* name, int line, cons
     fprintf(file, "size = %"     PRIu64 "\n", stk->size);
     fprintf(file, "%s [%p]\n",         STR(name), (void*)stk->data);
 
-    if (stk->data != NULL)
+    const bool data_trusted = stack_data_trusted(stk);
+    if (data_trusted)
     {
 #ifdef STK_CANARY
         fprintf(file, "left_data_canary =  0x%016llX\n",  (unsigned long long)(*left_canary_addr(stk)));
@@ -287,14 +299,11 @@ void dump_to(FILE* file, const my_stack_t* stk, const char* name, int line, cons
     else fprintf(file, "data not printed: structure is not trusted\n");
 
 #ifdef STK_HASH
-    fprintf(file, "\nexpected data hash: 0x%016" PRIu64 "\n",  stk->hash_data);
-    fprintf(file, "data hash:          0x%016" PRIu64 "\n",  calc_hash_data(stk));
-
-    if (stk->data != NULL && is_stk_hash_valid(stk))
-    {
-        fprintf(file, "expexted stack hash: 0x%016" PRIu64 "\n", stk->hash_stk);
-        fprintf(file, "stack hash:          0x%016" PRIu64 "\n\n", calc_hash_stk(stk));
-    }
+    fprintf(file, "\nexpected data hash:  0x%016" PRIX64 "\n", stk->hash_data);
+    if (data_trusted) fprintf(file, "data hash:           0x%016" PRIX64 "\n", calc_hash_data(stk));
+    else              fprintf(file, "data hash:           not computed (structure is not trusted)\n");
+    fprintf(file, "expected stack hash: 0x%016" PRIX64 "\n", stk->hash_stk);
+    fprintf(file, "stack hash:          0x%016" PRIX64 "\n\n", calc_hash_stk(stk));
 #endif
 #ifdef STK_CANARY
     fprintf(file, "right_stk_canary = 0x%016llX\n",      (unsigned long long)(stk->right_canary));
@@ -373,6 +382,7 @@ void my_perror(const char* prefix, err_t err)
 err_t stack_ctor(my_stack_t* stk, uint64_t initial_capacity STACK_PLACE_IN)
 {
     if (stk == NULL) ERROR_LOGGING(STACK_NULL_PTR, stk);
+    if (initial_capacity > STACK_MAX_CAPACITY) ERROR_LOGGING(STACK_OVERFLOW, stk);
     memset(stk, 0, sizeof *stk);
 #ifdef STK_CANARY
     stk->left_canary  = CANARY_VALUE;        /* канарейки структуры ставим ПОСЛЕ memset */
@@ -428,6 +438,7 @@ static err_t resize_up(my_stack_t* stk)
     //printf("I am in resize_up");
     STACK_CHECK(stk);
     uint64_t new_cap = 2 * stk->capacity + 1;
+    if (new_cap > STACK_MAX_CAPACITY) ERROR_LOGGING(STACK_OVERFLOW, stk);
     char* temp = realloc((char*)stk->data - CANARY_SIZE, buf_bytes(new_cap));
     if (temp == NULL) ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk);
     stk->data = (Elem_t*)(temp + CANARY_SIZE);

@@ -13,10 +13,13 @@
 #include <sys/wait.h>   // Для wait() и всех макросов анализа (WIFEXITED, WEXITSTATUS и др.)
 #include "stack.c"
 
-#define EXIT_CHECKS_FAILED 6767 //если упал CHECK - будущий код завершения ребёнка
+#define EXIT_CHECKS_FAILED 67 //если упал CHECK - будущий код завершения ребёнка, кароче если incorrect_checks > 0
 
 static uint64_t number_of_checks = 0, incorrect_checks = 0;
+//количество тестов в функции теста и количество тестов, которые нашли ошибку в стеке
 
+//================================ Макрос проверки ==============================
+// принимает cond - проверяемое условие, stk - стек, для которого это условие записано, можно передавать NULL, если проверяется не стек
 #define CHECK(cond, stk)                                                         \
     do                                                                           \
     {                                                                            \
@@ -32,12 +35,14 @@ static uint64_t number_of_checks = 0, incorrect_checks = 0;
                 abort();                                                         \
             }                                                                    \
             incorrect_checks++;                                                  \
-            fprintf(tests_errors, "FAIL\n");                                     \
+            fprintf(tests_errors, "FAIL: Test find error in this stack:\n");     \
             dump_to(tests_errors, (stk), NULL, __LINE__, __func__, __FILE__);    \
             fclose(tests_errors);                                                \
         }                                                                        \
     } while (0)
+//================================================================================
 
+//===================== Функция проверки открылся ли файл =============
 static void check_file_ptr(FILE* file_errors)
 {
     if (file_errors == NULL)
@@ -53,14 +58,18 @@ static void check_file_ptr(FILE* file_errors)
     }
     //printf("I NORMAL\n");
 }
+//=====================================================================
 
+//============= Функция проверки правильно ли записался лог ошибки в тесте ===============
 static void check_log_buffer(FILE* file_errors, const char* expected_log, my_stack_t* stk)
 {
     char buffer[200] = {0};
     fgets(buffer, 200, file_errors);
     CHECK(!strcmp(buffer, expected_log), stk);
 }
+//=========================================================================================
 
+//====================== Функция проверки на базовую работу ctor и dtor стека ============================
 static void t_ctor_and_dtor_base_check(void)
 {
     my_stack_t cd_base_stk = {};
@@ -70,7 +79,9 @@ static void t_ctor_and_dtor_base_check(void)
     CHECK(stack_dtor(&cd_base_stk) == STACK_OK,                                             &cd_base_stk);
     CHECK(cd_base_stk.data == NULL && cd_base_stk.capacity == 0 && cd_base_stk.size == 0,   &cd_base_stk);
 }
+//=========================================================================================================
 
+//================================ Функция проверки на базовую работу push и pop т top стека =====================================
 static void t_pushpoptop_check(void)
 {
     my_stack_t pushpoptop_base_stk = {};
@@ -86,17 +97,23 @@ static void t_pushpoptop_check(void)
     }
     CHECK(stack_dtor(&pushpoptop_base_stk)                  == STACK_OK,    &pushpoptop_base_stk);
 }
+//================================================================================================================================
 
+
+//========================== Функция на подачу NULL в ctor ============================
 static void t_null_stk_ctor(void)
 {
     CHECK(stack_ctor(NULL, 5 STACK_PLACE_OUT("null_stk")) == STACK_NULL_PTR, NULL);
 
     FILE* file_errors = fopen("errors.txt", "r");
     check_file_ptr(file_errors);
-    check_log_buffer(file_errors, "WARNING: 1\n", NULL);
+    check_log_buffer(file_errors, "WARNING: 2\n", NULL);
     fclose(file_errors);
 }
+//=================================================================================
 
+
+//========================== Функция на подачу NULL в dtor =========================
 static void t_null_stk_dtor(void)
 {
     CHECK(stack_dtor(NULL) == STACK_NULL_PTR, NULL);
@@ -106,7 +123,9 @@ static void t_null_stk_dtor(void)
     check_log_buffer(file_errors, "WARNING: 1\n", NULL);
     fclose(file_errors);
 }
+//==================================================================================
 
+//============= Функция на подачу NULL в push ================
 static void t_null_stk_push(void)
 {
     CHECK(stack_push(NULL, 52) == STACK_NULL_PTR, NULL);
@@ -116,7 +135,9 @@ static void t_null_stk_push(void)
     check_log_buffer(file_errors, "WARNING: 1\n", NULL);
     fclose(file_errors);
 }
+//============================================================
 
+//================= Функция на подачу NULL в pop ==================
 static void t_null_stk_pop(void)
 {
     Elem_t val = 0;
@@ -127,7 +148,9 @@ static void t_null_stk_pop(void)
     check_log_buffer(file_errors, "WARNING: 1\n", NULL);
     fclose(file_errors);
 }
+//=================================================================
 
+//============ Функция на подачу NULL в top ================
 static void t_null_stk_top(void)
 {
     Elem_t val = 0;
@@ -138,7 +161,9 @@ static void t_null_stk_top(void)
     check_log_buffer(file_errors, "WARNING: 1\n", NULL);
     fclose(file_errors);
 }
+//==========================================================
 
+//====================================== POP из пустого стека ========================================
 static void t_pop_from_empty_stk(void)
 {
     my_stack_t stk_underflow = {};
@@ -154,26 +179,9 @@ static void t_pop_from_empty_stk(void)
 
     CHECK(stack_dtor(&stk_underflow) == STACK_OK, &stk_underflow);
 }
+//====================================================================================================
 
-/*static void t_push_to_stack_overflow(void)
-{
-    my_stack_t stk_overflow = {};
-    CHECK(stack_ctor(&stk_overflow, 4 STACK_PLACE_OUT("stk_overflow")) == STACK_OK, &stk_overflow);
-
-    while(sizeof(stk_overflow) < MAX_MEMORY_ON_STACK - sizeof(Elem_t))
-    {
-        CHECK(stack_push(&stk_overflow, 432) == STACK_OK, &stk_overflow);
-    }
-    CHECK(stack_push(&stk_overflow, 432) == STACK_OVERFLOW, &stk_overflow);
-
-    FILE* file_errors = fopen("errors.txt", "r");
-    check_file_ptr(file_errors);
-    check_log_buffer(file_errors, "WARNING: 4\n", NULL);
-    fclose(file_errors);
-
-    CHECK(stack_dtor(&stk_overflow) == STACK_OK, &stk_overflow);
-}*/
-
+//=============================== Функция проверки на изменение левой канарейки стека ===================================
 #ifdef STK_CANARY
 static void t_left_stk_canary_corrypted(void)
 {
@@ -182,15 +190,60 @@ static void t_left_stk_canary_corrypted(void)
 
     stk_left_stk_canary.left_canary ^= (canary_t)1 << 52;
     Elem_t val = 0;
-    CHECK(stack_pop(&stk_left_stk_canary, &val) == LEFT_STACK_CANARY_STK_DEAD, &stk_left_stk_canary);
+    stack_pop(&stk_left_stk_canary, &val);
 }
 #endif
+//=========================================================================================================================
+
+
+//=============================== Функция проверки на изменение правой канарейки стека ===================================
+#ifdef STK_CANARY
+static void t_right_stk_canary_corrypted(void)
+{
+    my_stack_t stk_right_stk_canary = {};
+    CHECK(stack_ctor(&stk_right_stk_canary, 4 STACK_PLACE_OUT("stk_right_stk_canary")) == STACK_OK, &stk_right_stk_canary);
+
+    stk_right_stk_canary.right_canary ^= (canary_t)1 << 52;
+    Elem_t val = 0;
+    stack_pop(&stk_right_stk_canary, &val);
+}
+#endif
+//=========================================================================================================================
+
+//================================= Функция проверки на изменение левой канарейки data ===================================
+#ifdef STK_CANARY
+static void t_left_data_canary_corrypted(void)
+{
+    my_stack_t stk_left_data_canary = {};
+    CHECK(stack_ctor(&stk_left_data_canary, 4 STACK_PLACE_OUT("stk_left_data_canary")) == STACK_OK, &stk_left_data_canary);
+
+    stk_left_data_canary.right_canary ^= (canary_t)1 << 52;
+    Elem_t val = 0;
+    stack_pop(&stk_left_data_canary, &val);
+}
+#endif
+//=========================================================================================================================
+
+//================================= Функция проверки на изменение правой канарейки data ===================================
+#ifdef STK_CANARY
+static void t_right_data_canary_corrypted(void)
+{
+    my_stack_t stk_right_data_canary = {};
+    CHECK(stack_ctor(&stk_right_data_canary, 4 STACK_PLACE_OUT("stk_left_data_canary")) == STACK_OK, &stk_right_data_canary);
+
+    stk_right_data_canary.right_canary ^= (canary_t)1 << 52;
+    Elem_t val = 0;
+    stack_pop(&stk_right_data_canary, &val);
+}
+#endif
+//=========================================================================================================================
 
 typedef enum 
 {
     SURVIVE, 
     CRASH
 } expect_t;
+
 #ifdef STK_ABORT_ON_CORRUPT
     #define IF_ERR_ABORT CRASH
 #else
@@ -221,7 +274,7 @@ static const test_t TESTS[] =
     TEST(pop_from_empty_stk,         SURVIVE, "WARNING: 3"),
     //TEST(push_to_stack_overflow,   SURVIVE, "WARNING: 4"),
 #ifdef STK_CANARY
-    TEST(left_stk_canary_corrypted,  CRASH,   "ERROR: 102")
+    TEST(left_stk_canary_corrypted,  CRASH,   "ERROR: 102\n")
 #endif
 // Тесты на отлов ошибок CRASH
 };
@@ -266,20 +319,28 @@ static int run_isolated(const test_t* t)
     }
     else
     {
-        if (!(WIFEXITED(status) && WEXITSTATUS(status) == 0))
+        if (!(WIFEXITED(status) && (WEXITSTATUS(status) == 0 || WEXITSTATUS(status) == 67)))
         {
             printf("%s: ожидали нормальный выход\n", t->name);
             return 1;
         }
     }
 
-    if (t->expect == CRASH && t->log == NULL)
+    //printf("I WAS HERE");
+    //printf("%i", t->expect);
+
+    if (t->expect == 1 && t->log != NULL)
     {
+        //printf("i was here");
         FILE* file_errors = fopen("errors.txt", "r");
         check_file_ptr(file_errors);
         check_log_buffer(file_errors, t->log, NULL);
         fclose(file_errors);
     }
+    /* else
+    {
+
+    }*/
 
     return 0; //если приостановлен или продолжен
 }

@@ -1,28 +1,17 @@
 WARNING: 1
 ====================================================================================================
-stk = NULL
-====================================================================================================
-WARNING: 1
-====================================================================================================
-stk = NULL
-====================================================================================================
-WARNING: 1
-====================================================================================================
-stk = NULL
-====================================================================================================
-WARNING: 1
-====================================================================================================
+my_stack_t ? dumped from stack_ctor() at stack.c: 384
 stk = NULL
 ====================================================================================================
 WARNING: 3
 ====================================================================================================
-stack_t stk_underflow created by t_pop_from_empty_stk() at .\unit_tests.c: 138
-stack_t stk_underflow dumped from stack_pop() at .\stack.c: 443
+my_stack_t stk1 created by main() at main.c: 14
+my_stack_t stk1 dumped from stack_pop() at stack.c: 459
 expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary =   0xBADC0FFEE0DDF00D
 capacity = 4
 size = 0
-stk_underflow [00000284995E82D8]
+stk1 [0x5761c787e018]
 left_data_canary =  0xBADC0FFEE0DDF00D
  [0] = 3735928559.000000
  [1] = 3735928559.000000
@@ -30,10 +19,33 @@ left_data_canary =  0xBADC0FFEE0DDF00D
  [3] = 3735928559.000000
 right_data_canary = 0xBADC0FFEE0DDF00D
 
-expected data hash: 0x2630B3A316DC5F69
-data hash:          0x2630B3A316DC5F69
-expexted stack hash: 0x7A0EC61A77ACAE96
-stack hash:          0x7A0EC61A77ACAE96
+expected data hash:  0x2630B3A316DC5F69
+data hash:           0x2630B3A316DC5F69
+expected stack hash: 0xA5893CD54F4FDAFD
+stack hash:          0xA5893CD54F4FDAFD
+
+right_stk_canary = 0xBADC0FFEE0DDF00D
+====================================================================================================
+WARNING: 3
+====================================================================================================
+my_stack_t stk1 created by main() at main.c: 14
+my_stack_t stk1 dumped from stack_pop() at stack.c: 459
+expected canaries = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
+capacity = 4
+size = 0
+stk1 [0x5f42feed8018]
+left_data_canary =  0xBADC0FFEE0DDF00D
+ [0] = 3735928559.000000
+ [1] = 3735928559.000000
+ [2] = 3735928559.000000
+ [3] = 3735928559.000000
+right_data_canary = 0xBADC0FFEE0DDF00D
+
+expected data hash:  0x2630B3A316DC5F69
+data hash:           0x2630B3A316DC5F69
+expected stack hash: 0x3487AA948380DAC3
+stack hash:          0x3487AA948380DAC3
 
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================
