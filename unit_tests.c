@@ -91,7 +91,7 @@ static void t_pushpoptop_check(void)
     {
         Elem_t check_value;
         CHECK(stack_push(&pushpoptop_base_stk, i * 10 + 2)  == STACK_OK,    &pushpoptop_base_stk);
-        CHECK(my_stack_top(&pushpoptop_base_stk, &check_value) == STACK_OK,    &pushpoptop_base_stk);
+        CHECK(stack_top(&pushpoptop_base_stk, &check_value) == STACK_OK,    &pushpoptop_base_stk);
         CHECK(check_value                                   == i * 10 + 2,  &pushpoptop_base_stk);
         CHECK(pushpoptop_base_stk.size                      == i + 1,       &pushpoptop_base_stk);
     }
@@ -107,7 +107,7 @@ static void t_null_stk_ctor(void)
 
     FILE* file_errors = fopen("errors.txt", "r");
     check_file_ptr(file_errors);
-    check_log_buffer(file_errors, "WARNING: 2\n", NULL);
+    check_log_buffer(file_errors, "WARNING: 1\n", NULL);
     fclose(file_errors);
 }
 //=================================================================================
@@ -154,7 +154,7 @@ static void t_null_stk_pop(void)
 static void t_null_stk_top(void)
 {
     Elem_t val = 0;
-    CHECK(my_stack_top(NULL, &val) == STACK_NULL_PTR, NULL);
+    CHECK(stack_top(NULL, &val) == STACK_NULL_PTR, NULL);
 
     FILE* file_errors = fopen("errors.txt", "r");
     check_file_ptr(file_errors);
@@ -181,8 +181,8 @@ static void t_pop_from_empty_stk(void)
 }
 //====================================================================================================
 
-//=============================== Функция проверки на изменение левой канарейки стека ===================================
 #ifdef STK_CANARY
+//=============================== Функция проверки на изменение левой канарейки стека ===================================
 static void t_left_stk_canary_corrypted(void)
 {
     my_stack_t stk_left_stk_canary = {};
@@ -192,12 +192,10 @@ static void t_left_stk_canary_corrypted(void)
     Elem_t val = 0;
     stack_pop(&stk_left_stk_canary, &val);
 }
-#endif
 //=========================================================================================================================
 
 
 //=============================== Функция проверки на изменение правой канарейки стека ===================================
-#ifdef STK_CANARY
 static void t_right_stk_canary_corrypted(void)
 {
     my_stack_t stk_right_stk_canary = {};
@@ -207,11 +205,9 @@ static void t_right_stk_canary_corrypted(void)
     Elem_t val = 0;
     stack_pop(&stk_right_stk_canary, &val);
 }
-#endif
 //=========================================================================================================================
 
 //================================= Функция проверки на изменение левой канарейки data ===================================
-#ifdef STK_CANARY
 static void t_left_data_canary_corrypted(void)
 {
     my_stack_t stk_left_data_canary = {};
@@ -223,11 +219,9 @@ static void t_left_data_canary_corrypted(void)
     Elem_t val = 0;
     stack_pop(&stk_left_data_canary, &val);
 }
-#endif
 //=========================================================================================================================
 
 //================================= Функция проверки на изменение правой канарейки data ===================================
-#ifdef STK_CANARY
 static void t_right_data_canary_corrypted(void)
 {
     my_stack_t stk_right_data_canary = {};
@@ -239,8 +233,46 @@ static void t_right_data_canary_corrypted(void)
     Elem_t val = 0;
     stack_pop(&stk_right_data_canary, &val);
 }
-#endif
 //=========================================================================================================================
+#endif
+
+#ifdef STK_HASH
+// =================================== Функция проверки на изменение data хэша =====================================================
+static void t_data_hash_corrypted(void)
+{
+    my_stack_t stk_data_hash_corrypted = {};
+    CHECK(stack_ctor(&stk_data_hash_corrypted, 15 STACK_PLACE_OUT("stk_data_hash_corrypted")) == STACK_OK, &stk_data_hash_corrypted);
+
+    for (int i = 0; i < 16; i++)
+    {
+        CHECK(stack_push(&stk_data_hash_corrypted, i * 10 + 3) == STACK_OK, &stk_data_hash_corrypted);
+    }
+
+    stk_data_hash_corrypted.data[6] = 233234;
+
+    Elem_t val = 0;
+    CHECK(stack_pop(&stk_data_hash_corrypted, &val) == STACK_DATA_HASH_MISMATCH, &stk_data_hash_corrypted);
+}
+//===================================================================================================================================
+
+// =================================== Функция проверки на изменение стек хэша =====================================================
+static void t_stack_hash_corrypted(void)
+{
+    my_stack_t stk_stack_hash_corrypted = {};
+    CHECK(stack_ctor(&stk_stack_hash_corrypted, 15 STACK_PLACE_OUT("stk_stack_hash_corrypted")) == STACK_OK, &stk_stack_hash_corrypted);
+
+    for (int i = 0; i < 16; i++)
+    {
+        CHECK(stack_push(&stk_stack_hash_corrypted, i * 10 + 3) == STACK_OK, &stk_stack_hash_corrypted);
+    }
+
+    stk_stack_hash_corrypted.size = 233234;
+
+    Elem_t val = 0;
+    CHECK(stack_pop(&stk_stack_hash_corrypted, &val) == STACK_STK_HASH_MISMATCH, &stk_stack_hash_corrypted);
+}
+//===================================================================================================================================
+#endif
 
 typedef enum 
 {
@@ -267,21 +299,23 @@ typedef struct
 static const test_t TESTS[] = 
 {
 // Тесты на базовое исполнение функций
-    TEST(ctor_and_dtor_base_check, SURVIVE, NULL),
-    TEST(pushpoptop_check,         SURVIVE, NULL),
+    TEST(ctor_and_dtor_base_check,     SURVIVE, "\n"),
+    TEST(pushpoptop_check,             SURVIVE, "\n"),
 // Тесты на отлов ошибок WARNING
-    TEST(null_stk_ctor,              SURVIVE, "WARNING: 1"),
-    TEST(null_stk_dtor,              SURVIVE, "WARNING: 1"),
-    TEST(null_stk_push,              SURVIVE, "WARNING: 1"),
-    TEST(null_stk_pop,               SURVIVE, "WARNING: 1"),
-    TEST(null_stk_top,               SURVIVE, "WARNING: 1"),
-    TEST(pop_from_empty_stk,         SURVIVE, "WARNING: 3"),
-    //TEST(push_to_stack_overflow,   SURVIVE, "WARNING: 4"),
+    TEST(null_stk_ctor,                SURVIVE, "WARNING: 1\n"),
+    TEST(null_stk_dtor,                SURVIVE, "WARNING: 1\n"),
+    TEST(null_stk_push,                SURVIVE, "WARNING: 1\n"),
+    TEST(null_stk_pop,                 SURVIVE, "WARNING: 1\n"),
+    TEST(null_stk_top,                 SURVIVE, "WARNING: 1\n"),
+    TEST(pop_from_empty_stk,           SURVIVE, "WARNING: 3\n"),
+    //TEST(push_to_stack_overflow,     SURVIVE, "WARNING: 4\n"),
 #ifdef STK_CANARY
     TEST(left_stk_canary_corrypted,    CRASH,   "ERROR: 102\n"),
     TEST(right_stk_canary_corrypted,   CRASH,   "ERROR: 103\n"),
     TEST(left_data_canary_corrypted,   CRASH,   "ERROR: 104\n"),
-    TEST(right_data_canary_corrypted,  CRASH,   "ERROR: 105\n")
+    TEST(right_data_canary_corrypted,  CRASH,   "ERROR: 105\n"),
+    TEST(data_hash_corrypted,          CRASH,   "ERROR: 106\n"),
+    TEST(stack_hash_corrypted,         CRASH,   "ERROR: 107\n")
 #endif
 // Тесты на отлов ошибок CRASH
 };
@@ -370,8 +404,8 @@ static void list_tests(void)
         printf("TEST %" PRIu64 ": %s: %s", i,
                                       TESTS[i].name, 
                                       TESTS[i].expect == SURVIVE ? "should survive " : "MAST crash ");
-        if (TESTS[i].log != NULL) printf("with log: %s", TESTS[i].log);
-        printf("\n");
+        if (strcmp(TESTS[i].log, "\n") != 0) { printf("with log: %s", TESTS[i].log); }
+        else                                 { printf("%s",           TESTS[i].log); }
     }   
 }
 

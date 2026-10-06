@@ -492,7 +492,7 @@ static err_t resize_down(my_stack_t* stk)
 //==========================================================================================================================================================
 
 //========== Читает верхний элемент не удаляя его ============
-err_t my_stack_top(const my_stack_t* stk, Elem_t* out_value)
+err_t stack_top(const my_stack_t* stk, Elem_t* out_value)
 {
     STACK_CHECK(stk);
     if (out_value == NULL) return STACK_NULL_OUT_PTR;
@@ -503,6 +503,42 @@ err_t my_stack_top(const my_stack_t* stk, Elem_t* out_value)
     return STACK_OK;
 }
 //============================================================
+
+//==================== Копирует стек полностью в другой стек =======================
+err_t stack_copy(my_stack_t* stk_dest, my_stack_t* stk_src STACK_PLACE_IN)
+{
+    STACK_CHECK(stk_src);
+    if (stk_dest == NULL) ERROR_LOGGING(STACK_NULL_PTR, stk_dest);
+#ifdef STKDEBUG
+    stack_ctor(stk_dest, stk_src->capacity, name, function, file, line);
+    STACK_CHECK(stk_dest);
+#else
+    stack_ctor(stk_dest, stk_src->capacity);
+#endif
+    char* temp;
+
+#ifdef STK_CANARY
+    size_t pad = data_pad(stk_src->capacity);
+    if ((temp = malloc(CANARY_SIZE + stk_src->capacity*sizeof(Elem_t) + pad + CANARY_SIZE)) == NULL) ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk_dest);
+#else
+    if ((temp = malloc(stk_src->capacity*sizeof(Elem_t))) == NULL) ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk_dest);
+#endif
+    stk_dest->data = (Elem_t*)(temp + CANARY_SIZE);
+    stk_dest->capacity = stk_src->capacity;
+    stk_dest->size     = stk_src->size;
+#ifdef STK_CANARY
+    *(left_canary_addr(stk_dest)) = *(left_canary_addr(stk_src));
+    *(right_canary_addr(stk_dest)) = *(right_canary_addr(stk_src));
+#endif
+    for (uint64_t i = 0; i < stk_dest->capacity; i++)
+    {
+        stk_dest->data[i] = stk_src->data[i];
+    }
+    rehash(stk_dest);
+    STACK_CHECK(stk_dest);
+    return STACK_OK;
+}
+//==================================================================================
 
 //===== Освобождает память стека и сбрасывает поля в нули =====
 err_t stack_dtor(my_stack_t* stk)

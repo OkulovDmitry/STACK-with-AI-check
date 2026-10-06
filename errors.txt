@@ -1,23 +1,18 @@
-ERROR: 105
+ERROR: 107
 ====================================================================================================
-my_stack_t stk_right_data_canary created by t_right_data_canary_corrypted() at unit_tests.c: 234
-my_stack_t stk_right_data_canary dumped from stack_pop() at stack.c: 458
+my_stack_t stk_stack_hash_corrypted created by t_stack_hash_corrypted() at unit_tests.c: 262
+my_stack_t stk_stack_hash_corrypted dumped from stack_pop() at stack.c: 458
 expected canaries = 0xBADC0FFEE0DDF00D
 left_stk_canary =   0xBADC0FFEE0DDF00D
-capacity = 4
-size = 0
-stk_right_data_canary [0x5f7ec6060018]
-left_data_canary =  0xBADC0FFEE0DDF00D
- [0] = 3735928559.000000
- [1] = 3735928559.000000
- [2] = 3735928559.000000
- [3] = 3735928559.000000
-right_data_canary = 0x00000000000A5458
+capacity = 31
+size = 233234
+stk_stack_hash_corrypted [0x6188d776b018]
+data not printed: structure is not trusted
 
-expected data hash:  0x2630B3A316DC5F69
-data hash:           0x2630B3A316DC5F69
-expected stack hash: 0x88FBDC2F4E2BA280
-stack hash:          0x88FBDC2F4E2BA280
+expected data hash:  0x930448BCD9F2CC6B
+data hash:           not computed (structure is not trusted)
+expected stack hash: 0x5CA0167A379EDA5F
+stack hash:          0x3143DDA336B021D3
 
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================

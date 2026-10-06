@@ -81,7 +81,8 @@ err_t stack_dtor(my_stack_t* stk);
 
 err_t stack_push(my_stack_t* stk, Elem_t value);
 err_t stack_pop(my_stack_t* stk, Elem_t* out_value);
-err_t my_stack_top(const my_stack_t* stk, Elem_t* out_value);
+err_t stack_top(const my_stack_t* stk, Elem_t* out_value);
+err_t stack_copy(my_stack_t* stk_dest, my_stack_t* stk_src STACK_PLACE_IN);
 
 bool stack_is_empty(const my_stack_t* stk);
 size_t stack_get_size(const my_stack_t* stk); //подумать насчет как ловить в них ошибки и выводить
