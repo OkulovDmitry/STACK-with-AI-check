@@ -1,35 +1,25 @@
-WARNING: 3
+ERROR: 107
 ====================================================================================================
-my_stack_t stk1 created by main() at main.c: 14
-my_stack_t stk1 dumped from stack_pop() at stack.c: 499
+my_stack_t stk_stack_hash_corrypted created by t_stack_hash_corrypted() at unit_tests.c: 326
+my_stack_t stk_stack_hash_corrypted dumped from stack_pop() at stack.c: 494
 
 STACK CANARIES NORMAL
 expected canaries = 0xBADC0FFEE0DDF00D
 
 left_stk_canary   = 0xBADC0FFEE0DDF00D
 
-capacity = 4
-size = 0
-stk1 [0x5dc0a1a42018]
+capacity = 31
+size = 233234
+stk_stack_hash_corrypted [0x64b9abfbb908]
+data not printed: structure is not trusted
 
-DATA CANARIES NORMAL
+Expected data hash:   0x930448BCD9F2CC6B
+Calculated data hash: not computed (structure is not trusted)
 
-left_data_canary =  0xBADC0FFEE0DDF00D
- [0] = ELEM_POISON
- [1] = ELEM_POISON
- [2] = ELEM_POISON
- [3] = ELEM_POISON
-right_data_canary = 0xBADC0FFEE0DDF00D
+Expected   stack hash: 0x8CD5614C4EC4F1E5
+Calculated stack hash: 0x617928754DD63959
 
-Expected data hash:   0x2630B3A316DC5F69
-Calculated data hash: 0x2630B3A316DC5F69
-
-DATA HASH MATCH
-
-Expected   stack hash: 0x88DCFDBD46A8C6D9
-Calculated stack hash: 0x88DCFDBD46A8C6D9
-
-STACK HASH MATCH
+STACK HASH MISMATCH
 
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================

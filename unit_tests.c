@@ -21,7 +21,7 @@ static uint64_t number_of_checks = 0,
 //===================================================================================
 
 //================================ Макрос проверки ==============================
-// принимает cond - проверяемое условие, stk - стек, для которого это условие записано, можно передавать NULL, если проверяется не стек
+// принимает cond - проверяемое условие, stk - стек, для которого это условие записано, можно передавать NULL, если стек NULL
 #define CHECK(cond, stk)                                                         \
     do                                                                           \
     {                                                                            \
@@ -108,7 +108,6 @@ static void t_pushpoptop_check(void)
 }
 //================================================================================================================================
 
-
 //========================== Функция на подачу NULL в ctor ============================
 static void t_null_stk_ctor(void)
 {
@@ -122,7 +121,6 @@ static void t_null_stk_ctor(void)
     fclose(file_errors);
 }
 //=================================================================================
-
 
 //========================== Функция на подачу NULL в dtor =========================
 static void t_null_stk_dtor(void)
@@ -199,6 +197,51 @@ static void t_pop_from_empty_stk(void)
     CHECK(stack_dtor(&stk_underflow) == STACK_OK, &stk_underflow);
 }
 //====================================================================================================
+
+//========================== Функция на бесконечный push ============================
+static void t_push_to_stack_overflow(void)
+{
+    my_stack_t stk  = {0};
+    CHECK(stack_ctor(&stk, 4 STACK_PLACE_OUT("stk_push_to_stack_overflow")) == STACK_OK, &stk);
+
+    err_t err       = STACK_OK;
+    uint64_t pushed = 0;
+    while (err == STACK_OK && pushed <= 2*STACK_MAX_CAPACITY)
+    {
+        err = stack_push(&stk, 123);
+        if (err == STACK_OK) pushed++;
+    }
+
+    CHECK(err                 == STACK_OVERFLOW, &stk);
+    CHECK(stk.size            == pushed,         &stk);
+
+    CHECK(stack_verify(&stk)  == STACK_OK,       &stk);
+
+    FILE* file_errors = fopen("errors.log", "r");
+    check_file_ptr(file_errors);
+
+    check_log_buffer(file_errors, "WARNING: 4\n", &stk);
+
+    CHECK(stack_dtor(&stk)    == STACK_OK,       &stk);
+
+}
+//=====================================================================================
+
+//========================== Функция на передачу огромного capacity ============================
+static void t_ctor_huge_capacity(void)
+{
+    my_stack_t stk = {0};
+
+    CHECK(stack_ctor(&stk, UINT64_MAX STACK_PLACE_OUT("stk_ctor_huge_capacity")) == STACK_OVERFLOW, &stk);
+
+    FILE* file_errors = fopen("errors.log", "r");
+    check_file_ptr(file_errors);
+
+    check_log_buffer(file_errors, "WARNING: 4\n", &stk);
+
+    CHECK(stack_dtor(&stk)                                                       == STACK_OK,       &stk); 
+}
+//==============================================================================================
 
 #ifdef STK_CANARY
 //=============================== Функция проверки на изменение левой канарейки стека ===================================
@@ -329,26 +372,27 @@ typedef struct
 static const test_t TESTS[] = 
 {
 // Тесты на базовое исполнение функций
-    TEST(ctor_and_dtor_base_check,     SURVIVE, "\n"),
-    TEST(pushpoptop_check,             SURVIVE, "\n"),
-// Тесты на отлов ошибок WARNING
-    TEST(null_stk_ctor,                SURVIVE, "WARNING: 1\n"),
-    TEST(null_stk_dtor,                SURVIVE, "WARNING: 1\n"),
-    TEST(null_stk_push,                SURVIVE, "WARNING: 1\n"),
-    TEST(null_stk_pop,                 SURVIVE, "WARNING: 1\n"),
-    TEST(null_stk_top,                 SURVIVE, "WARNING: 1\n"),
-    TEST(pop_from_empty_stk,           SURVIVE, "WARNING: 3\n"),
-    //TEST(push_to_stack_overflow,     SURVIVE, "WARNING: 4\n"),
+    TEST(ctor_and_dtor_base_check,     SURVIVE, "\n"),                   //0
+    TEST(pushpoptop_check,             SURVIVE, "\n"),                   //1
+// Тесты на отлов ошибок WARNING                                         //2
+    TEST(null_stk_ctor,                SURVIVE, "WARNING: 1\n"),         //3
+    TEST(null_stk_dtor,                SURVIVE, "WARNING: 1\n"),         //4
+    TEST(null_stk_push,                SURVIVE, "WARNING: 1\n"),         //5
+    TEST(null_stk_pop,                 SURVIVE, "WARNING: 1\n"),         //6
+    TEST(null_stk_top,                 SURVIVE, "WARNING: 1\n"),         //7
+    TEST(pop_from_empty_stk,           SURVIVE, "WARNING: 3\n"),         //8
+    TEST(push_to_stack_overflow,       SURVIVE, "WARNING: 4\n"),         //9
+    TEST(ctor_huge_capacity,           SURVIVE, "WARNING: 4\n"),         //10
 // Тесты на отлов ошибок CRASH
 #ifdef STK_CANARY
-    TEST(left_stk_canary_corrypted,    IF_ERR_ABORT,   "ERROR: 102\n"),
-    TEST(right_stk_canary_corrypted,   IF_ERR_ABORT,   "ERROR: 103\n"),
-    TEST(left_data_canary_corrypted,   IF_ERR_ABORT,   "ERROR: 104\n"),
-    TEST(right_data_canary_corrypted,  IF_ERR_ABORT,   "ERROR: 105\n"),
+    TEST(left_stk_canary_corrypted,    IF_ERR_ABORT,   "ERROR: 102\n"),  //11
+    TEST(right_stk_canary_corrypted,   IF_ERR_ABORT,   "ERROR: 103\n"),  //12
+    TEST(left_data_canary_corrypted,   IF_ERR_ABORT,   "ERROR: 104\n"),  //13
+    TEST(right_data_canary_corrypted,  IF_ERR_ABORT,   "ERROR: 105\n"),  //14
 #endif
 #ifdef STK_HASH
-    TEST(data_hash_corrypted,          IF_ERR_ABORT,   "ERROR: 106\n"),
-    TEST(stack_hash_corrypted,         IF_ERR_ABORT,   "ERROR: 107\n")
+    TEST(data_hash_corrypted,          IF_ERR_ABORT,   "ERROR: 106\n"),  //15
+    TEST(stack_hash_corrypted,         IF_ERR_ABORT,   "ERROR: 107\n")   //16
 #endif
 };
 //===============================================================
@@ -411,7 +455,6 @@ static int run_isolated(const test_t* t)
             return 1;
         }
     }
-    //printf("I WAS HERE");
 
     if (t->expect == CRASH && t->log != NULL)
     {
@@ -441,7 +484,6 @@ static int run_one(const char* name)
     if (t == NULL) { printf("NO THAT TEST: %s\n", name); return 2; }
 
     remove("errors.log");
-    remove("tests_errors.txt");
 
     return run_isolated(t);
 }
@@ -485,9 +527,9 @@ static void list_tests(void)
 
 int main(int argc, char* argv[])
 {
-    if (argc >= 3 && !strcmp(argv[1], "--one"))       return run_one(argv[2]);
-    if (argc >= 2 && !strcmp(argv[1], "--run_all"))   return run_all_tests();
-    if (argc >= 2 && !strcmp(argv[1], "--list"))    {        list_tests();    return 0; }
+    if (argc >= 3 && !strcmp(argv[1], "--one"))     {    if (run_one(argv[2]) == 0) printf("TEST_OK\n"); }
+    if (argc >= 2 && !strcmp(argv[1], "--run_all")) { return run_all_tests(); }
+    if (argc >= 2 && !strcmp(argv[1], "--list"))    {        list_tests(); return 0; }
 
 
     return 0;
