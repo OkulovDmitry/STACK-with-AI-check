@@ -1,18 +1,300 @@
-ERROR: 107
+WARNING: 3
 ====================================================================================================
-my_stack_t stk_stack_hash_corrypted created by t_stack_hash_corrypted() at unit_tests.c: 283
-my_stack_t stk_stack_hash_corrypted dumped from stack_pop() at stack.c: 480
-expected canaries = 0xBADC0FFEE0DDF00D
-left_stk_canary =   0xBADC0FFEE0DDF00D
-capacity = 31
-size = 233234
-stk_stack_hash_corrypted [0x5bac9cd31af8]
-data not printed: structure is not trusted
+my_stack_t stk1 created by main() at main.c: 14
+my_stack_t stk1 dumped from stack_pop() at stack.c: 499
 
-expected data hash:  0x930448BCD9F2CC6B
-data hash:           not computed (structure is not trusted)
-expected stack hash: 0xDBD76D9C4C9C6509
-stack hash:          0xB07B34C54BADAC7D
+STACK CANARIES NORMAL
+
+expected canaries = 0xBADC0FFEE0DDF00D
+left_stk_canary   = 0xBADC0FFEE0DDF00D
+capacity = 4
+size = 0
+stk1 [0x5c3bd7678018]
+DATA CANARIES NIRMAL
+
+left_data_canary =  0xBADC0FFEE0DDF00D
+ [0] = 0x3735928559.000000
+ [1] = 0x3735928559.000000
+ [2] = 0x3735928559.000000
+ [3] = 0x3735928559.000000
+right_data_canary = 0xBADC0FFEE0DDF00D
+
+Expected data hash:  0x2630B3A316DC5F69
+DATA HASH MATCH
+Calculated data hash: 0x2630B3A316DC5F69
+
+STACK HASH MATCH
+Expected   stack hash: 0xA5145E18B24AC26C
+Calcukated stack hash: 0xA5145E18B24AC26C
+
+right_stk_canary = 0xBADC0FFEE0DDF00D
+====================================================================================================
+WARNING: 3
+====================================================================================================
+my_stack_t stk1 created by main() at main.c: 14
+my_stack_t stk1 dumped from stack_pop() at stack.c: 499
+
+STACK CANARIES NORMAL
+expected canaries = 0xBADC0FFEE0DDF00D
+
+left_stk_canary   = 0xBADC0FFEE0DDF00D
+capacity = 4
+size = 0
+stk1 [0x5e9ab99a2018]
+DATA CANARIES NIRMAL
+
+left_data_canary =  0xBADC0FFEE0DDF00D
+ [0] = 0x3735928559.000000
+ [1] = 0x3735928559.000000
+ [2] = 0x3735928559.000000
+ [3] = 0x3735928559.000000
+right_data_canary = 0xBADC0FFEE0DDF00D
+
+Expected data hash:  0x2630B3A316DC5F69
+DATA HASH MATCH
+Calculated data hash: 0x2630B3A316DC5F69
+
+STACK HASH MATCH
+Expected   stack hash: 0x12B4AE6D099A7582
+Calcukated stack hash: 0x12B4AE6D099A7582
+
+right_stk_canary = 0xBADC0FFEE0DDF00D
+====================================================================================================
+WARNING: 3
+====================================================================================================
+my_stack_t stk1 created by main() at main.c: 14
+my_stack_t stk1 dumped from stack_pop() at stack.c: 499
+
+STACK CANARIES NORMAL
+expected canaries = 0xBADC0FFEE0DDF00D
+
+left_stk_canary   = 0xBADC0FFEE0DDF00D
+capacity = 4
+size = 0
+stk1 [0x6183d3f97018]
+
+DATA CANARIES NORMAL
+
+left_data_canary =  0xBADC0FFEE0DDF00D
+ [0] = 0x3735928559.000000
+ [1] = 0x3735928559.000000
+ [2] = 0x3735928559.000000
+ [3] = 0x3735928559.000000
+right_data_canary = 0xBADC0FFEE0DDF00D
+
+Expected data hash:  0x2630B3A316DC5F69
+DATA HASH MATCH
+Calculated data hash: 0x2630B3A316DC5F69
+
+STACK HASH MATCH
+Expected   stack hash: 0x880D28204441A1B7
+Calcukated stack hash: 0x880D28204441A1B7
+
+right_stk_canary = 0xBADC0FFEE0DDF00D
+====================================================================================================
+WARNING: 3
+====================================================================================================
+my_stack_t stk1 created by main() at main.c: 14
+my_stack_t stk1 dumped from stack_pop() at stack.c: 499
+
+STACK CANARIES NORMAL
+expected canaries = 0xBADC0FFEE0DDF00D
+
+left_stk_canary   = 0xBADC0FFEE0DDF00D
+capacity = 4
+size = 0
+stk1 [0x5c16c61a2018]
+
+DATA CANARIES NORMAL
+
+left_data_canary =  0xBADC0FFEE0DDF00D
+ [0] = 0x3735928559.000000
+ [1] = 0x3735928559.000000
+ [2] = 0x3735928559.000000
+ [3] = 0x3735928559.000000
+right_data_canary = 0xBADC0FFEE0DDF00D
+
+Expected data hash:  0x2630B3A316DC5F69
+Calculated data hash: 0x2630B3A316DC5F69
+
+DATA HASH MATCH
+
+Expected   stack hash: 0x9A2BC4869CF5BE09
+Calcukated stack hash: 0x9A2BC4869CF5BE09
+
+STACK HASH MATCH
+
+right_stk_canary = 0xBADC0FFEE0DDF00D
+====================================================================================================
+WARNING: 3
+====================================================================================================
+my_stack_t stk1 created by main() at main.c: 14
+my_stack_t stk1 dumped from stack_pop() at stack.c: 499
+
+STACK CANARIES NORMAL
+expected canaries = 0xBADC0FFEE0DDF00D
+
+left_stk_canary   = 0xBADC0FFEE0DDF00D
+capacity = 4
+size = 0
+stk1 [0x6141b885e018]
+
+DATA CANARIES NORMAL
+
+left_data_canary =  0xBADC0FFEE0DDF00D
+ [0] = 0x3735928559.000000
+ [1] = 0x3735928559.000000
+ [2] = 0x3735928559.000000
+ [3] = 0x3735928559.000000
+right_data_canary = 0xBADC0FFEE0DDF00D
+
+Expected data hash:  0x2630B3A316DC5F69
+Calculated data hash: 0x2630B3A316DC5F69
+
+DATA HASH MATCH
+
+Expected   stack hash: 0x5F591EB2FFB55396
+Calcukated stack hash: 0x5F591EB2FFB55396
+
+STACK HASH MATCH
+
+right_stk_canary = 0xBADC0FFEE0DDF00D
+====================================================================================================
+WARNING: 3
+====================================================================================================
+my_stack_t stk1 created by main() at main.c: 14
+my_stack_t stk1 dumped from stack_pop() at stack.c: 499
+
+STACK CANARIES NORMAL
+expected canaries = 0xBADC0FFEE0DDF00D
+
+left_stk_canary   = 0xBADC0FFEE0DDF00D
+capacity = 4
+size = 0
+stk1 [0x5c10fcef0018]
+
+DATA CANARIES NORMAL
+
+left_data_canary =  0xBADC0FFEE0DDF00D
+ [0] = ELEM_POISON
+ [1] = ELEM_POISON
+ [2] = ELEM_POISON
+ [3] = ELEM_POISON
+right_data_canary = 0xBADC0FFEE0DDF00D
+
+Expected data hash:  0x2630B3A316DC5F69
+Calculated data hash: 0x2630B3A316DC5F69
+
+DATA HASH MATCH
+
+Expected   stack hash: 0x9BD98F4EEB30B3CE
+Calculated stack hash: 0x9BD98F4EEB30B3CE
+
+STACK HASH MATCH
+
+right_stk_canary = 0xBADC0FFEE0DDF00D
+====================================================================================================
+WARNING: 3
+====================================================================================================
+my_stack_t stk1 created by main() at main.c: 14
+my_stack_t stk1 dumped from stack_pop() at stack.c: 499
+
+STACK CANARIES NORMAL
+expected canaries = 0xBADC0FFEE0DDF00D
+
+left_stk_canary   = 0xBADC0FFEE0DDF00D
+capacity = 4
+size = 0
+stk1 [0x5f0ac9a32018]
+
+DATA CANARIES NORMAL
+
+left_data_canary =  0xBADC0FFEE0DDF00D
+ [0] = ELEM_POISON
+ [1] = ELEM_POISON
+ [2] = ELEM_POISON
+ [3] = ELEM_POISON
+right_data_canary = 0xBADC0FFEE0DDF00D
+
+Expected data hash:  0x2630B3A316DC5F69
+Calculated data hash: 0x2630B3A316DC5F69
+
+DATA HASH MATCH
+
+Expected   stack hash: 0x973CFEF96D76D6EC
+Calculated stack hash: 0x973CFEF96D76D6EC
+
+STACK HASH MATCH
+
+right_stk_canary = 0xBADC0FFEE0DDF00D
+====================================================================================================
+WARNING: 3
+====================================================================================================
+my_stack_t stk1 created by main() at main.c: 14
+my_stack_t stk1 dumped from stack_pop() at stack.c: 499
+
+STACK CANARIES NORMAL
+expected canaries = 0xBADC0FFEE0DDF00D
+
+left_stk_canary   = 0xBADC0FFEE0DDF00D
+
+capacity = 4
+size = 0
+stk1 [0x5c83ef4ea018]
+
+DATA CANARIES NORMAL
+
+left_data_canary =  0xBADC0FFEE0DDF00D
+ [0] = ELEM_POISON
+ [1] = ELEM_POISON
+ [2] = ELEM_POISON
+ [3] = ELEM_POISON
+right_data_canary = 0xBADC0FFEE0DDF00D
+
+Expected data hash:  0x2630B3A316DC5F69
+Calculated data hash: 0x2630B3A316DC5F69
+
+DATA HASH MATCH
+
+Expected   stack hash: 0xE9D7B4741968AF33
+Calculated stack hash: 0xE9D7B4741968AF33
+
+STACK HASH MATCH
+
+right_stk_canary = 0xBADC0FFEE0DDF00D
+====================================================================================================
+WARNING: 3
+====================================================================================================
+my_stack_t stk1 created by main() at main.c: 14
+my_stack_t stk1 dumped from stack_pop() at stack.c: 499
+
+STACK CANARIES NORMAL
+expected canaries = 0xBADC0FFEE0DDF00D
+
+left_stk_canary   = 0xBADC0FFEE0DDF00D
+
+capacity = 4
+size = 0
+stk1 [0x6041cc696018]
+
+DATA CANARIES NORMAL
+
+left_data_canary =  0xBADC0FFEE0DDF00D
+ [0] = ELEM_POISON
+ [1] = ELEM_POISON
+ [2] = ELEM_POISON
+ [3] = ELEM_POISON
+right_data_canary = 0xBADC0FFEE0DDF00D
+
+Expected data hash:   0x2630B3A316DC5F69
+Calculated data hash: 0x2630B3A316DC5F69
+
+DATA HASH MATCH
+
+Expected   stack hash: 0xDBCA44D5773CBC4D
+Calculated stack hash: 0xDBCA44D5773CBC4D
+
+STACK HASH MATCH
 
 right_stk_canary = 0xBADC0FFEE0DDF00D
 ====================================================================================================

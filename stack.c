@@ -276,23 +276,30 @@ void dump_to(FILE* file, const my_stack_t* stk, const char* name, int line, cons
     fprintf(file, "my_stack_t %s created by %s() at %s: %i\n",  STR(stk->name), STR(stk->function), STR(stk->file), stk->line);
 #endif
     fprintf(file, "my_stack_t %s dumped from %s() at %s: %i\n", STR(name),      STR(function),      STR(file_name), line);
+    fprintf(file, "\n");
 #ifdef STK_CANARY
-    fprintf(file, "expected canaries = 0x%016llX\n",     (unsigned long long)CANARY_VALUE);
-    fprintf(file, "left_stk_canary =   0x%016llX\n",       (unsigned long long)stk->left_canary);
+    if (stk->left_canary != CANARY_VALUE || stk->right_canary != CANARY_VALUE) fprintf(file, "STACK CANARIES DIE\n");
+    else                                                                       fprintf(file, "STACK CANARIES NORMAL\n");
+
+    fprintf(file, "expected canaries = 0x%016llX\n\n",     (unsigned long long)CANARY_VALUE);
+    fprintf(file, "left_stk_canary   = 0x%016llX\n\n",     (unsigned long long)stk->left_canary);
 #endif
     fprintf(file, "capacity = %" PRIu64 "\n", stk->capacity);
     fprintf(file, "size = %"     PRIu64 "\n", stk->size);
-    fprintf(file, "%s [%p]\n",         STR(name), (void*)stk->data);
+    fprintf(file, "%s [%p]\n",                STR(name), (void*)stk->data);
 
     const bool data_trusted = stack_data_trusted(stk);
     if (data_trusted)
     {
 #ifdef STK_CANARY
+        if (*left_canary_addr(stk) != CANARY_VALUE || *right_canary_addr(stk) != CANARY_VALUE) fprintf(file, "\nDATA CANARIES DIE\n\n");
+        else                                                                                   fprintf(file, "\nDATA CANARIES NORMAL\n\n");
+
         fprintf(file, "left_data_canary =  0x%016llX\n",  (unsigned long long)(*left_canary_addr(stk)));
 #endif
-        for (size_t i = 0; i < (min(stk->capacity, DUMP_MAX_ELEMS)); i++)
+        for (uint64_t i = 0; i < (min(stk->capacity, DUMP_MAX_ELEMS)); i++)
         {
-            if (stk->data[i] == ELEM_POISON) fprintf(file, "%c[%" PRIu64 "] = " ELEM_FMT "\n", i < stk->size ? '*' : ' ', i, stk->data[i]);
+            if (stk->data[i] == ELEM_POISON) fprintf(file, "%c[%" PRIu64 "] = %s\n",           i < stk->size ? '*' : ' ', i, "ELEM_POISON");
             else                             fprintf(file, "%c[%" PRIu64 "] = " ELEM_FMT "\n", i < stk->size ? '*' : ' ', i, stk->data[i]);
         }
 #ifdef STK_CANARY
@@ -302,11 +309,21 @@ void dump_to(FILE* file, const my_stack_t* stk, const char* name, int line, cons
     else fprintf(file, "data not printed: structure is not trusted\n");
 
 #ifdef STK_HASH
-    fprintf(file, "\nexpected data hash:  0x%016" PRIX64 "\n", stk->hash_data);
-    if (data_trusted) fprintf(file, "data hash:           0x%016" PRIX64 "\n", calc_hash_data(stk));
-    else              fprintf(file, "data hash:           not computed (structure is not trusted)\n");
-    fprintf(file, "expected stack hash: 0x%016" PRIX64 "\n", stk->hash_stk);
-    fprintf(file, "stack hash:          0x%016" PRIX64 "\n\n", calc_hash_stk(stk));
+          fprintf(file, "\nExpected data hash:   0x%016" PRIX64 "\n", stk->hash_data);
+    if (data_trusted)
+    {
+          fprintf(file, "Calculated data hash: 0x%016" PRIX64 "\n\n", calc_hash_data(stk));
+
+          if (!(is_data_hash_valid(stk))) fprintf(file, "DATA HASH MISMATCH\n\n");
+          else                            fprintf(file, "DATA HASH MATCH\n\n");
+    }
+    else  fprintf(file, "Calculated data hash: not computed (structure is not trusted)\n\n");
+
+    fprintf(file, "Expected   stack hash: 0x%016" PRIX64 "\n", stk->hash_stk);
+    fprintf(file, "Calculated stack hash: 0x%016" PRIX64 "\n\n", calc_hash_stk(stk));
+
+    if (!(is_stk_hash_valid(stk))) fprintf(file, "STACK HASH MISMATCH\n\n");
+    else                           fprintf(file, "STACK HASH MATCH\n\n");
 #endif
 #ifdef STK_CANARY
     fprintf(file, "right_stk_canary = 0x%016llX\n",      (unsigned long long)(stk->right_canary));
@@ -400,8 +417,8 @@ err_t stack_ctor(my_stack_t* stk, uint64_t initial_capacity STACK_PLACE_IN)
     stk->file         = file;
     stk->line         = line;
 #endif
-    if (initial_capacity < 0)                 ERROR_LOGGING(STACK_CORRUPTED, stk); //пока что нельзя передать отрицательный => условие бесполезно,  рассмотреть в будущем
-    else if (initial_capacity == 0)           initial_capacity = STACK_MIN_CAPACITY;
+    //if (initial_capacity < 0)                 ERROR_LOGGING(STACK_CORRUPTED, stk); //пока что нельзя передать отрицательный => условие бесполезно,  рассмотреть в будущем
+    if (initial_capacity == 0)           initial_capacity = STACK_MIN_CAPACITY;
     char* temp;
 
 #ifdef STK_CANARY

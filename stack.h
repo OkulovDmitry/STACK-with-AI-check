@@ -58,7 +58,7 @@ typedef double Elem_t;
 
 //================ Тип для канарейки =================
 typedef uint64_t canary_t;
-#define CANARY_VALUE ((canary_t)0xBADC0FFEE0DDF00DULL)
+#define CANARY_VALUE ((canary_t)0xBADC0FFEE0DDF00DULL) //ULL в конце обязательно - беззнаковое целое
 //====================================================
 
 //======= Структура стека =======

@@ -342,7 +342,7 @@ static const test_t TESTS[] =
 // Тесты на отлов ошибок CRASH
 #ifdef STK_CANARY
     TEST(left_stk_canary_corrypted,    CRASH,   "ERROR: 102\n"),
-    TEST(right_stk_canary_corrypted,   CRASH,   "ERROR: 102\n"),
+    TEST(right_stk_canary_corrypted,   CRASH,   "ERROR: 103\n"),
     TEST(left_data_canary_corrypted,   CRASH,   "ERROR: 104\n"),
     TEST(right_data_canary_corrypted,  CRASH,   "ERROR: 105\n"),
 #endif
