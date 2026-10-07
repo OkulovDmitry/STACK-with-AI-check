@@ -16,17 +16,14 @@
 #define min(a, b) (((a) < (b)) ? (a) : (b))
 #define STR(s) ((s) ? (s) : "?")    /* чтобы printf не падал на NULL */
 
-#define ERRORS_FILE        "errors.log"
-#define STACK_MIN_CAPACITY 4
-#define DUMP_MAX_ELEMS     1000
-#define MAX_MEMORY_ON_STACK 10000
-#define STACK_MAX_CAPACITY ((uint64_t)(SIZE_MAX / 4 / sizeof(Elem_t)))
-#define SEP "====================================================================================================\n"
+#define ERRORS_FILE         "errors.log"
+#define STACK_MIN_CAPACITY  4
+#define DUMP_MAX_ELEMS      1000
+#define MAX_MEMORY_ON_STACK 30000
+#define STACK_MAX_CAPACITY  ((uint64_t)(MAX_MEMORY_ON_STACK / sizeof(Elem_t)))
+#define SEP                 "====================================================================================================\n"
 
-
-//режимы из ifdef поменять на ifndef, чтобы можно было контролить из командной строки
-
-#define HASH_START 5269 //не таблица а контроль порчи => насрать
+#define HASH_START 5269
 
 #ifdef STK_CANARY
     #define CANARY_SIZE sizeof(canary_t)
@@ -218,7 +215,7 @@ err_t stack_verify(const my_stack_t* stk)
     if (stk->size > stk->capacity) return STACK_CORRUPTED;
 
 #ifdef STKDEBUG 
-    if (sizeof(stk->capacity * sizeof(Elem_t)) > MAX_MEMORY_ON_STACK) return STACK_OVERFLOW;
+    if (stk->capacity * sizeof(Elem_t) > MAX_MEMORY_ON_STACK) return STACK_OVERFLOW;
 #endif
 
 #ifdef STK_CANARY
@@ -390,7 +387,7 @@ void my_perror(const char* prefix, err_t err)
 /* ========================================================================== */
 /* ========================================================================== */
 /* ========================================================================== */
-/* 5. Публичный API                                                           */
+/* 5. Публичный API (+resize_up и resize_down для удобства чтения)            */
 /* ========================================================================== */
 /* ========================================================================== */
 /* ========================================================================== */
@@ -559,10 +556,8 @@ err_t stack_copy(my_stack_t* stk_dest, my_stack_t* stk_src STACK_PLACE_IN)
 
 #ifdef STKDEBUG
     err_t err = stack_ctor(stk_dest, stk_src->capacity, name, function, file, line);
-    STACK_CHECK(stk_dest);
 #else
     err_t err = stack_ctor(stk_dest, stk_src->capacity);
-    STACK_CHECK(stk_dest);
 #endif
     if (err) return err;
 
@@ -589,16 +584,3 @@ err_t stack_dtor(my_stack_t* stk)
     return STACK_OK;
 }
 //=============================================================
-
-/* stack_is_empty - true, если стек пуст; NULL считается пустым стеком */
-bool stack_is_empty(const my_stack_t* stk)
-{
-    return stk == NULL || stk->size == 0;
-}
-
-/* stack_get_size - текущее число элементов; для NULL возвращает 0 */
-size_t stack_get_size(const my_stack_t* stk)
-{
-    return stk == NULL ? 0 : stk->size;
-}
-

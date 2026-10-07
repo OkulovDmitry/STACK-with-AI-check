@@ -485,9 +485,9 @@ static void list_tests(void)
 
 int main(int argc, char* argv[])
 {
-    if (argc >= 3 && !strcmp(argv[1], "--one"))                        return run_one(argv[2]);
-    if (argc >= 2 && !strcmp(argv[1], "--run_all")) { run_all_tests(); return 0; }
-    if (argc >= 2 && !strcmp(argv[1], "--list"))    { list_tests();    return 0; }
+    if (argc >= 3 && !strcmp(argv[1], "--one"))       return run_one(argv[2]);
+    if (argc >= 2 && !strcmp(argv[1], "--run_all"))   return run_all_tests();
+    if (argc >= 2 && !strcmp(argv[1], "--list"))    {        list_tests();    return 0; }
 
 
     return 0;
