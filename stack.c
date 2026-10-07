@@ -400,7 +400,7 @@ err_t stack_ctor(my_stack_t* stk, uint64_t initial_capacity STACK_PLACE_IN)
     stk->file         = file;
     stk->line         = line;
 #endif
-    if (initial_capacity < 0)                 ERROR_LOGGING(STACK_CORRUPTED, stk);
+    if (initial_capacity < 0)                 ERROR_LOGGING(STACK_CORRUPTED, stk); //пока что нельзя передать отрицательный => условие бесполезно,  рассмотреть в будущем
     else if (initial_capacity == 0)           initial_capacity = STACK_MIN_CAPACITY;
     char* temp;
 

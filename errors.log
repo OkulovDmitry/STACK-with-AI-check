@@ -1,0 +1,18 @@
+ERROR: 107
+====================================================================================================
+my_stack_t stk_stack_hash_corrypted created by t_stack_hash_corrypted() at unit_tests.c: 283
+my_stack_t stk_stack_hash_corrypted dumped from stack_pop() at stack.c: 480
+expected canaries = 0xBADC0FFEE0DDF00D
+left_stk_canary =   0xBADC0FFEE0DDF00D
+capacity = 31
+size = 233234
+stk_stack_hash_corrypted [0x5bac9cd31af8]
+data not printed: structure is not trusted
+
+expected data hash:  0x930448BCD9F2CC6B
+data hash:           not computed (structure is not trusted)
+expected stack hash: 0xDBD76D9C4C9C6509
+stack hash:          0xB07B34C54BADAC7D
+
+right_stk_canary = 0xBADC0FFEE0DDF00D
+====================================================================================================

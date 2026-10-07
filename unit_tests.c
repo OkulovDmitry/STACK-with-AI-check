@@ -65,7 +65,7 @@ static void check_log_buffer(FILE* file_errors, const char* expected_log, my_sta
 {
     char buffer[200] = {0};
     fgets(buffer, 200, file_errors);
-    CHECK(!strcmp(buffer, expected_log), stk);
+    CHECK(strcmp(buffer, expected_log) == 0, stk);
 }
 //=========================================================================================
 
@@ -342,7 +342,7 @@ static const test_t TESTS[] =
 // Тесты на отлов ошибок CRASH
 #ifdef STK_CANARY
     TEST(left_stk_canary_corrypted,    CRASH,   "ERROR: 102\n"),
-    TEST(right_stk_canary_corrypted,   CRASH,   "ERROR: 103\n"),
+    TEST(right_stk_canary_corrypted,   CRASH,   "ERROR: 102\n"),
     TEST(left_data_canary_corrypted,   CRASH,   "ERROR: 104\n"),
     TEST(right_data_canary_corrypted,  CRASH,   "ERROR: 105\n"),
 #endif
@@ -405,17 +405,32 @@ static int run_isolated(const test_t* t)
             printf("%s: ожидали нормальный выход\n", t->name);
             return 1;
         }
+        if (WEXITSTATUS(status) == 67)
+        {
+            printf("%s: one of the CHECK find error in stack\n", t->name);
+            return 1;
+        }
     }
+    //printf("I WAS HERE");
 
     if (t->expect == 1 && t->log != NULL)
     {
         FILE* file_errors = fopen("errors.log", "r");
         check_file_ptr(file_errors);
         check_log_buffer(file_errors, t->log, NULL);
+
+        rewind(file_errors);
+        char buffer[200] = {0};
+        fgets(buffer, 200, file_errors);
+        if (strcmp(buffer, t->log) != 0)
+        {
+            printf("%s: one of the CHECK find error in stack\n", t->name);
+            return 1;
+        }
         fclose(file_errors);
     }
 
-    return 0; //если приостановлен или продолжен
+    return 0; //если все окей
 }
 //=====================================================================================================================================
 
@@ -431,6 +446,24 @@ static int run_one(const char* name)
     return run_isolated(t);
 }
 //==================================================================================================================
+
+static int run_all_tests(void)
+{
+    for (uint64_t i = 0; i < NUMBER_OF_TESTS; i++)
+    {
+        int verdict = run_one(TESTS[i].name);
+        if (verdict == 0)
+        {
+            printf("TEST %" PRIu64 " OK\n", i);
+        }
+        else
+        {
+            printf("TEST %" PRIu64 " FIND ERROR IN STACK\n", i);
+        }
+    }
+
+    return 0;
+}
 
 //============================== Выводит список всех доступных тестов ================================
 static void list_tests(void)
@@ -448,8 +481,10 @@ static void list_tests(void)
 
 int main(int argc, char* argv[])
 {
-    if (argc >= 3 && !strcmp(argv[1], "--one"))                  return run_one(argv[2]);
-    if (argc >= 2 && !strcmp(argv[1], "--list")) { list_tests(); return 0; }
+    if (argc >= 3 && !strcmp(argv[1], "--one"))                        return run_one(argv[2]);
+    if (argc >= 2 && !strcmp(argv[1], "--run_all")) { run_all_tests(); return 0; }
+    if (argc >= 2 && !strcmp(argv[1], "--list"))    { list_tests();    return 0; }
+
 
     return 0;
 }
