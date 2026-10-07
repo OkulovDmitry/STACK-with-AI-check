@@ -86,8 +86,6 @@ typedef struct
 } my_stack_t;
 //===============================
 
-
-
 err_t stack_ctor(my_stack_t* stk, uint64_t initial_capacity STACK_PLACE_IN);
 err_t stack_dtor(my_stack_t* stk);
 
@@ -96,9 +94,6 @@ err_t stack_pop( my_stack_t* stk,       Elem_t* out_value);
 err_t stack_top( const my_stack_t* stk, Elem_t* out_value);
 
 err_t stack_copy(my_stack_t* stk_dest, my_stack_t* stk_src STACK_PLACE_IN);
-
-bool stack_is_empty(  const my_stack_t* stk);
-size_t stack_get_size(const my_stack_t* stk); //подумать насчет как ловить в них ошибки и выводить
 
 void stack_dump(const char* out, 
                 const my_stack_t* stk, 
@@ -110,9 +105,5 @@ err_t stack_verify(const my_stack_t* stk);
 
 const char* my_strerror(err_t err);
 void my_perror(const char* prefix, err_t err);
-
-#define STACK_CTOR(stk, cap)   stack_ctor(&(stk), (cap) STACK_PLACE_OUT(#stk))
-#define STACK_DUMP(file, stk)  stack_dump((file), &(stk), #stk, __LINE__, __func__, __FILE__)
-//додумать эти обертки
 
 #endif

@@ -31,7 +31,7 @@ static uint64_t number_of_checks = 0,
             FILE* tests_errors = fopen("tests_errors.txt", "a");                 \
             if (  tests_errors == NULL)                                          \
             {                                                                    \
-                FILE*   file_errors = fopen("errors.txt", "a");                  \
+                FILE*   file_errors = fopen("errors.log", "a");                  \
                 fprintf(file_errors, "FAIL: test_errors does not open\n");       \
                 fclose( file_errors);                                            \
                 abort();                                                         \
@@ -114,7 +114,7 @@ static void t_null_stk_ctor(void)
 {
     CHECK(stack_ctor(NULL, 5 STACK_PLACE_OUT("null_stk")) == STACK_NULL_PTR, NULL);
 
-    FILE* file_errors = fopen("errors.txt", "r");
+    FILE* file_errors = fopen("errors.log", "r");
     check_file_ptr(file_errors);
 
     check_log_buffer(file_errors, "WARNING: 1\n", NULL);
@@ -129,7 +129,7 @@ static void t_null_stk_dtor(void)
 {
     CHECK(stack_dtor(NULL) == STACK_NULL_PTR, NULL);
 
-    FILE* file_errors = fopen("errors.txt", "r");
+    FILE* file_errors = fopen("errors.log", "r");
     check_file_ptr(file_errors);
 
     check_log_buffer(file_errors, "WARNING: 1\n", NULL);
@@ -143,7 +143,7 @@ static void t_null_stk_push(void)
 {
     CHECK(stack_push(NULL, 52) == STACK_NULL_PTR, NULL);
 
-    FILE* file_errors = fopen("errors.txt", "r");
+    FILE* file_errors = fopen("errors.log", "r");
     check_file_ptr(file_errors);
     check_log_buffer(file_errors, "WARNING: 1\n", NULL);
     fclose(file_errors);
@@ -156,7 +156,7 @@ static void t_null_stk_pop(void)
     Elem_t val = 0;
     CHECK(stack_pop(NULL, &val) == STACK_NULL_PTR, NULL);
 
-    FILE* file_errors = fopen("errors.txt", "r");
+    FILE* file_errors = fopen("errors.log", "r");
     check_file_ptr(file_errors);
 
     check_log_buffer(file_errors, "WARNING: 1\n", NULL);
@@ -171,7 +171,7 @@ static void t_null_stk_top(void)
     Elem_t val = 0;
     CHECK(stack_top(NULL, &val) == STACK_NULL_PTR, NULL);
 
-    FILE* file_errors = fopen("errors.txt", "r");
+    FILE* file_errors = fopen("errors.log", "r");
     check_file_ptr(file_errors);
 
     check_log_buffer(file_errors, "WARNING: 1\n", NULL);
@@ -189,7 +189,7 @@ static void t_pop_from_empty_stk(void)
     Elem_t val = 0;
     CHECK(stack_pop(&stk_underflow, &val) == STACK_UNDERFLOW, &stk_underflow);
 
-    FILE* file_errors = fopen("errors.txt", "r");
+    FILE* file_errors = fopen("errors.log", "r");
     check_file_ptr(file_errors);
 
     check_log_buffer(file_errors, "WARNING: 3\n", NULL);
@@ -317,7 +317,7 @@ typedef struct
     const char* name;  // имя теста
     void(*func)(void); // функция тестирующая стек
     expect_t expect;   // Ожидаемый тип выхода стека
-    const char* log;   // то что должно записаться в errors.txt
+    const char* log;   // то что должно записаться в errors.log
 } test_t;
 //============================================================
 
@@ -409,7 +409,7 @@ static int run_isolated(const test_t* t)
 
     if (t->expect == 1 && t->log != NULL)
     {
-        FILE* file_errors = fopen("errors.txt", "r");
+        FILE* file_errors = fopen("errors.log", "r");
         check_file_ptr(file_errors);
         check_log_buffer(file_errors, t->log, NULL);
         fclose(file_errors);
@@ -425,7 +425,7 @@ static int run_one(const char* name)
     const test_t* t = find_test(name);
     if (t == NULL) { printf("NO THAT TEST: %s\n", name); return 2; }
 
-    remove("errors.txt");
+    remove("errors.log");
     remove("tests_errors.txt");
 
     return run_isolated(t);

@@ -16,12 +16,15 @@
 #define min(a, b) (((a) < (b)) ? (a) : (b))
 #define STR(s) ((s) ? (s) : "?")    /* чтобы printf не падал на NULL */
 
-#define ERRORS_FILE        "errors.txt"
+#define ERRORS_FILE        "errors.log"
 #define STACK_MIN_CAPACITY 4
 #define DUMP_MAX_ELEMS     1000
 #define MAX_MEMORY_ON_STACK 10000
 #define STACK_MAX_CAPACITY ((uint64_t)(SIZE_MAX / 4 / sizeof(Elem_t)))
 #define SEP "====================================================================================================\n"
+
+
+//режимы из ifdef поменять на ifndef, чтобы можно было контролить из командной строки
 
 #define HASH_START 5269 //не таблица а контроль порчи => насрать
 
@@ -215,7 +218,7 @@ err_t stack_verify(const my_stack_t* stk)
     if (stk->size > stk->capacity) return STACK_CORRUPTED;
 
 #ifdef STKDEBUG 
-    if (sizeof(stk->data) > MAX_MEMORY_ON_STACK) return STACK_OVERFLOW;
+    if (sizeof(stk->capacity * sizeof(Elem_t)) > MAX_MEMORY_ON_STACK) return STACK_OVERFLOW;
 #endif
 
 #ifdef STK_CANARY
@@ -382,9 +385,10 @@ void my_perror(const char* prefix, err_t err)
 err_t stack_ctor(my_stack_t* stk, uint64_t initial_capacity STACK_PLACE_IN)
 {
     if (stk == NULL)                           ERROR_LOGGING(STACK_NULL_PTR, stk);
-    if (initial_capacity > STACK_MAX_CAPACITY) ERROR_LOGGING(STACK_OVERFLOW, stk);
 
     memset(stk, 0, sizeof *stk);
+
+    if (initial_capacity > STACK_MAX_CAPACITY) ERROR_LOGGING(STACK_OVERFLOW, stk);
 
 #ifdef STK_CANARY
     stk->left_canary  = CANARY_VALUE;        /* канарейки структуры ставим ПОСЛЕ memset */
@@ -396,7 +400,8 @@ err_t stack_ctor(my_stack_t* stk, uint64_t initial_capacity STACK_PLACE_IN)
     stk->file         = file;
     stk->line         = line;
 #endif
-    if (initial_capacity <= 0)                 ERROR_LOGGING(STACK_CORRUPTED, stk);
+    if (initial_capacity < 0)                 ERROR_LOGGING(STACK_CORRUPTED, stk);
+    else if (initial_capacity == 0)           initial_capacity = STACK_MIN_CAPACITY;
     char* temp;
 
 #ifdef STK_CANARY
@@ -474,8 +479,8 @@ err_t stack_pop(my_stack_t* stk, Elem_t* out_value)
 {
     STACK_CHECK(stk);
 
-    if (stk->size == 0)    ERROR_LOGGING(STACK_UNDERFLOW, stk);
-    if (out_value == NULL) return STACK_NULL_OUT_PTR;
+    if (stk->size == 0)    ERROR_LOGGING(STACK_UNDERFLOW,    stk);
+    if (out_value == NULL) ERROR_LOGGING(STACK_NULL_OUT_PTR, stk);
 
     *out_value               = stk->data[stk->size - 1];
     stk->data[stk->size - 1] = ELEM_POISON;
@@ -519,8 +524,8 @@ err_t stack_top(const my_stack_t* stk, Elem_t* out_value)
 {
     STACK_CHECK(stk);
 
-    if (out_value == NULL) return        STACK_NULL_OUT_PTR;
-    if (stk->size == 0)    ERROR_LOGGING(STACK_UNDERFLOW, stk);
+    if (out_value == NULL) ERROR_LOGGING(STACK_NULL_OUT_PTR, stk);
+    if (stk->size == 0)    ERROR_LOGGING(STACK_UNDERFLOW,    stk);
 
     *out_value = stk->data[stk->size - 1];
 
@@ -536,37 +541,17 @@ err_t stack_copy(my_stack_t* stk_dest, my_stack_t* stk_src STACK_PLACE_IN)
     if (stk_dest == NULL) ERROR_LOGGING(STACK_NULL_PTR, stk_dest);
 
 #ifdef STKDEBUG
-    stack_ctor(stk_dest, stk_src->capacity, name, function, file, line);
+    err_t err = stack_ctor(stk_dest, stk_src->capacity, name, function, file, line);
     STACK_CHECK(stk_dest);
 #else
-    stack_ctor(stk_dest, stk_src->capacity);
+    err_t err = stack_ctor(stk_dest, stk_src->capacity);
+    STACK_CHECK(stk_dest);
 #endif
+    if (err) return err;
 
-    char* temp;
-#ifdef STK_CANARY
-    size_t pad = data_pad(stk_src->capacity);
-    if ((temp  = malloc(CANARY_SIZE + 
-                       stk_src->capacity*sizeof(Elem_t) + 
-                       pad + 
-                       CANARY_SIZE)) == NULL)                       ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk_dest);
-#else
-    if ((temp  = malloc(stk_src->capacity*sizeof(Elem_t))) == NULL) ERROR_LOGGING(STACK_OUT_OF_MEMORY, stk_dest);
-#endif
-
-    stk_dest->data                 = (Elem_t*)(temp + CANARY_SIZE);
-    stk_dest->capacity             = stk_src->capacity;
-    stk_dest->size                 = stk_src->size;
-
-#ifdef STK_CANARY
-    *(left_canary_addr(stk_dest))  = *(left_canary_addr(stk_src));
-    *(right_canary_addr(stk_dest)) = *(right_canary_addr(stk_src));
-#endif
-
-    for (uint64_t i = 0; i < stk_dest->capacity; i++)
-    {
-        stk_dest->data[i] = stk_src->data[i];
-    }
-
+    memcpy(stk_dest->data, stk_src->data, stk_src->capacity * sizeof(Elem_t));
+    stk_dest->size = stk_src->size;
+    
     rehash(stk_dest);
 
     STACK_CHECK(stk_dest);
