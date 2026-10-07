@@ -341,14 +341,14 @@ static const test_t TESTS[] =
     //TEST(push_to_stack_overflow,     SURVIVE, "WARNING: 4\n"),
 // Тесты на отлов ошибок CRASH
 #ifdef STK_CANARY
-    TEST(left_stk_canary_corrypted,    CRASH,   "ERROR: 102\n"),
-    TEST(right_stk_canary_corrypted,   CRASH,   "ERROR: 103\n"),
-    TEST(left_data_canary_corrypted,   CRASH,   "ERROR: 104\n"),
-    TEST(right_data_canary_corrypted,  CRASH,   "ERROR: 105\n"),
+    TEST(left_stk_canary_corrypted,    IF_ERR_ABORT,   "ERROR: 102\n"),
+    TEST(right_stk_canary_corrypted,   IF_ERR_ABORT,   "ERROR: 103\n"),
+    TEST(left_data_canary_corrypted,   IF_ERR_ABORT,   "ERROR: 104\n"),
+    TEST(right_data_canary_corrypted,  IF_ERR_ABORT,   "ERROR: 105\n"),
 #endif
 #ifdef STK_HASH
-    TEST(data_hash_corrypted,          CRASH,   "ERROR: 106\n"),
-    TEST(stack_hash_corrypted,         CRASH,   "ERROR: 107\n")
+    TEST(data_hash_corrypted,          IF_ERR_ABORT,   "ERROR: 106\n"),
+    TEST(stack_hash_corrypted,         IF_ERR_ABORT,   "ERROR: 107\n")
 #endif
 };
 //===============================================================
@@ -413,7 +413,7 @@ static int run_isolated(const test_t* t)
     }
     //printf("I WAS HERE");
 
-    if (t->expect == 1 && t->log != NULL)
+    if (t->expect == CRASH && t->log != NULL)
     {
         FILE* file_errors = fopen("errors.log", "r");
         check_file_ptr(file_errors);
@@ -449,12 +449,14 @@ static int run_one(const char* name)
 
 static int run_all_tests(void)
 {
+    uint64_t number_of_correct_tests = 0;
     for (uint64_t i = 0; i < NUMBER_OF_TESTS; i++)
     {
         int verdict = run_one(TESTS[i].name);
         if (verdict == 0)
         {
             printf("TEST %" PRIu64 " OK\n", i);
+            number_of_correct_tests++;
         }
         else
         {
@@ -462,7 +464,9 @@ static int run_all_tests(void)
         }
     }
 
-    return 0;
+    printf("Пройдено %" PRIu64 " из %" PRIu64 " тестов\n", number_of_correct_tests, NUMBER_OF_TESTS);
+    if (number_of_correct_tests == NUMBER_OF_TESTS) return 0;
+    else                                            return 1;
 }
 
 //============================== Выводит список всех доступных тестов ================================
